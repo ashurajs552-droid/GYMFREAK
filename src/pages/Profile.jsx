@@ -288,8 +288,8 @@ const Profile = () => {
                             </div>
                         </div>
 
-                        {/* AI Fitness Plan Section */}
-                        <AIFitnessPlan profile={profile} metrics={metrics} />
+                        {/* Fitness Plan Section */}
+                        <FitnessPlan profile={profile} metrics={metrics} />
                     </div>
                 )}
             </div>
@@ -297,91 +297,83 @@ const Profile = () => {
     );
 };
 
-const AIFitnessPlan = ({ profile, metrics }) => {
-    const [plan, setPlan] = useState(null);
-    const [loading, setLoading] = useState(false);
+// Static Fitness Plan Generator - No AI needed
+const FitnessPlan = ({ profile, metrics }) => {
+    const [showPlan, setShowPlan] = useState(false);
 
-    const generatePlan = async () => {
-        setLoading(true);
-        try {
-            const { data } = await api.post('/ai/fitness-plan', { profile, metrics });
-            setPlan(data);
-        } catch (err) {
-            console.error(err);
-            const msg = err.response?.data?.error || 'Failed to generate AI plan. Check your API key.';
-            alert(msg);
-        } finally {
-            setLoading(false);
-        }
+    const getWorkoutPlan = () => {
+        const plans = {
+            loss: "Focus on a mix of strength training (3-4 days) and cardio (2-3 days). Circuit training and HIIT are excellent for maximizing calorie burn while preserving muscle mass. Include compound movements like squats, deadlifts, and bench press.",
+            gain: "Prioritize progressive overload with heavy compound lifts 4-5 days per week. Focus on the big three: squats, deadlifts, and bench press. Limit cardio to 1-2 light sessions to preserve energy for lifting.",
+            maintain: "A balanced approach with 3-4 strength sessions and 1-2 cardio sessions per week. Focus on maintaining your current lifts while enjoying varied workouts to stay engaged."
+        };
+        return plans[profile?.goal] || plans.maintain;
+    };
+
+    const getNutritionPlan = () => {
+        const calories = metrics?.targets?.calories || 2000;
+        const protein = metrics?.targets?.protein || 150;
+
+        const plans = {
+            loss: `Aim for ${calories} calories daily with high protein (${protein}g) to preserve muscle. Focus on whole foods, lean proteins, and vegetables. Drink plenty of water and consider intermittent fasting if it suits your lifestyle.`,
+            gain: `Target ${calories} calories with ${protein}g protein spread across 4-6 meals. Include calorie-dense foods like nuts, avocados, and complex carbs. Time your largest meals around workouts.`,
+            maintain: `Maintain ${calories} calories with balanced macros (${protein}g protein). Focus on nutrient-dense whole foods. Allow flexibility for treats while hitting your protein target daily.`
+        };
+        return plans[profile?.goal] || plans.maintain;
+    };
+
+    const getProTip = () => {
+        const tips = {
+            loss: "Don't cut calories too aggressively. A 500 calorie deficit is sustainable and helps prevent muscle loss.",
+            gain: "Sleep 7-9 hours nightly. Muscle growth happens during recovery, not just in the gym.",
+            maintain: "Track your weight weekly, not daily. Focus on performance improvements in the gym."
+        };
+        return tips[profile?.goal] || "Consistency beats perfection. Show up even on days you don't feel like it.";
     };
 
     return (
-        <div className="card animate-fade-in" style={{
-            border: '1px solid rgba(204, 255, 0, 0.2)',
-            background: 'linear-gradient(135deg, rgba(204, 255, 0, 0.03), rgba(0, 240, 255, 0.03))',
-            position: 'relative',
-            overflow: 'hidden'
-        }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '25px' }}>
-                <h3 style={{ margin: 0, display: 'flex', alignItems: 'center', gap: '12px' }}>
-                    <div style={{ padding: '8px', background: 'var(--primary-color)', borderRadius: '10px' }}>
-                        <Activity size={20} color="#000" />
+        <div className="card" style={{ background: 'linear-gradient(135deg, rgba(204, 255, 0, 0.03), rgba(0, 240, 255, 0.03))' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
+                <h3 style={{ margin: 0, fontSize: '1rem', display: 'flex', alignItems: 'center', gap: '10px' }}>
+                    <div style={{ padding: '6px', background: 'var(--primary-color)', borderRadius: '8px' }}>
+                        <Activity size={16} color="#000" />
                     </div>
-                    AI Fitness Plan
+                    Your Fitness Plan
                 </h3>
-                {!plan && !loading && (
-                    <button onClick={generatePlan} className="btn btn-primary" style={{ padding: '10px 20px', fontSize: '0.85rem' }}>
-                        Generate
+                {!showPlan && (
+                    <button onClick={() => setShowPlan(true)} className="btn btn-primary" style={{ padding: '8px 16px', fontSize: '0.85rem' }}>
+                        View Plan
                     </button>
                 )}
             </div>
 
-            {loading && (
-                <div style={{ textAlign: 'center', padding: '40px 20px' }}>
-                    <div className="animate-pulse" style={{ color: 'var(--primary-color)', fontWeight: 'bold' }}>
-                        Analyzing your metrics...
-                    </div>
-                </div>
-            )}
-
-            {plan && (
+            {showPlan ? (
                 <div className="animate-fade-in">
-                    <div style={{ marginBottom: '20px' }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
-                            <Dumbbell size={16} color="var(--primary-color)" />
-                            <h4 style={{ color: 'var(--primary-color)', margin: 0, fontSize: '0.9rem', textTransform: 'uppercase', letterSpacing: '1px' }}>Workout Strategy</h4>
-                        </div>
-                        <p style={{ fontSize: '1rem', lineHeight: '1.6', margin: 0, color: 'var(--text-primary)' }}>{plan.workout_plan}</p>
+                    <div style={{ marginBottom: '16px' }}>
+                        <h4 style={{ color: 'var(--primary-color)', marginBottom: '6px', fontSize: '0.85rem', textTransform: 'uppercase' }}>
+                            🏋️ Workout Strategy
+                        </h4>
+                        <p style={{ fontSize: '0.9rem', lineHeight: '1.6', margin: 0 }}>{getWorkoutPlan()}</p>
                     </div>
-                    <div style={{ marginBottom: '20px' }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
-                            <Utensils size={16} color="var(--secondary-color)" />
-                            <h4 style={{ color: 'var(--secondary-color)', margin: 0, fontSize: '0.9rem', textTransform: 'uppercase', letterSpacing: '1px' }}>Nutrition Strategy</h4>
-                        </div>
-                        <p style={{ fontSize: '1rem', lineHeight: '1.6', margin: 0, color: 'var(--text-primary)' }}>{plan.nutrition_plan}</p>
+                    <div style={{ marginBottom: '16px' }}>
+                        <h4 style={{ color: 'var(--secondary-color)', marginBottom: '6px', fontSize: '0.85rem', textTransform: 'uppercase' }}>
+                            🥗 Nutrition Strategy
+                        </h4>
+                        <p style={{ fontSize: '0.9rem', lineHeight: '1.6', margin: 0 }}>{getNutritionPlan()}</p>
                     </div>
-                    <div style={{ padding: '15px', background: 'rgba(204, 255, 0, 0.05)', borderRadius: '12px', borderLeft: '4px solid var(--primary-color)' }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
-                            <Info size={16} color="var(--primary-color)" />
-                            <strong style={{ fontSize: '0.9rem' }}>Pro Tip</strong>
-                        </div>
-                        <p style={{ margin: 0, fontSize: '0.95rem', fontStyle: 'italic' }}>{plan.pro_tip}</p>
+                    <div style={{ padding: '12px', background: 'var(--surface-hover)', borderRadius: '10px', borderLeft: '3px solid var(--primary-color)' }}>
+                        <strong style={{ fontSize: '0.85rem' }}>💡 Pro Tip:</strong>
+                        <p style={{ margin: '4px 0 0 0', fontSize: '0.85rem', fontStyle: 'italic' }}>{getProTip()}</p>
                     </div>
-                    <button onClick={generatePlan} style={{ background: 'none', border: 'none', color: 'var(--text-secondary)', fontSize: '0.8rem', marginTop: '20px', cursor: 'pointer', textDecoration: 'underline', width: '100%', textAlign: 'center' }}>
-                        Regenerate Custom Plan
-                    </button>
                 </div>
-            )}
-
-            {!plan && !loading && (
-                <div style={{ textAlign: 'center', padding: '20px 0' }}>
-                    <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem', lineHeight: '1.6', margin: 0 }}>
-                        Get a personalized workout and nutrition strategy tailored specifically to your body metrics and fitness goals.
-                    </p>
-                </div>
+            ) : (
+                <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', margin: 0 }}>
+                    Get a personalized workout and nutrition strategy based on your {profile?.goal === 'loss' ? 'fat loss' : profile?.goal === 'gain' ? 'muscle gain' : 'maintenance'} goal.
+                </p>
             )}
         </div>
     );
 };
 
 export default Profile;
+
