@@ -40,10 +40,10 @@ const Register = () => {
             justifyContent: 'center',
             alignItems: 'center',
             minHeight: '100vh',
-            padding: '40px 0',
+            padding: '20px',
             background: 'radial-gradient(circle at center, #1a1d24 0%, #0f1115 100%)'
         }}>
-            <div className="card animate-fade-in" style={{ width: '600px' }}>
+            <div className="card animate-fade-in" style={{ width: '100%', maxWidth: '600px' }}>
                 <div style={{ textAlign: 'center', marginBottom: '30px' }}>
                     <Dumbbell size={40} color="var(--primary-color)" />
                     <h2 style={{ fontSize: '1.8rem' }}>Join the Club</h2>

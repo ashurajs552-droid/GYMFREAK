@@ -89,15 +89,15 @@ const Profile = () => {
 
     return (
         <div className="animate-fade-in">
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '30px' }}>
-                <h1 className="page-title">My Profile</h1>
-                <div style={{ display: 'flex', gap: '12px' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '30px', flexWrap: 'wrap', gap: '20px' }}>
+                <h1 className="page-title" style={{ marginBottom: 0 }}>My Profile</h1>
+                <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
                     {!isEditing && (
-                        <button onClick={() => setIsEditing(true)} className="btn btn-primary">
+                        <button onClick={() => setIsEditing(true)} className="btn btn-primary" style={{ flex: '1 1 auto' }}>
                             <Edit2 size={18} /> Edit Details
                         </button>
                     )}
-                    <button onClick={downloadReport} className="btn btn-secondary">
+                    <button onClick={downloadReport} className="btn btn-secondary" style={{ flex: '1 1 auto' }}>
                         <Download size={18} /> Download Report
                     </button>
                 </div>
@@ -166,20 +166,20 @@ const Profile = () => {
                                 </h3>
                                 <Info size={16} color="var(--text-secondary)" title="Calculated based on your BMR and activity level" />
                             </div>
-                            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '15px', textAlign: 'center' }}>
-                                <div>
+                            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '20px', justifyContent: 'space-between', textAlign: 'center' }}>
+                                <div style={{ flex: '1 1 100px' }}>
                                     <div style={{ fontSize: '1.4rem', fontWeight: '800', color: 'var(--text-primary)' }}>{metrics?.targets.calories}</div>
                                     <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', textTransform: 'uppercase', marginTop: '4px' }}>Calories</div>
                                 </div>
-                                <div>
+                                <div style={{ flex: '1 1 100px' }}>
                                     <div style={{ fontSize: '1.4rem', fontWeight: '800', color: 'var(--secondary-color)' }}>{metrics?.targets.protein}g</div>
                                     <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', textTransform: 'uppercase', marginTop: '4px' }}>Protein</div>
                                 </div>
-                                <div>
+                                <div style={{ flex: '1 1 100px' }}>
                                     <div style={{ fontSize: '1.4rem', fontWeight: '800', color: 'var(--danger-color)' }}>{metrics?.targets.carbs}g</div>
                                     <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', textTransform: 'uppercase', marginTop: '4px' }}>Carbs</div>
                                 </div>
-                                <div>
+                                <div style={{ flex: '1 1 100px' }}>
                                     <div style={{ fontSize: '1.4rem', fontWeight: '800', color: '#ffe600' }}>{metrics?.targets.fat}g</div>
                                     <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', textTransform: 'uppercase', marginTop: '4px' }}>Fat</div>
                                 </div>

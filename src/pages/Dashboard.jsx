@@ -144,15 +144,15 @@ const Dashboard = () => {
     return (
         <div className="animate-fade-in">
             {/* Welcome Header */}
-            <div style={{ marginBottom: '30px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <div style={{ marginBottom: '30px', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '15px' }}>
                 <div>
-                    <h1 style={{ fontSize: '2.5rem', marginBottom: '5px' }}>
+                    <h1 style={{ fontSize: 'clamp(1.8rem, 5vw, 2.5rem)', marginBottom: '5px', lineHeight: '1.2' }}>
                         {greeting}, <span style={{ color: 'var(--primary-color)' }}>{userName}</span>
                     </h1>
-                    <p style={{ color: 'var(--text-secondary)' }}>Ready to crush your goals today?</p>
+                    <p style={{ color: 'var(--text-secondary)', fontSize: 'clamp(0.9rem, 3vw, 1rem)' }}>Ready to crush your goals today?</p>
                 </div>
-                <div style={{ textAlign: 'right', color: 'var(--text-secondary)' }}>
-                    <div style={{ fontSize: '1.2rem', fontWeight: 'bold' }}>{new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })}</div>
+                <div style={{ textAlign: 'right', color: 'var(--text-secondary)', flexShrink: 0 }}>
+                    <div style={{ fontSize: 'clamp(1rem, 3vw, 1.2rem)', fontWeight: 'bold' }}>{new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })}</div>
                 </div>
             </div>
 

@@ -19,6 +19,7 @@
   --radius-sm: 8px;
 
   --font-main: 'Inter', system-ui, sans-serif;
+  --sidebar-width: 260px;
 }
 
 body.light-mode {
@@ -26,7 +27,6 @@ body.light-mode {
   --surface-color: #ffffff;
   --surface-hover: #f8f9fa;
   --primary-color: #8ab300;
-  /* Slightly darker neon for light mode */
   --primary-hover: #7a9e00;
   --text-primary: #1a1d24;
   --text-secondary: #64748b;
@@ -67,7 +67,7 @@ button {
 }
 
 .sidebar {
-  width: 260px;
+  width: var(--sidebar-width);
   background-color: var(--surface-color);
   border-right: 1px solid var(--glass-border);
   padding: 24px;
@@ -77,17 +77,29 @@ button {
   height: 100vh;
   top: 0;
   left: 0;
-  z-index: 100;
-  transition: background-color 0.3s, border-color 0.3s;
+  z-index: 1000;
+  transition: transform 0.3s ease, background-color 0.3s, border-color 0.3s;
 }
 
 .main-content {
   flex: 1;
-  margin-left: 260px;
+  margin-left: var(--sidebar-width);
   padding: 30px;
   background-color: var(--bg-color);
   min-height: 100vh;
-  transition: background-color 0.3s;
+  transition: margin-left 0.3s ease, background-color 0.3s;
+}
+
+.mobile-header {
+  display: none;
+  position: sticky;
+  top: 0;
+  z-index: 900;
+  background: var(--surface-color);
+  padding: 15px 20px;
+  border-bottom: 1px solid var(--glass-border);
+  justify-content: space-between;
+  align-items: center;
 }
 
 .logo {
@@ -152,7 +164,7 @@ button {
 .container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 20px;
+  padding: 0;
 }
 
 .card {
@@ -281,6 +293,57 @@ button {
   background: var(--primary-color);
   border-radius: 4px;
   transition: width 0.5s ease;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .grid-3 {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    transform: translateX(-100%);
+    width: 280px;
+  }
+
+  .sidebar.open {
+    transform: translateX(0);
+  }
+
+  .main-content {
+    margin-left: 0;
+    padding: 20px;
+  }
+
+  .mobile-header {
+    display: flex;
+  }
+
+  .grid-2,
+  .grid-3 {
+    grid-template-columns: 1fr;
+  }
+
+  .page-title {
+    font-size: 1.8rem;
+  }
+
+  .card {
+    padding: 16px;
+  }
+
+  .sidebar-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 950;
+    backdrop-filter: blur(4px);
+  }
 }
 
 /* Animations */

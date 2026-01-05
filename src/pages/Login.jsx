@@ -26,9 +26,10 @@ const Login = () => {
             justifyContent: 'center',
             alignItems: 'center',
             minHeight: '100vh',
+            padding: '20px',
             background: 'radial-gradient(circle at center, #1a1d24 0%, #0f1115 100%)'
         }}>
-            <div className="card animate-fade-in" style={{ width: '400px', textAlign: 'center' }}>
+            <div className="card animate-fade-in" style={{ width: '100%', maxWidth: '400px', textAlign: 'center' }}>
                 <Dumbbell size={48} color="var(--primary-color)" style={{ marginBottom: '20px' }} />
                 <h2 style={{ marginBottom: '20px', fontSize: '1.8rem' }}>Welcome Back</h2>
 

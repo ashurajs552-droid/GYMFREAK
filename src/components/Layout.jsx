@@ -1,11 +1,13 @@
 import { Link, NavLink, useLocation, Outlet } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { LayoutDashboard, Utensils, Dumbbell, User, LogOut, Calendar, Sun, Moon } from 'lucide-react';
+import { LayoutDashboard, Utensils, Dumbbell, User, LogOut, Calendar, Sun, Moon, Menu, X } from 'lucide-react';
 import { useState, useEffect } from 'react';
 
 const Layout = () => {
     const { logout } = useAuth();
+    const location = useLocation();
     const [isLightMode, setIsLightMode] = useState(localStorage.getItem('theme') === 'light');
+    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
     useEffect(() => {
         if (isLightMode) {
@@ -17,11 +19,31 @@ const Layout = () => {
         }
     }, [isLightMode]);
 
+    // Close sidebar on route change (mobile)
+    useEffect(() => {
+        setIsSidebarOpen(false);
+    }, [location]);
+
     const toggleTheme = () => setIsLightMode(!isLightMode);
+    const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
 
     return (
         <div className="layout">
-            <aside className="sidebar">
+            {/* Mobile Header */}
+            <header className="mobile-header">
+                <div className="logo" style={{ marginBottom: 0 }} onClick={() => window.location.href = '/'}>
+                    <Dumbbell color="var(--primary-color)" size={24} />
+                    <span style={{ fontSize: '1.2rem' }}>GYM FREAK</span>
+                </div>
+                <button onClick={toggleSidebar} style={{ background: 'none', color: 'var(--text-primary)' }}>
+                    {isSidebarOpen ? <X size={28} /> : <Menu size={28} />}
+                </button>
+            </header>
+
+            {/* Sidebar Overlay */}
+            {isSidebarOpen && <div className="sidebar-overlay" onClick={() => setIsSidebarOpen(false)}></div>}
+
+            <aside className={`sidebar ${isSidebarOpen ? 'open' : ''}`}>
                 <div className="logo" onClick={() => window.location.href = '/'}>
                     <Dumbbell color="var(--primary-color)" size={28} />
                     <span>GYM FREAK</span>
