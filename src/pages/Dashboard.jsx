@@ -88,12 +88,28 @@ const Dashboard = () => {
         fetchStats();
     }, []);
 
-    if (loading) return <div className="container" style={{ paddingTop: '50px' }}>Loading Dashboard...</div>;
+    if (loading || !stats) return (
+        <div className="container" style={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            height: '80vh',
+            color: 'var(--primary-color)',
+            fontSize: '1.2rem',
+            fontWeight: 'bold'
+        }}>
+            <div className="animate-pulse">Loading Your Dashboard...</div>
+        </div>
+    );
 
-    const { targets, consumed, burned, user } = stats;
-    const netCalories = Math.round(consumed.calories - burned);
-    const remaining = targets.calories - netCalories;
-    const userName = user.name || user.email.split('@')[0];
+    const targets = stats.targets || { calories: 2000, protein: 150, carbs: 250, fat: 70 };
+    const consumed = stats.consumed || { calories: 0, protein: 0, carbs: 0, fat: 0 };
+    const burned = stats.burned || 0;
+    const user = stats.user || {};
+
+    const netCalories = Math.round((consumed.calories || 0) - burned);
+    const remaining = (targets.calories || 2000) - netCalories;
+    const userName = user.name || user.email?.split('@')[0] || 'Athlete';
 
     const macroData = {
         labels: ['Protein', 'Carbs', 'Fat'],
@@ -178,8 +194,8 @@ const Dashboard = () => {
                         <h3 style={{ fontSize: '1rem', color: 'var(--text-secondary)' }}>NET CALORIES</h3>
                         <Target color="var(--primary-color)" size={20} />
                     </div>
-                    <div style={{ fontSize: '2.5rem', fontWeight: '900', marginBottom: '5px' }}>
-                        {netCalories} <span style={{ fontSize: '1rem', color: 'var(--text-secondary)', fontWeight: 'normal' }}>/ {targets.calories}</span>
+                    <div style={{ fontSize: 'clamp(1.8rem, 8vw, 2.5rem)', fontWeight: '900', marginBottom: '5px' }}>
+                        {netCalories} <span style={{ fontSize: 'clamp(0.8rem, 3vw, 1rem)', color: 'var(--text-secondary)', fontWeight: 'normal' }}>/ {targets.calories}</span>
                     </div>
                     <div className="progress-bar">
                         <div className="progress-fill" style={{ width: `${Math.min((netCalories / targets.calories) * 100, 100)}%` }}></div>
@@ -206,8 +222,8 @@ const Dashboard = () => {
                         <h3 style={{ fontSize: '1rem', color: 'var(--text-secondary)' }}>CALORIES BURNED</h3>
                         <Flame color="#ff4d4d" size={20} />
                     </div>
-                    <div style={{ fontSize: '2.5rem', fontWeight: '900', color: '#ff4d4d' }}>
-                        {burned} <span style={{ fontSize: '1rem', color: 'var(--text-secondary)', fontWeight: 'normal' }}>kcal</span>
+                    <div style={{ fontSize: 'clamp(1.8rem, 8vw, 2.5rem)', fontWeight: '900', color: '#ff4d4d' }}>
+                        {burned} <span style={{ fontSize: 'clamp(0.8rem, 3vw, 1rem)', color: 'var(--text-secondary)', fontWeight: 'normal' }}>kcal</span>
                     </div>
                     <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>From workouts & activity</p>
                     <Link to="/workout" style={{ display: 'flex', alignItems: 'center', gap: '5px', marginTop: '15px', color: 'var(--primary-color)', textDecoration: 'none', fontSize: '0.85rem', fontWeight: '600' }}>

@@ -1,4 +1,4 @@
-import { Link, NavLink, useLocation, Outlet } from 'react-router-dom';
+import { Link, NavLink, useLocation, Outlet, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { LayoutDashboard, Utensils, Dumbbell, User, LogOut, Calendar, Sun, Moon, Menu, X } from 'lucide-react';
 import { useState, useEffect } from 'react';
@@ -6,6 +6,7 @@ import { useState, useEffect } from 'react';
 const Layout = () => {
     const { logout } = useAuth();
     const location = useLocation();
+    const navigate = useNavigate();
     const [isLightMode, setIsLightMode] = useState(localStorage.getItem('theme') === 'light');
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
@@ -31,12 +32,12 @@ const Layout = () => {
         <div className="layout">
             {/* Mobile Header */}
             <header className="mobile-header">
-                <div className="logo" style={{ marginBottom: 0 }} onClick={() => window.location.href = '/'}>
-                    <Dumbbell color="var(--primary-color)" size={24} />
-                    <span style={{ fontSize: '1.2rem' }}>GYM FREAK</span>
+                <div className="logo" style={{ marginBottom: 0, fontSize: '1.1rem' }} onClick={() => navigate('/')}>
+                    <Dumbbell color="var(--primary-color)" size={20} />
+                    <span>GYM FREAK</span>
                 </div>
-                <button onClick={toggleTheme} style={{ background: 'none', color: 'var(--text-primary)' }}>
-                    {isLightMode ? <Moon size={24} /> : <Sun size={24} />}
+                <button onClick={toggleTheme} style={{ background: 'none', color: 'var(--text-primary)', padding: '5px' }}>
+                    {isLightMode ? <Moon size={20} /> : <Sun size={20} />}
                 </button>
             </header>
 
@@ -44,7 +45,7 @@ const Layout = () => {
             {isSidebarOpen && <div className="sidebar-overlay" onClick={() => setIsSidebarOpen(false)}></div>}
 
             <aside className={`sidebar ${isSidebarOpen ? 'open' : ''}`}>
-                <div className="logo" onClick={() => window.location.href = '/'}>
+                <div className="logo" onClick={() => navigate('/')}>
                     <Dumbbell color="var(--primary-color)" size={28} />
                     <span>GYM FREAK</span>
                 </div>

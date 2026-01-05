@@ -40,6 +40,13 @@ body.light-mode {
   padding: 0;
 }
 
+html,
+body {
+  max-width: 100%;
+  overflow-x: hidden;
+  position: relative;
+}
+
 body {
   background-color: var(--bg-color);
   color: var(--text-primary);
@@ -47,6 +54,7 @@ body {
   -webkit-font-smoothing: antialiased;
   min-height: 100vh;
   transition: background-color 0.3s, color 0.3s;
+  line-height: 1.5;
 }
 
 a {
@@ -64,6 +72,7 @@ button {
 .layout {
   display: flex;
   min-height: 100vh;
+  width: 100%;
 }
 
 .sidebar {
@@ -84,10 +93,20 @@ button {
 .main-content {
   flex: 1;
   margin-left: var(--sidebar-width);
-  padding: 30px;
+  padding: 40px;
   background-color: var(--bg-color);
   min-height: 100vh;
+  width: 100%;
+  max-width: 100%;
   transition: margin-left 0.3s ease, background-color 0.3s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.main-content>div {
+  width: 100%;
+  max-width: 1200px;
 }
 
 .mobile-header {
@@ -95,11 +114,14 @@ button {
   position: sticky;
   top: 0;
   z-index: 900;
-  background: var(--surface-color);
-  padding: 15px 20px;
+  background: var(--glass-bg);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  padding: 12px 20px;
   border-bottom: 1px solid var(--glass-border);
   justify-content: space-between;
   align-items: center;
+  width: 100%;
 }
 
 .logo {
@@ -167,6 +189,7 @@ button {
   padding: 0;
 }
 
+/* Cards & Grid */
 .card {
   background: var(--surface-color);
   border-radius: var(--radius-lg);
@@ -176,6 +199,9 @@ button {
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
   overflow: hidden;
+  width: 100%;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
 }
 
 .card::before {
@@ -382,6 +408,10 @@ button {
 
 /* Responsive Design */
 @media (max-width: 1024px) {
+  .main-content {
+    padding: 30px;
+  }
+
   .grid-3 {
     grid-template-columns: 1fr 1fr;
   }
@@ -390,59 +420,98 @@ button {
 @media (max-width: 768px) {
   .sidebar {
     display: none;
-    /* Hide sidebar completely on mobile in favor of bottom nav */
   }
 
   .main-content {
     margin-left: 0;
-    padding: 20px;
-    padding-bottom: 90px;
-    /* Space for bottom nav */
+    padding: 16px;
+    padding-bottom: 100px;
+    /* More space for bottom nav */
+    width: 100%;
   }
 
   .mobile-header {
     display: flex;
-    background: var(--glass-bg);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    position: sticky;
-    top: 0;
   }
 
   .mobile-bottom-nav {
     display: flex;
+    height: 65px;
+    background: var(--surface-color);
+    /* Solid background for better readability */
+    border-top: 1px solid var(--glass-border);
   }
 
   .grid-2,
   .grid-3 {
     grid-template-columns: 1fr;
+    gap: 16px;
   }
 
   .page-title {
-    font-size: 1.8rem;
-    margin-bottom: 20px;
+    font-size: 1.6rem;
+    margin-bottom: 16px;
   }
 
   .card {
-    padding: 20px;
+    padding: 18px;
     border-radius: var(--radius-md);
   }
 
   .btn {
     width: 100%;
-    /* Full width buttons on mobile */
     padding: 14px;
+    font-size: 1rem;
   }
 
   .stat-item {
-    padding: 15px;
+    padding: 12px;
+  }
+
+  .stat-item .value {
+    font-size: 1rem;
   }
 }
 
 /* iPhone specific fixes */
 @supports (-webkit-touch-callout: none) {
   .mobile-bottom-nav {
-    height: 85px;
-    padding-bottom: 25px;
+    height: 80px;
+    padding-bottom: 20px;
+  }
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-color);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--surface-hover);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--glass-border);
+}
+
+/* Animations */
+.animate-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: .5;
   }
 }

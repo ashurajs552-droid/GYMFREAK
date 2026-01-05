@@ -5,7 +5,19 @@ const { authenticateToken } = require('../middleware/auth');
 const router = express.Router();
 
 function calculateMetrics(user) {
-    if (!user.weight || !user.height || !user.age || !user.gender) return null;
+    const defaultMetrics = {
+        bmi: 0,
+        bmr: 0,
+        tdee: 0,
+        targets: {
+            calories: 2000,
+            protein: 150,
+            fat: 70,
+            carbs: 200
+        }
+    };
+
+    if (!user || !user.weight || !user.height || !user.age || !user.gender) return defaultMetrics;
 
     // BMR
     let bmr = (10 * user.weight) + (6.25 * user.height) - (5 * user.age);

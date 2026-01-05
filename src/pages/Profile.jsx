@@ -85,7 +85,21 @@ const Profile = () => {
         doc.save(`${profile.name}_gym_freak_report.pdf`);
     };
 
-    if (!profile) return <div className="container" style={{ paddingTop: '50px' }}>Loading Profile...</div>;
+    if (!profile || !metrics) return (
+        <div className="container" style={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            height: '80vh',
+            color: 'var(--primary-color)',
+            fontSize: '1.2rem',
+            fontWeight: 'bold'
+        }}>
+            <div className="animate-pulse">Loading Your Profile...</div>
+        </div>
+    );
+
+    const targets = metrics.targets || { calories: 2000, protein: 150, carbs: 250, fat: 70 };
 
     return (
         <div className="animate-fade-in">
