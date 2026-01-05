@@ -1,6 +1,6 @@
-import { Link, NavLink, useLocation, Outlet, useNavigate } from 'react-router-dom';
+import { NavLink, useLocation, Outlet, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { LayoutDashboard, Utensils, Dumbbell, User, LogOut, Calendar, Sun, Moon, Menu, X } from 'lucide-react';
+import { LayoutDashboard, Utensils, Dumbbell, User, LogOut, Calendar, Sun, Moon } from 'lucide-react';
 import { useState, useEffect } from 'react';
 
 const Layout = () => {
@@ -8,7 +8,6 @@ const Layout = () => {
     const location = useLocation();
     const navigate = useNavigate();
     const [isLightMode, setIsLightMode] = useState(localStorage.getItem('theme') === 'light');
-    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
     useEffect(() => {
         if (isLightMode) {
@@ -20,31 +19,23 @@ const Layout = () => {
         }
     }, [isLightMode]);
 
-    // Close sidebar on route change (mobile)
-    useEffect(() => {
-        setIsSidebarOpen(false);
-    }, [location]);
-
     const toggleTheme = () => setIsLightMode(!isLightMode);
-    const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
 
     return (
         <div className="layout">
             {/* Mobile Header */}
             <header className="mobile-header">
-                <div className="logo" style={{ marginBottom: 0, fontSize: '1.1rem' }} onClick={() => navigate('/')}>
-                    <Dumbbell color="var(--primary-color)" size={20} />
+                <div className="logo" onClick={() => navigate('/')}>
+                    <Dumbbell color="var(--primary-color)" size={22} />
                     <span>GYM FREAK</span>
                 </div>
-                <button onClick={toggleTheme} style={{ background: 'none', color: 'var(--text-primary)', padding: '5px' }}>
-                    {isLightMode ? <Moon size={20} /> : <Sun size={20} />}
+                <button onClick={toggleTheme} style={{ padding: '8px', color: 'var(--text-primary)' }}>
+                    {isLightMode ? <Moon size={22} /> : <Sun size={22} />}
                 </button>
             </header>
 
-            {/* Sidebar Overlay */}
-            {isSidebarOpen && <div className="sidebar-overlay" onClick={() => setIsSidebarOpen(false)}></div>}
-
-            <aside className={`sidebar ${isSidebarOpen ? 'open' : ''}`}>
+            {/* Desktop Sidebar */}
+            <aside className="sidebar">
                 <div className="logo" onClick={() => navigate('/')}>
                     <Dumbbell color="var(--primary-color)" size={28} />
                     <span>GYM FREAK</span>
@@ -74,7 +65,7 @@ const Layout = () => {
                 </nav>
 
                 <div style={{ marginTop: 'auto', display: 'flex', flexDirection: 'column', gap: '5px' }}>
-                    <button onClick={toggleTheme} className="nav-item" style={{ background: 'none', border: 'none', width: '100%', justifyContent: 'flex-start', cursor: 'pointer' }}>
+                    <button onClick={toggleTheme} className="nav-item" style={{ width: '100%', justifyContent: 'flex-start' }}>
                         {isLightMode ? <Moon size={20} /> : <Sun size={20} />}
                         <span>{isLightMode ? 'Dark Mode' : 'Light Mode'}</span>
                     </button>
@@ -88,27 +79,28 @@ const Layout = () => {
             {/* Mobile Bottom Nav */}
             <nav className="mobile-bottom-nav">
                 <NavLink to="/" className={({ isActive }) => `bottom-nav-item ${isActive ? 'active' : ''}`}>
-                    <LayoutDashboard size={24} />
+                    <LayoutDashboard size={22} />
                     <span>Home</span>
                 </NavLink>
                 <NavLink to="/food" className={({ isActive }) => `bottom-nav-item ${isActive ? 'active' : ''}`}>
-                    <Utensils size={24} />
+                    <Utensils size={22} />
                     <span>Food</span>
                 </NavLink>
                 <NavLink to="/workout" className={({ isActive }) => `bottom-nav-item ${isActive ? 'active' : ''}`}>
-                    <Dumbbell size={24} />
+                    <Dumbbell size={22} />
                     <span>Gym</span>
                 </NavLink>
                 <NavLink to="/history" className={({ isActive }) => `bottom-nav-item ${isActive ? 'active' : ''}`}>
-                    <Calendar size={24} />
+                    <Calendar size={22} />
                     <span>Log</span>
                 </NavLink>
                 <NavLink to="/profile" className={({ isActive }) => `bottom-nav-item ${isActive ? 'active' : ''}`}>
-                    <User size={24} />
+                    <User size={22} />
                     <span>Me</span>
                 </NavLink>
             </nav>
 
+            {/* Main Content */}
             <main className="main-content">
                 <div className="container">
                     <Outlet />
