@@ -1,0 +1,302 @@
+[
+    {
+        "name": "Push Ups",
+        "met": 3.8,
+        "type": "strength"
+    },
+    {
+        "name": "Pull Ups",
+        "met": 3.8,
+        "type": "strength"
+    },
+    {
+        "name": "Squats (Bodyweight)",
+        "met": 5.0,
+        "type": "strength"
+    },
+    {
+        "name": "Lunges",
+        "met": 4.0,
+        "type": "strength"
+    },
+    {
+        "name": "Plank",
+        "met": 3.0,
+        "type": "strength"
+    },
+    {
+        "name": "Burpees",
+        "met": 8.0,
+        "type": "cardio"
+    },
+    {
+        "name": "Jumping Jacks",
+        "met": 8.0,
+        "type": "cardio"
+    },
+    {
+        "name": "Mountain Climbers",
+        "met": 8.0,
+        "type": "cardio"
+    },
+    {
+        "name": "Bench Press (Barbell)",
+        "met": 6.0,
+        "type": "strength"
+    },
+    {
+        "name": "Incline Bench Press",
+        "met": 6.0,
+        "type": "strength"
+    },
+    {
+        "name": "Dumbbell Press",
+        "met": 5.5,
+        "type": "strength"
+    },
+    {
+        "name": "Shoulder Press (Overhead)",
+        "met": 6.0,
+        "type": "strength"
+    },
+    {
+        "name": "Lateral Raises",
+        "met": 3.5,
+        "type": "strength"
+    },
+    {
+        "name": "Front Raises",
+        "met": 3.5,
+        "type": "strength"
+    },
+    {
+        "name": "Bicep Curls (Dumbbell)",
+        "met": 3.5,
+        "type": "strength"
+    },
+    {
+        "name": "Hammer Curls",
+        "met": 3.5,
+        "type": "strength"
+    },
+    {
+        "name": "Tricep Dips",
+        "met": 5.0,
+        "type": "strength"
+    },
+    {
+        "name": "Tricep Extensions",
+        "met": 3.5,
+        "type": "strength"
+    },
+    {
+        "name": "Lat Pulldowns",
+        "met": 5.0,
+        "type": "strength"
+    },
+    {
+        "name": "Seated Rows",
+        "met": 5.0,
+        "type": "strength"
+    },
+    {
+        "name": "Deadlift (Barbell)",
+        "met": 6.0,
+        "type": "strength"
+    },
+    {
+        "name": "Romanian Deadlift",
+        "met": 6.0,
+        "type": "strength"
+    },
+    {
+        "name": "Squat (Barbell)",
+        "met": 6.0,
+        "type": "strength"
+    },
+    {
+        "name": "Leg Press",
+        "met": 5.5,
+        "type": "strength"
+    },
+    {
+        "name": "Leg Extensions",
+        "met": 3.5,
+        "type": "strength"
+    },
+    {
+        "name": "Leg Curls",
+        "met": 3.5,
+        "type": "strength"
+    },
+    {
+        "name": "Calf Raises",
+        "met": 3.5,
+        "type": "strength"
+    },
+    {
+        "name": "Running (5 mph)",
+        "met": 8.3,
+        "type": "cardio"
+    },
+    {
+        "name": "Running (6 mph)",
+        "met": 9.8,
+        "type": "cardio"
+    },
+    {
+        "name": "Running (7 mph)",
+        "met": 11.0,
+        "type": "cardio"
+    },
+    {
+        "name": "Walking (3 mph)",
+        "met": 3.5,
+        "type": "cardio"
+    },
+    {
+        "name": "Walking (4 mph)",
+        "met": 5.0,
+        "type": "cardio"
+    },
+    {
+        "name": "Cycling (Moderate)",
+        "met": 7.5,
+        "type": "cardio"
+    },
+    {
+        "name": "Cycling (Vigorous)",
+        "met": 10.0,
+        "type": "cardio"
+    },
+    {
+        "name": "Swimming (Freestyle)",
+        "met": 7.0,
+        "type": "cardio"
+    },
+    {
+        "name": "Swimming (Breaststroke)",
+        "met": 10.0,
+        "type": "cardio"
+    },
+    {
+        "name": "Yoga (Hatha)",
+        "met": 2.5,
+        "type": "cardio"
+    },
+    {
+        "name": "Yoga (Power)",
+        "met": 4.0,
+        "type": "cardio"
+    },
+    {
+        "name": "Surya Namaskar",
+        "met": 3.8,
+        "type": "cardio"
+    },
+    {
+        "name": "Pilates",
+        "met": 3.0,
+        "type": "strength"
+    },
+    {
+        "name": "Zumba",
+        "met": 6.5,
+        "type": "cardio"
+    },
+    {
+        "name": "HIIT",
+        "met": 8.0,
+        "type": "cardio"
+    },
+    {
+        "name": "Jump Rope",
+        "met": 10.0,
+        "type": "cardio"
+    },
+    {
+        "name": "Boxing (Sparring)",
+        "met": 9.0,
+        "type": "cardio"
+    },
+    {
+        "name": "Boxing (Bag)",
+        "met": 6.0,
+        "type": "cardio"
+    },
+    {
+        "name": "Badminton",
+        "met": 5.5,
+        "type": "cardio"
+    },
+    {
+        "name": "Tennis",
+        "met": 7.3,
+        "type": "cardio"
+    },
+    {
+        "name": "Basketball",
+        "met": 8.0,
+        "type": "cardio"
+    },
+    {
+        "name": "Cricket",
+        "met": 4.8,
+        "type": "cardio"
+    },
+    {
+        "name": "Football (Soccer)",
+        "met": 7.0,
+        "type": "cardio"
+    },
+    {
+        "name": "Stair Climbing",
+        "met": 9.0,
+        "type": "cardio"
+    },
+    {
+        "name": "Elliptical",
+        "met": 5.0,
+        "type": "cardio"
+    },
+    {
+        "name": "Rowing Machine",
+        "met": 7.0,
+        "type": "cardio"
+    },
+    {
+        "name": "Kettlebell Swings",
+        "met": 8.0,
+        "type": "strength"
+    },
+    {
+        "name": "Clean and Press",
+        "met": 8.0,
+        "type": "strength"
+    },
+    {
+        "name": "Snatch",
+        "met": 8.0,
+        "type": "strength"
+    },
+    {
+        "name": "Battle Ropes",
+        "met": 10.0,
+        "type": "cardio"
+    },
+    {
+        "name": "Russian Twists",
+        "met": 4.0,
+        "type": "strength"
+    },
+    {
+        "name": "Crunches",
+        "met": 3.0,
+        "type": "strength"
+    },
+    {
+        "name": "Leg Raises",
+        "met": 3.5,
+        "type": "strength"
+    }
+]
