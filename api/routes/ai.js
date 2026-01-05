@@ -22,17 +22,29 @@ const extractJSON = (text) => {
 
 const getAIResponse = async (apiKey, prompt) => {
     const genAI = new GoogleGenerativeAI(apiKey);
-    const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash-lite' });
+    // Using gemini-2.0-flash - has good free tier limits
+    const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash' });
 
-    const result = await model.generateContent(prompt);
-    const response = await result.response;
-    const text = response.text();
+    try {
+        const result = await model.generateContent(prompt);
+        const response = await result.response;
+        const text = response.text();
 
-    if (!text) {
-        throw new Error('AI returned an empty response. It might have been blocked by safety filters.');
+        if (!text) {
+            throw new Error('AI returned an empty response. It might have been blocked by safety filters.');
+        }
+
+        return text;
+    } catch (error) {
+        // Handle rate limit errors gracefully
+        if (error.message && error.message.includes('429')) {
+            throw new Error('AI service is busy. Please try again in a minute.');
+        }
+        if (error.message && error.message.includes('quota')) {
+            throw new Error('Daily AI limit reached. Try again tomorrow or upgrade your API plan.');
+        }
+        throw error;
     }
-
-    return text;
 };
 
 router.post('/estimate-food', authenticateToken, async (req, res) => {
