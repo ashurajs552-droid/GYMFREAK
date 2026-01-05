@@ -122,6 +122,16 @@ const WorkoutTracker = () => {
 
     const muscleGroups = ['Chest', 'Back', 'Legs', 'Shoulders', 'Biceps', 'Triceps', 'Abs', 'Cardio', 'Full Body', 'Other'];
 
+    const handleAIEstimate = async () => {
+        if (!query) return;
+        try {
+            const { data } = await api.post('/ai/estimate-workout', { query });
+            handleSelect({ ...data, id: 'ai-' + Date.now() });
+        } catch (err) {
+            alert(err.response?.data?.error || 'AI Estimation failed');
+        }
+    };
+
     return (
         <div className="animate-fade-in">
             <h1 className="page-title">Workout Tracker</h1>
@@ -177,6 +187,19 @@ const WorkoutTracker = () => {
                                         <span style={{ fontSize: '0.7rem', padding: '2px 6px', background: 'var(--surface-hover)', borderRadius: '4px', color: 'var(--text-secondary)' }}>{ex.muscle_group}</span>
                                     </div>
                                 ))}
+                            </div>
+                        )}
+                        {query.length > 2 && results.length === 0 && !selectedExercise && (
+                            <div style={{ textAlign: 'center', padding: '20px', border: '1px solid var(--glass-border)', borderRadius: 'var(--radius-md)', marginTop: '10px' }}>
+                                <div style={{ color: 'var(--text-secondary)', marginBottom: '15px', fontSize: '0.9rem' }}>Exercise not found in database</div>
+                                <button
+                                    type="button"
+                                    onClick={handleAIEstimate}
+                                    className="btn btn-primary"
+                                    style={{ width: '100%', border: '2px dashed rgba(0,0,0,0.2)', background: 'rgba(204, 255, 0, 0.1)', color: 'var(--primary-color)' }}
+                                >
+                                    ✨ Use AI Smart Estimate for "{query}"
+                                </button>
                             </div>
                         )}
                     </div>

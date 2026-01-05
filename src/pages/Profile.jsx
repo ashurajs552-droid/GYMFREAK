@@ -188,7 +188,7 @@ const Profile = () => {
                     </div>
                 </div>
 
-                {/* Right Column: Edit Form (Conditional) */}
+                {/* Right Column: Edit Form or AI Plan */}
                 {isEditing ? (
                     <div className="card animate-fade-in">
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '25px' }}>
@@ -247,27 +247,92 @@ const Profile = () => {
                         </form>
                     </div>
                 ) : (
-                    <div className="card" style={{ background: 'var(--surface-hover)', borderStyle: 'dashed' }}>
-                        <div style={{ textAlign: 'center', padding: '40px 20px' }}>
-                            <Activity size={48} color="var(--primary-color)" style={{ opacity: 0.3, marginBottom: '20px' }} />
-                            <h3 style={{ marginBottom: '10px' }}>Health Overview</h3>
-                            <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', lineHeight: '1.6' }}>
-                                Your metrics are calculated using the Mifflin-St Jeor Equation, which is considered the most accurate for estimating BMR.
-                            </p>
-                            <div style={{ marginTop: '20px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                                <div style={{ display: 'flex', justifyContent: 'space-between', padding: '10px', background: 'var(--bg-color)', borderRadius: '8px' }}>
-                                    <span>BMR</span>
-                                    <span style={{ fontWeight: 'bold' }}>{metrics?.bmr} kcal</span>
-                                </div>
-                                <div style={{ display: 'flex', justifyContent: 'space-between', padding: '10px', background: 'var(--bg-color)', borderRadius: '8px' }}>
-                                    <span>TDEE</span>
-                                    <span style={{ fontWeight: 'bold' }}>{metrics?.tdee} kcal</span>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+                        <div className="card" style={{ background: 'var(--surface-hover)', borderStyle: 'dashed' }}>
+                            <div style={{ textAlign: 'center', padding: '40px 20px' }}>
+                                <Activity size={48} color="var(--primary-color)" style={{ opacity: 0.3, marginBottom: '20px' }} />
+                                <h3 style={{ marginBottom: '10px' }}>Health Overview</h3>
+                                <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', lineHeight: '1.6' }}>
+                                    Your metrics are calculated using the Mifflin-St Jeor Equation, which is considered the most accurate for estimating BMR.
+                                </p>
+                                <div style={{ marginTop: '20px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                                    <div style={{ display: 'flex', justifyContent: 'space-between', padding: '10px', background: 'var(--bg-color)', borderRadius: '8px' }}>
+                                        <span>BMR</span>
+                                        <span style={{ fontWeight: 'bold' }}>{metrics?.bmr} kcal</span>
+                                    </div>
+                                    <div style={{ display: 'flex', justifyContent: 'space-between', padding: '10px', background: 'var(--bg-color)', borderRadius: '8px' }}>
+                                        <span>TDEE</span>
+                                        <span style={{ fontWeight: 'bold' }}>{metrics?.tdee} kcal</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
+
+                        {/* AI Fitness Plan Section */}
+                        <AIFitnessPlan profile={profile} metrics={metrics} />
                     </div>
                 )}
             </div>
+        </div>
+    );
+};
+
+const AIFitnessPlan = ({ profile, metrics }) => {
+    const [plan, setPlan] = useState(null);
+    const [loading, setLoading] = useState(false);
+
+    const generatePlan = async () => {
+        setLoading(true);
+        try {
+            const { data } = await api.post('/ai/fitness-plan', { profile, metrics });
+            setPlan(data);
+        } catch (err) {
+            console.error(err);
+            alert('Failed to generate AI plan. Check your API key.');
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    return (
+        <div className="card" style={{ border: '1px solid var(--primary-color)', background: 'rgba(204, 255, 0, 0.02)' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+                <h3 style={{ margin: 0, display: 'flex', alignItems: 'center', gap: '10px' }}>
+                    ✨ AI Fitness Plan
+                </h3>
+                {!plan && !loading && (
+                    <button onClick={generatePlan} className="btn btn-primary" style={{ padding: '8px 15px', fontSize: '0.85rem' }}>
+                        Generate Plan
+                    </button>
+                )}
+            </div>
+
+            {loading && <div style={{ textAlign: 'center', padding: '20px', color: 'var(--text-secondary)' }}>Crafting your personalized plan...</div>}
+
+            {plan && (
+                <div className="animate-fade-in">
+                    <div style={{ marginBottom: '15px' }}>
+                        <h4 style={{ color: 'var(--primary-color)', marginBottom: '5px', fontSize: '0.9rem' }}>WORKOUT STRATEGY</h4>
+                        <p style={{ fontSize: '0.9rem', lineHeight: '1.5', margin: 0 }}>{plan.workout_plan}</p>
+                    </div>
+                    <div style={{ marginBottom: '15px' }}>
+                        <h4 style={{ color: 'var(--secondary-color)', marginBottom: '5px', fontSize: '0.9rem' }}>NUTRITION STRATEGY</h4>
+                        <p style={{ fontSize: '0.9rem', lineHeight: '1.5', margin: 0 }}>{plan.nutrition_plan}</p>
+                    </div>
+                    <div style={{ padding: '12px', background: 'var(--surface-hover)', borderRadius: '8px', borderLeft: '4px solid var(--primary-color)' }}>
+                        <strong>💡 Pro Tip:</strong> {plan.pro_tip}
+                    </div>
+                    <button onClick={generatePlan} style={{ background: 'none', border: 'none', color: 'var(--text-secondary)', fontSize: '0.75rem', marginTop: '15px', cursor: 'pointer', textDecoration: 'underline' }}>
+                        Regenerate Plan
+                    </button>
+                </div>
+            )}
+
+            {!plan && !loading && (
+                <p style={{ color: 'var(--text-secondary)', fontSize: '0.85rem', margin: 0 }}>
+                    Get a personalized workout and nutrition strategy based on your profile and goals.
+                </p>
+            )}
         </div>
     );
 };

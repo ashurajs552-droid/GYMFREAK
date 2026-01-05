@@ -36,6 +36,8 @@ const Dashboard = () => {
     const [showDetails, setShowDetails] = useState(null);
     const [quote, setQuote] = useState('');
 
+    const [aiInsight, setAiInsight] = useState('');
+
     const fetchStats = async () => {
         try {
             const { data: profileData } = await api.get('/user/profile');
@@ -54,13 +56,22 @@ const Dashboard = () => {
             const { data: quoteData } = await api.get('/quotes/random');
             setQuote(quoteData.quote);
 
-            setStats({
+            const currentStats = {
                 user: profileData.user,
                 targets: profileData.metrics.targets,
                 consumed: foodData.totals,
                 burned: workoutData.totalBurned
-            });
+            };
+            setStats(currentStats);
             setHistory(historyData.reverse()); // Chronological for chart
+
+            // Fetch AI Insight
+            try {
+                const { data: insightData } = await api.post('/ai/coach-insight', { stats: currentStats });
+                setAiInsight(insightData.insight);
+            } catch (aiErr) {
+                console.warn('AI Insight failed:', aiErr);
+            }
         } catch (err) {
             console.error(err);
         } finally {
@@ -279,11 +290,11 @@ const Dashboard = () => {
                         </p>
                     </div>
                     <p style={{ fontSize: '1.1rem', lineHeight: '1.6', color: 'var(--text-primary)' }}>
-                        {remaining > 500
+                        {aiInsight || (remaining > 500
                             ? "You're well under your calorie goal. Make sure to fuel up properly to maintain muscle mass!"
                             : remaining < -200
                                 ? "You've exceeded your target. Consider a light cardio session to balance it out."
-                                : "You're right on track! Keep hitting those macros and stay consistent."}
+                                : "You're right on track! Keep hitting those macros and stay consistent.")}
                     </p>
                     <div style={{ marginTop: '20px', padding: '15px', background: 'var(--surface-hover)', borderRadius: '12px', fontSize: '0.9rem' }}>
                         <strong>Pro Tip:</strong> Consistency is key. Even on rest days, try to hit your protein targets to support recovery.

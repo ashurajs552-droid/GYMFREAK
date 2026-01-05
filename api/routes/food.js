@@ -57,7 +57,7 @@ router.get('/log/:date', authenticateToken, async (req, res) => {
 
 // Add Entry
 router.post('/log', authenticateToken, async (req, res) => {
-    const { food_id, date, quantity, meal_type } = req.body;
+    let { food_id, date, quantity, meal_type, food_data } = req.body;
 
     // Ensure profile exists
     const { data: user, error: userError } = await supabase
@@ -77,6 +77,20 @@ router.post('/log', authenticateToken, async (req, res) => {
             }]);
         if (createError) return res.status(500).json({ error: 'Failed to create user profile: ' + createError.message });
     }
+
+    // If food_data is provided (from AI), upsert it first
+    if (!food_id && food_data) {
+        const { data: newFood, error: foodError } = await supabase
+            .from('foods')
+            .upsert([food_data], { onConflict: 'name' })
+            .select()
+            .single();
+
+        if (foodError) return res.status(500).json({ error: 'Failed to save new food: ' + foodError.message });
+        food_id = newFood.id;
+    }
+
+    if (!food_id) return res.status(400).json({ error: 'food_id or food_data is required' });
 
     const { data, error } = await supabase
         .from('food_entries')

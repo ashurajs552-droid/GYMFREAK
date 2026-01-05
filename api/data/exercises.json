@@ -6,14 +6,50 @@
         "muscle_group": "Chest"
     },
     {
+        "name": "Diamond Push Ups",
+        "met": 4.0,
+        "type": "strength",
+        "muscle_group": "Triceps"
+    },
+    {
+        "name": "Wide Push Ups",
+        "met": 3.8,
+        "type": "strength",
+        "muscle_group": "Chest"
+    },
+    {
         "name": "Pull Ups",
         "met": 3.8,
         "type": "strength",
         "muscle_group": "Back"
     },
     {
+        "name": "Chin Ups",
+        "met": 3.8,
+        "type": "strength",
+        "muscle_group": "Biceps"
+    },
+    {
+        "name": "Muscle Ups",
+        "met": 8.0,
+        "type": "strength",
+        "muscle_group": "Full Body"
+    },
+    {
         "name": "Squats (Bodyweight)",
         "met": 5.0,
+        "type": "strength",
+        "muscle_group": "Legs"
+    },
+    {
+        "name": "Jump Squats",
+        "met": 8.0,
+        "type": "cardio",
+        "muscle_group": "Legs"
+    },
+    {
+        "name": "Pistol Squats",
+        "met": 7.0,
         "type": "strength",
         "muscle_group": "Legs"
     },
@@ -24,7 +60,19 @@
         "muscle_group": "Legs"
     },
     {
+        "name": "Walking Lunges",
+        "met": 5.0,
+        "type": "strength",
+        "muscle_group": "Legs"
+    },
+    {
         "name": "Plank",
+        "met": 3.0,
+        "type": "strength",
+        "muscle_group": "Abs"
+    },
+    {
+        "name": "Side Plank",
         "met": 3.0,
         "type": "strength",
         "muscle_group": "Abs"
@@ -54,20 +102,50 @@
         "muscle_group": "Chest"
     },
     {
-        "name": "Incline Bench Press",
+        "name": "Incline Bench Press (Barbell)",
         "met": 6.0,
         "type": "strength",
         "muscle_group": "Chest"
     },
     {
-        "name": "Dumbbell Press",
+        "name": "Decline Bench Press (Barbell)",
+        "met": 6.0,
+        "type": "strength",
+        "muscle_group": "Chest"
+    },
+    {
+        "name": "Dumbbell Bench Press",
         "met": 5.5,
+        "type": "strength",
+        "muscle_group": "Chest"
+    },
+    {
+        "name": "Incline Dumbbell Press",
+        "met": 5.5,
+        "type": "strength",
+        "muscle_group": "Chest"
+    },
+    {
+        "name": "Dumbbell Flyes",
+        "met": 3.5,
+        "type": "strength",
+        "muscle_group": "Chest"
+    },
+    {
+        "name": "Cable Crossover",
+        "met": 3.5,
         "type": "strength",
         "muscle_group": "Chest"
     },
     {
         "name": "Shoulder Press (Overhead)",
         "met": 6.0,
+        "type": "strength",
+        "muscle_group": "Shoulders"
+    },
+    {
+        "name": "Dumbbell Shoulder Press",
+        "met": 5.5,
         "type": "strength",
         "muscle_group": "Shoulders"
     },
@@ -84,6 +162,24 @@
         "muscle_group": "Shoulders"
     },
     {
+        "name": "Rear Delt Flyes",
+        "met": 3.5,
+        "type": "strength",
+        "muscle_group": "Shoulders"
+    },
+    {
+        "name": "Arnold Press",
+        "met": 5.5,
+        "type": "strength",
+        "muscle_group": "Shoulders"
+    },
+    {
+        "name": "Bicep Curls (Barbell)",
+        "met": 3.5,
+        "type": "strength",
+        "muscle_group": "Biceps"
+    },
+    {
         "name": "Bicep Curls (Dumbbell)",
         "met": 3.5,
         "type": "strength",
@@ -96,13 +192,37 @@
         "muscle_group": "Biceps"
     },
     {
+        "name": "Preacher Curls",
+        "met": 3.0,
+        "type": "strength",
+        "muscle_group": "Biceps"
+    },
+    {
+        "name": "Concentration Curls",
+        "met": 3.0,
+        "type": "strength",
+        "muscle_group": "Biceps"
+    },
+    {
         "name": "Tricep Dips",
         "met": 5.0,
         "type": "strength",
         "muscle_group": "Triceps"
     },
     {
-        "name": "Tricep Extensions",
+        "name": "Tricep Pushdowns (Cable)",
+        "met": 3.5,
+        "type": "strength",
+        "muscle_group": "Triceps"
+    },
+    {
+        "name": "Skull Crushers",
+        "met": 3.5,
+        "type": "strength",
+        "muscle_group": "Triceps"
+    },
+    {
+        "name": "Overhead Tricep Extension",
         "met": 3.5,
         "type": "strength",
         "muscle_group": "Triceps"
@@ -114,13 +234,31 @@
         "muscle_group": "Back"
     },
     {
-        "name": "Seated Rows",
+        "name": "Seated Cable Rows",
+        "met": 5.0,
+        "type": "strength",
+        "muscle_group": "Back"
+    },
+    {
+        "name": "Bent Over Rows (Barbell)",
+        "met": 6.0,
+        "type": "strength",
+        "muscle_group": "Back"
+    },
+    {
+        "name": "One Arm Dumbbell Row",
         "met": 5.0,
         "type": "strength",
         "muscle_group": "Back"
     },
     {
         "name": "Deadlift (Barbell)",
+        "met": 6.0,
+        "type": "strength",
+        "muscle_group": "Back"
+    },
+    {
+        "name": "Sumo Deadlift",
         "met": 6.0,
         "type": "strength",
         "muscle_group": "Back"
@@ -133,6 +271,12 @@
     },
     {
         "name": "Squat (Barbell)",
+        "met": 6.0,
+        "type": "strength",
+        "muscle_group": "Legs"
+    },
+    {
+        "name": "Front Squat",
         "met": 6.0,
         "type": "strength",
         "muscle_group": "Legs"
@@ -156,8 +300,20 @@
         "muscle_group": "Legs"
     },
     {
-        "name": "Calf Raises",
+        "name": "Hack Squat",
+        "met": 5.5,
+        "type": "strength",
+        "muscle_group": "Legs"
+    },
+    {
+        "name": "Calf Raises (Standing)",
         "met": 3.5,
+        "type": "strength",
+        "muscle_group": "Legs"
+    },
+    {
+        "name": "Calf Raises (Seated)",
+        "met": 3.0,
         "type": "strength",
         "muscle_group": "Legs"
     },
@@ -176,6 +332,18 @@
     {
         "name": "Running (7 mph)",
         "met": 11.0,
+        "type": "cardio",
+        "muscle_group": "Cardio"
+    },
+    {
+        "name": "Running (8 mph)",
+        "met": 11.8,
+        "type": "cardio",
+        "muscle_group": "Cardio"
+    },
+    {
+        "name": "Sprinting",
+        "met": 15.0,
         "type": "cardio",
         "muscle_group": "Cardio"
     },
@@ -358,5 +526,173 @@
         "met": 3.5,
         "type": "strength",
         "muscle_group": "Abs"
+    },
+    {
+        "name": "Hanging Leg Raises",
+        "met": 4.0,
+        "type": "strength",
+        "muscle_group": "Abs"
+    },
+    {
+        "name": "Bicycle Crunches",
+        "met": 4.0,
+        "type": "strength",
+        "muscle_group": "Abs"
+    },
+    {
+        "name": "Face Pulls",
+        "met": 3.0,
+        "type": "strength",
+        "muscle_group": "Shoulders"
+    },
+    {
+        "name": "Shrugs (Dumbbell)",
+        "met": 3.0,
+        "type": "strength",
+        "muscle_group": "Shoulders"
+    },
+    {
+        "name": "Shrugs (Barbell)",
+        "met": 3.0,
+        "type": "strength",
+        "muscle_group": "Shoulders"
+    },
+    {
+        "name": "Hip Thrusts",
+        "met": 6.0,
+        "type": "strength",
+        "muscle_group": "Legs"
+    },
+    {
+        "name": "Glute Bridges",
+        "met": 4.0,
+        "type": "strength",
+        "muscle_group": "Legs"
+    },
+    {
+        "name": "Step Ups",
+        "met": 6.0,
+        "type": "strength",
+        "muscle_group": "Legs"
+    },
+    {
+        "name": "Box Jumps",
+        "met": 8.0,
+        "type": "cardio",
+        "muscle_group": "Legs"
+    },
+    {
+        "name": "Wall Sit",
+        "met": 2.5,
+        "type": "strength",
+        "muscle_group": "Legs"
+    },
+    {
+        "name": "T-Bar Row",
+        "met": 6.0,
+        "type": "strength",
+        "muscle_group": "Back"
+    },
+    {
+        "name": "Pull Overs (Dumbbell)",
+        "met": 4.0,
+        "type": "strength",
+        "muscle_group": "Chest"
+    },
+    {
+        "name": "Pec Deck Fly",
+        "met": 3.5,
+        "type": "strength",
+        "muscle_group": "Chest"
+    },
+    {
+        "name": "Reverse Fly (Machine)",
+        "met": 3.0,
+        "type": "strength",
+        "muscle_group": "Shoulders"
+    },
+    {
+        "name": "Upright Row",
+        "met": 4.0,
+        "type": "strength",
+        "muscle_group": "Shoulders"
+    },
+    {
+        "name": "Concentration Curls",
+        "met": 3.0,
+        "type": "strength",
+        "muscle_group": "Biceps"
+    },
+    {
+        "name": "Spider Curls",
+        "met": 3.0,
+        "type": "strength",
+        "muscle_group": "Biceps"
+    },
+    {
+        "name": "Zottman Curls",
+        "met": 3.5,
+        "type": "strength",
+        "muscle_group": "Biceps"
+    },
+    {
+        "name": "Close Grip Bench Press",
+        "met": 5.5,
+        "type": "strength",
+        "muscle_group": "Triceps"
+    },
+    {
+        "name": "French Press",
+        "met": 3.5,
+        "type": "strength",
+        "muscle_group": "Triceps"
+    },
+    {
+        "name": "Kickbacks (Dumbbell)",
+        "met": 3.0,
+        "type": "strength",
+        "muscle_group": "Triceps"
+    },
+    {
+        "name": "Cable Woodchoppers",
+        "met": 4.0,
+        "type": "strength",
+        "muscle_group": "Abs"
+    },
+    {
+        "name": "Ab Wheel Rollouts",
+        "met": 5.0,
+        "type": "strength",
+        "muscle_group": "Abs"
+    },
+    {
+        "name": "Dragon Flags",
+        "met": 8.0,
+        "type": "strength",
+        "muscle_group": "Abs"
+    },
+    {
+        "name": "Farmer's Walk",
+        "met": 6.0,
+        "type": "strength",
+        "muscle_group": "Full Body"
+    },
+    {
+        "name": "Turkish Get Up",
+        "met": 7.0,
+        "type": "strength",
+        "muscle_group": "Full Body"
+    },
+    {
+        "name": "Good Mornings",
+        "met": 4.0,
+        "type": "strength",
+        "muscle_group": "Back"
+    },
+    {
+        "name": "Hyper Extensions",
+        "met": 3.5,
+        "type": "strength",
+        "muscle_group": "Back"
     }
 ]

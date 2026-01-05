@@ -45,18 +45,24 @@ const FoodTracker = () => {
         return () => clearTimeout(timeout);
     }, [query]);
 
-    const handleAdd = async (food) => {
+    const handleAdd = async (food, isAI = false) => {
         const quantity = prompt(`Enter quantity for ${food.name} (${food.unit}):`, food.serving_size);
         if (!quantity) return;
 
         try {
-            // Ensure profile exists (backend handles this too but good to be safe)
-            await api.post('/foods/log', {
-                food_id: food.id,
+            const payload = {
                 date,
                 quantity: parseFloat(quantity),
                 meal_type: mealType
-            });
+            };
+
+            if (isAI) {
+                payload.food_data = food;
+            } else {
+                payload.food_id = food.id;
+            }
+
+            await api.post('/foods/log', payload);
             setQuery('');
             setResults([]);
             fetchLog();
@@ -151,8 +157,25 @@ const FoodTracker = () => {
                     </div>
 
                     <div style={{ marginTop: '20px', maxHeight: '400px', overflowY: 'auto' }}>
-                        {results.length === 0 && query.length > 2 && (
-                            <div style={{ textAlign: 'center', color: 'var(--text-secondary)' }}>No foods found</div>
+                        {query.length > 2 && results.length === 0 && (
+                            <div style={{ textAlign: 'center', padding: '20px' }}>
+                                <div style={{ color: 'var(--text-secondary)', marginBottom: '15px' }}>No foods found in database</div>
+                                <button
+                                    type="button"
+                                    onClick={async () => {
+                                        try {
+                                            const { data } = await api.post('/ai/estimate-food', { query });
+                                            handleAdd(data, true);
+                                        } catch (err) {
+                                            alert(err.response?.data?.error || 'AI Estimation failed. Check your API key.');
+                                        }
+                                    }}
+                                    className="btn btn-primary"
+                                    style={{ width: '100%', border: '2px dashed rgba(0,0,0,0.2)', background: 'rgba(204, 255, 0, 0.1)', color: 'var(--primary-color)' }}
+                                >
+                                    ✨ Use AI Smart Estimate for "{query}"
+                                </button>
+                            </div>
                         )}
                         {results.map(food => (
                             <div key={food.id} style={{
