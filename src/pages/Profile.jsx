@@ -288,7 +288,8 @@ const AIFitnessPlan = ({ profile, metrics }) => {
             setPlan(data);
         } catch (err) {
             console.error(err);
-            alert('Failed to generate AI plan. Check your API key.');
+            const msg = err.response?.data?.error || 'Failed to generate AI plan. Check your API key.';
+            alert(msg);
         } finally {
             setLoading(false);
         }

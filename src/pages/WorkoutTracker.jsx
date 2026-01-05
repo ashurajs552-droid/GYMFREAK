@@ -128,7 +128,8 @@ const WorkoutTracker = () => {
             const { data } = await api.post('/ai/estimate-workout', { query });
             handleSelect({ ...data, id: 'ai-' + Date.now() });
         } catch (err) {
-            alert(err.response?.data?.error || 'AI Estimation failed');
+            const msg = err.response?.data?.error || 'AI Estimation failed';
+            alert(msg);
         }
     };
 

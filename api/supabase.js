@@ -17,42 +17,57 @@ async function seedData() {
 
     try {
         // --- SEED FOODS ---
-        const foodsPath = path.join(__dirname, 'data', 'foods_vast.json');
-        if (fs.existsSync(foodsPath)) {
-            const foods = JSON.parse(fs.readFileSync(foodsPath, 'utf8'));
-            console.log(`Syncing ${foods.length} foods...`);
+        const { count: foodCount } = await supabase
+            .from('foods')
+            .select('*', { count: 'exact', head: true });
 
-            for (let i = 0; i < foods.length; i += 50) {
-                const chunk = foods.slice(i, i + 50);
-                const { error } = await supabase
-                    .from('foods')
-                    .upsert(chunk, { onConflict: 'name' });
-                if (error) console.error('Error upserting foods chunk:', error.message);
+        if (foodCount === 0) {
+            const foodsPath = path.join(__dirname, 'data', 'foods_vast.json');
+            if (fs.existsSync(foodsPath)) {
+                const foods = JSON.parse(fs.readFileSync(foodsPath, 'utf8'));
+                console.log(`Seeding ${foods.length} foods...`);
+
+                for (let i = 0; i < foods.length; i += 50) {
+                    const chunk = foods.slice(i, i + 50);
+                    const { error } = await supabase
+                        .from('foods')
+                        .upsert(chunk, { onConflict: 'name' });
+                    if (error) console.error('Error upserting foods chunk:', error.message);
+                }
+                console.log('Foods seeding completed.');
             }
-            console.log('Foods sync completed.');
         }
 
         // --- SEED EXERCISES ---
-        const exercisesPath = path.join(__dirname, 'data', 'exercises.json');
-        if (fs.existsSync(exercisesPath)) {
-            const exercises = JSON.parse(fs.readFileSync(exercisesPath, 'utf8'));
-            console.log(`Syncing ${exercises.length} exercises...`);
+        const { count: exerciseCount } = await supabase
+            .from('exercises')
+            .select('*', { count: 'exact', head: true });
 
-            for (let i = 0; i < exercises.length; i += 50) {
-                const chunk = exercises.slice(i, i + 50);
-                const { error } = await supabase
-                    .from('exercises')
-                    .upsert(chunk, { onConflict: 'name' });
-                if (error) console.error('Error upserting exercises chunk:', error.message);
+        if (exerciseCount === 0) {
+            const exercisesPath = path.join(__dirname, 'data', 'exercises.json');
+            if (fs.existsSync(exercisesPath)) {
+                const exercises = JSON.parse(fs.readFileSync(exercisesPath, 'utf8'));
+                console.log(`Seeding ${exercises.length} exercises...`);
+
+                for (let i = 0; i < exercises.length; i += 50) {
+                    const chunk = exercises.slice(i, i + 50);
+                    const { error } = await supabase
+                        .from('exercises')
+                        .upsert(chunk, { onConflict: 'name' });
+                    if (error) console.error('Error upserting exercises chunk:', error.message);
+                }
+                console.log('Exercises seeding completed.');
             }
-            console.log('Exercises sync completed.');
         }
 
     } catch (err) {
-        console.error('Seeding failed:', err.message);
+        console.error('Seeding check failed:', err.message);
     }
 }
 
-seedData();
+// Only run seeding in non-production or if explicitly triggered
+if (process.env.NODE_ENV !== 'production' || process.env.FORCE_SEED === 'true') {
+    seedData();
+}
 
 module.exports = { supabase };
