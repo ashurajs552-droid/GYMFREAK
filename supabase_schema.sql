@@ -49,6 +49,8 @@ create table public.workouts (
   sets int,
   reps int,
   weight float,
+  muscle_group text,
+  sets_data jsonb,
   calories_burned float,
   created_at timestamp with time zone default timezone('utc'::text, now()) not null
 );

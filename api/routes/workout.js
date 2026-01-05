@@ -38,7 +38,7 @@ router.get('/log/:date', authenticateToken, async (req, res) => {
 
 // Add Workout
 router.post('/log', authenticateToken, async (req, res) => {
-    const { date, type, exercise_name, duration, sets, reps, weight } = req.body;
+    const { date, type, exercise_name, duration, sets, reps, weight, muscle_group, sets_data } = req.body;
 
     // Get user weight and ensure profile exists
     let { data: user, error: userError } = await supabase
@@ -48,7 +48,6 @@ router.post('/log', authenticateToken, async (req, res) => {
         .single();
 
     if (userError && userError.code === 'PGRST116') {
-        // Profile doesn't exist, create it
         const metadata = req.user.user_metadata || {};
         const { data: newUser, error: createError } = await supabase
             .from('users')
@@ -69,13 +68,13 @@ router.post('/log', authenticateToken, async (req, res) => {
 
     // Calculate Calories
     let calories_burned = 0;
-    let met = req.body.met || 4.0; // Use provided MET or default
+    let met = req.body.met || 4.0;
 
     if (!req.body.met) {
         try {
-            const { data: exercise, error: exerciseError } = await supabase
+            const { data: exercise } = await supabase
                 .from('exercises')
-                .select('met')
+                .select('met, muscle_group')
                 .ilike('name', exercise_name)
                 .limit(1)
                 .single();
@@ -83,21 +82,30 @@ router.post('/log', authenticateToken, async (req, res) => {
             if (exercise) {
                 met = exercise.met;
             } else {
-                // Fallback logic
                 if (type === 'strength') met = 3.5;
                 if (type === 'cardio') met = 7.0;
             }
         } catch (err) {
-            console.error('Unexpected error fetching MET:', err);
             if (type === 'strength') met = 3.5;
             if (type === 'cardio') met = 7.0;
         }
     }
 
-    // For strength, if duration is not provided, estimate it more accurately
-    // 1 set = ~2 mins (including rest)
-    const finalDuration = duration || (type === 'strength' ? (sets * 2) : 30);
+    // Adjust MET based on intensity (weight)
+    // If we have sets_data, use the average weight
+    let avgWeight = weight || 0;
+    if (sets_data && sets_data.length > 0) {
+        avgWeight = sets_data.reduce((sum, s) => sum + (parseFloat(s.weight) || 0), 0) / sets_data.length;
+    }
 
+    if (type === 'strength' && avgWeight > 0) {
+        // Increase MET if lifting heavy (relative to body weight)
+        const intensityRatio = avgWeight / userWeight;
+        if (intensityRatio > 1) met *= 1.5;
+        else if (intensityRatio > 0.5) met *= 1.2;
+    }
+
+    const finalDuration = duration || (type === 'strength' ? (sets * 2) : 30);
     calories_burned = met * userWeight * (finalDuration / 60);
     calories_burned = Math.round(calories_burned);
 
@@ -111,7 +119,9 @@ router.post('/log', authenticateToken, async (req, res) => {
             duration,
             sets,
             reps,
-            weight,
+            weight: avgWeight,
+            muscle_group,
+            sets_data: sets_data ? JSON.stringify(sets_data) : null,
             calories_burned
         }])
         .select()

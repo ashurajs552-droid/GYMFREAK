@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import api from '../api';
-import { Dumbbell, Trash2, Timer, Flame, Search, Plus, CheckCircle2 } from 'lucide-react';
+import { Dumbbell, Trash2, Timer, Flame, Search, Plus, CheckCircle2, ChevronDown, ChevronUp } from 'lucide-react';
 
 const WorkoutTracker = () => {
     const [workouts, setWorkouts] = useState([]);
@@ -13,8 +13,11 @@ const WorkoutTracker = () => {
     const [selectedExercise, setSelectedExercise] = useState(null);
 
     const [formData, setFormData] = useState({
-        duration: '', sets: '', reps: '', weight: ''
+        duration: '', sets: 1, reps: '', weight: ''
     });
+
+    // Dynamic Sets State
+    const [setsData, setSetsData] = useState([{ weight: '', reps: '' }]);
 
     const date = new Date().toISOString().split('T')[0];
 
@@ -57,26 +60,39 @@ const WorkoutTracker = () => {
         setResults([]);
     };
 
-    const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
+    const handleSetChange = (index, field, value) => {
+        const newSets = [...setsData];
+        newSets[index][field] = value;
+        setSetsData(newSets);
+    };
+
+    const addSet = () => setSetsData([...setsData, { weight: '', reps: '' }]);
+    const removeSet = (index) => {
+        if (setsData.length > 1) {
+            setSetsData(setsData.filter((_, i) => i !== index));
+        }
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        // Prepare data - convert empty strings to null or numbers to avoid DB errors
         const payload = {
             date,
             type,
             exercise_name: selectedExercise ? selectedExercise.name : query,
+            muscle_group: selectedExercise ? selectedExercise.muscle_group : 'Other',
             duration: formData.duration ? parseInt(formData.duration) : null,
-            sets: formData.sets ? parseInt(formData.sets) : null,
-            reps: formData.reps ? parseInt(formData.reps) : null,
-            weight: formData.weight ? parseFloat(formData.weight) : null,
+            sets: type === 'strength' ? setsData.length : null,
+            reps: type === 'strength' ? parseInt(setsData[0].reps) : null, // Fallback for legacy
+            weight: type === 'strength' ? parseFloat(setsData[0].weight) : null, // Fallback for legacy
+            sets_data: type === 'strength' ? setsData : null,
             met: selectedExercise ? selectedExercise.met : null
         };
 
         try {
             await api.post('/workouts/log', payload);
-            setFormData({ duration: '', sets: '', reps: '', weight: '' });
+            setFormData({ duration: '', sets: 1, reps: '', weight: '' });
+            setSetsData([{ weight: '', reps: '' }]);
             setSelectedExercise(null);
             setQuery('');
             fetchWorkouts();
@@ -96,6 +112,16 @@ const WorkoutTracker = () => {
         }
     };
 
+    // Group workouts by muscle group
+    const groupedWorkouts = workouts.reduce((acc, w) => {
+        const group = w.muscle_group || 'Other';
+        if (!acc[group]) acc[group] = [];
+        acc[group].push(w);
+        return acc;
+    }, {});
+
+    const muscleGroups = ['Chest', 'Back', 'Legs', 'Shoulders', 'Biceps', 'Triceps', 'Abs', 'Cardio', 'Full Body', 'Other'];
+
     return (
         <div className="animate-fade-in">
             <h1 className="page-title">Workout Tracker</h1>
@@ -107,7 +133,7 @@ const WorkoutTracker = () => {
                         <h3 style={{ margin: 0 }}>Log Workout</h3>
                         {selectedExercise && (
                             <div style={{ display: 'flex', alignItems: 'center', gap: '5px', color: 'var(--success-color)', fontSize: '0.8rem' }}>
-                                <CheckCircle2 size={14} /> Verified Exercise (MET: {selectedExercise.met})
+                                <CheckCircle2 size={14} /> {selectedExercise.muscle_group} • MET: {selectedExercise.met}
                             </div>
                         )}
                     </div>
@@ -124,26 +150,6 @@ const WorkoutTracker = () => {
                             placeholder="Search (e.g. Bench Press, Running)"
                             required
                         />
-                        {query.length === 0 && (
-                            <div style={{ marginTop: '10px', display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
-                                {['Bench Press', 'Squats', 'Deadlift', 'Running', 'Cycling'].map(ex => (
-                                    <button
-                                        key={ex}
-                                        onClick={() => { setQuery(ex); }}
-                                        style={{
-                                            padding: '4px 10px',
-                                            fontSize: '0.75rem',
-                                            borderRadius: '20px',
-                                            background: 'var(--surface-hover)',
-                                            color: 'var(--text-secondary)',
-                                            border: '1px solid var(--glass-border)'
-                                        }}
-                                    >
-                                        + {ex}
-                                    </button>
-                                ))}
-                            </div>
-                        )}
                         {results.length > 0 && (
                             <div style={{
                                 position: 'absolute',
@@ -168,7 +174,7 @@ const WorkoutTracker = () => {
                                         alignItems: 'center'
                                     }}>
                                         <span>{ex.name}</span>
-                                        <span style={{ fontSize: '0.7rem', padding: '2px 6px', background: 'var(--surface-hover)', borderRadius: '4px', color: 'var(--text-secondary)' }}>{ex.type} (MET: {ex.met})</span>
+                                        <span style={{ fontSize: '0.7rem', padding: '2px 6px', background: 'var(--surface-hover)', borderRadius: '4px', color: 'var(--text-secondary)' }}>{ex.muscle_group}</span>
                                     </div>
                                 ))}
                             </div>
@@ -196,30 +202,52 @@ const WorkoutTracker = () => {
 
                     <form onSubmit={handleSubmit}>
                         {type === 'strength' ? (
-                            <>
-                                <div className="grid-3">
-                                    <div className="input-group">
-                                        <label className="input-label">Sets</label>
-                                        <input name="sets" type="number" className="input-field" value={formData.sets} onChange={handleChange} placeholder="0" required />
+                            <div style={{ marginBottom: '20px' }}>
+                                <label className="input-label">Sets Configuration</label>
+                                {setsData.map((set, index) => (
+                                    <div key={index} style={{ display: 'flex', gap: '10px', marginBottom: '10px', alignItems: 'center' }}>
+                                        <div style={{ width: '30px', fontWeight: 'bold', color: 'var(--primary-color)' }}>{index + 1}</div>
+                                        <input
+                                            type="number"
+                                            className="input-field"
+                                            placeholder="Weight (kg)"
+                                            value={set.weight}
+                                            onChange={(e) => handleSetChange(index, 'weight', e.target.value)}
+                                            required
+                                            style={{ flex: 1 }}
+                                        />
+                                        <input
+                                            type="number"
+                                            className="input-field"
+                                            placeholder="Reps"
+                                            value={set.reps}
+                                            onChange={(e) => handleSetChange(index, 'reps', e.target.value)}
+                                            required
+                                            style={{ flex: 1 }}
+                                        />
+                                        {setsData.length > 1 && (
+                                            <button type="button" onClick={() => removeSet(index)} style={{ background: 'none', color: 'var(--danger-color)' }}>
+                                                <Trash2 size={18} />
+                                            </button>
+                                        )}
                                     </div>
-                                    <div className="input-group">
-                                        <label className="input-label">Reps</label>
-                                        <input name="reps" type="number" className="input-field" value={formData.reps} onChange={handleChange} placeholder="0" required />
-                                    </div>
-                                    <div className="input-group">
-                                        <label className="input-label">Weight (kg)</label>
-                                        <input name="weight" type="number" className="input-field" value={formData.weight} onChange={handleChange} placeholder="0" required />
-                                    </div>
-                                </div>
-                                <div className="input-group">
-                                    <label className="input-label">Time Consumed (minutes - optional)</label>
-                                    <input name="duration" type="number" className="input-field" value={formData.duration} onChange={handleChange} placeholder="Estimated if empty" />
-                                </div>
-                            </>
+                                ))}
+                                <button type="button" onClick={addSet} className="btn btn-secondary" style={{ width: '100%', padding: '8px', fontSize: '0.9rem' }}>
+                                    + Add Set
+                                </button>
+                            </div>
                         ) : (
                             <div className="input-group">
                                 <label className="input-label">Duration (minutes)</label>
-                                <input name="duration" type="number" className="input-field" value={formData.duration} onChange={handleChange} placeholder="0" required />
+                                <input
+                                    name="duration"
+                                    type="number"
+                                    className="input-field"
+                                    value={formData.duration}
+                                    onChange={(e) => setFormData({ ...formData, duration: e.target.value })}
+                                    placeholder="0"
+                                    required
+                                />
                             </div>
                         )}
 
@@ -229,51 +257,77 @@ const WorkoutTracker = () => {
                     </form>
                 </div>
 
-                {/* Workout Log */}
+                {/* Workout Log Grouped by Muscle Group */}
                 <div className="card">
-                    <h3 style={{ marginBottom: '20px' }}>Today's Session</h3>
-
-                    <div style={{ marginBottom: '20px', padding: '20px', background: 'linear-gradient(135deg, var(--surface-hover), var(--bg-color))', borderRadius: 'var(--radius-md)', display: 'flex', alignItems: 'center', gap: '15px', border: '1px solid var(--glass-border)' }}>
-                        <div style={{ background: 'rgba(255, 77, 77, 0.1)', padding: '12px', borderRadius: '12px' }}>
-                            <Flame color="#ff4d4d" size={24} />
-                        </div>
-                        <div>
-                            <div style={{ fontSize: '0.9rem', color: 'var(--text-secondary)' }}>Total Burned</div>
-                            <div style={{ fontWeight: '800', fontSize: '1.5rem', color: 'var(--text-primary)' }}>{totalBurned} <span style={{ fontSize: '0.9rem', fontWeight: 'normal' }}>kcal</span></div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+                        <h3 style={{ margin: 0 }}>Today's Session</h3>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                            <Flame color="#ff4d4d" size={20} />
+                            <span style={{ fontWeight: '800', fontSize: '1.2rem' }}>{totalBurned} kcal</span>
                         </div>
                     </div>
 
-                    <div style={{ maxHeight: '400px', overflowY: 'auto' }}>
-                        {workouts.map(w => (
-                            <div key={w.id} style={{
-                                display: 'flex',
-                                justifyContent: 'space-between',
-                                alignItems: 'center',
-                                padding: '15px',
-                                borderBottom: '1px solid var(--glass-border)',
-                                transition: 'background 0.2s'
-                            }} className="workout-item-row">
-                                <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
-                                    <div style={{ background: 'var(--surface-hover)', padding: '10px', borderRadius: '12px' }}>
-                                        {w.type === 'strength' ? <Dumbbell size={20} color="var(--primary-color)" /> : <Timer size={20} color="#00f0ff" />}
+                    <div style={{ maxHeight: '600px', overflowY: 'auto' }}>
+                        {muscleGroups.map(group => {
+                            const groupWorkouts = groupedWorkouts[group];
+                            if (!groupWorkouts || groupWorkouts.length === 0) return null;
+
+                            return (
+                                <div key={group} style={{ marginBottom: '25px' }}>
+                                    <div style={{
+                                        padding: '8px 15px',
+                                        background: 'rgba(204, 255, 0, 0.1)',
+                                        borderRadius: '8px',
+                                        color: 'var(--primary-color)',
+                                        fontWeight: 'bold',
+                                        fontSize: '0.9rem',
+                                        marginBottom: '10px',
+                                        display: 'flex',
+                                        justifyContent: 'space-between'
+                                    }}>
+                                        <span>{group.toUpperCase()}</span>
+                                        <span>{groupWorkouts.length} Exercises</span>
                                     </div>
-                                    <div>
-                                        <div style={{ fontWeight: 'bold' }}>{w.exercise_name}</div>
-                                        <div style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>
-                                            {w.type === 'strength'
-                                                ? `${w.sets} sets × ${w.reps} reps @ ${w.weight}kg ${w.duration ? `(${w.duration}m)` : ''}`
-                                                : `${w.duration} mins`}
-                                        </div>
-                                    </div>
+                                    {groupWorkouts.map(w => {
+                                        let setsArr = [];
+                                        try {
+                                            setsArr = w.sets_data ? JSON.parse(w.sets_data) : [];
+                                        } catch (e) { }
+
+                                        return (
+                                            <div key={w.id} style={{
+                                                padding: '12px 15px',
+                                                borderBottom: '1px solid var(--glass-border)',
+                                                display: 'flex',
+                                                justifyContent: 'space-between',
+                                                alignItems: 'flex-start'
+                                            }}>
+                                                <div style={{ flex: 1 }}>
+                                                    <div style={{ fontWeight: 'bold', marginBottom: '4px' }}>{w.exercise_name}</div>
+                                                    <div style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>
+                                                        {w.type === 'strength' ? (
+                                                            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '5px' }}>
+                                                                {setsArr.length > 0 ? setsArr.map((s, i) => (
+                                                                    <span key={i} style={{ background: 'var(--surface-hover)', padding: '2px 6px', borderRadius: '4px' }}>
+                                                                        S{i + 1}: {s.weight}kg × {s.reps}
+                                                                    </span>
+                                                                )) : `${w.sets} sets × ${w.reps} reps @ ${w.weight}kg`}
+                                                            </div>
+                                                        ) : `${w.duration} mins`}
+                                                    </div>
+                                                </div>
+                                                <div style={{ textAlign: 'right', marginLeft: '15px' }}>
+                                                    <div style={{ fontWeight: 'bold', color: '#ff4d4d', fontSize: '0.9rem' }}>{w.calories_burned} kcal</div>
+                                                    <button onClick={() => handleDelete(w.id)} style={{ background: 'none', color: 'var(--text-secondary)', marginTop: '5px', opacity: 0.5 }}>
+                                                        <Trash2 size={14} />
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        );
+                                    })}
                                 </div>
-                                <div style={{ textAlign: 'right' }}>
-                                    <div style={{ fontWeight: 'bold', color: '#ff4d4d' }}>{w.calories_burned} kcal</div>
-                                    <button onClick={() => handleDelete(w.id)} style={{ background: 'none', color: 'var(--text-secondary)', marginTop: '5px', opacity: 0.5 }}>
-                                        <Trash2 size={14} />
-                                    </button>
-                                </div>
-                            </div>
-                        ))}
+                            );
+                        })}
                         {workouts.length === 0 && (
                             <div style={{ padding: '40px 20px', textAlign: 'center', color: 'var(--text-secondary)' }}>
                                 <Dumbbell size={40} style={{ opacity: 0.2, marginBottom: '10px' }} />
