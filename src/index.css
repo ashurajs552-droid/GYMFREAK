@@ -172,12 +172,32 @@ button {
   border-radius: var(--radius-lg);
   padding: 24px;
   border: 1px solid var(--glass-border);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s ease, background-color 0.3s, border-color 0.3s;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+  opacity: 0;
+  transition: opacity 0.3s;
 }
 
 .card:hover {
-  transform: translateY(-2px);
+  transform: translateY(-5px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  border-color: rgba(204, 255, 0, 0.2);
+}
+
+.card:hover::before {
+  opacity: 1;
 }
 
 .stat-item {
@@ -214,13 +234,14 @@ button {
 }
 
 .btn-primary {
-  background: var(--primary-color);
+  background: linear-gradient(135deg, var(--primary-color), var(--primary-hover));
   color: #000;
+  box-shadow: 0 4px 15px rgba(204, 255, 0, 0.2);
 }
 
 .btn-primary:hover {
-  background: var(--primary-hover);
-  box-shadow: 0 0 15px rgba(204, 255, 0, 0.3);
+  transform: scale(1.02);
+  box-shadow: 0 8px 25px rgba(204, 255, 0, 0.4);
 }
 
 .btn-secondary {
@@ -246,18 +267,20 @@ button {
 
 .input-field {
   width: 100%;
-  padding: 12px 16px;
-  background: var(--bg-color);
+  padding: 14px 18px;
+  background: rgba(255, 255, 255, 0.03);
   border: 1px solid var(--glass-border);
   border-radius: var(--radius-md);
   color: var(--text-primary);
   font-size: 1rem;
-  transition: border-color 0.2s, background-color 0.3s;
+  transition: all 0.2s;
 }
 
 .input-field:focus {
   outline: none;
   border-color: var(--primary-color);
+  background: rgba(255, 255, 255, 0.05);
+  box-shadow: 0 0 0 4px rgba(204, 255, 0, 0.1);
 }
 
 .page-title {
@@ -295,55 +318,49 @@ button {
   transition: width 0.5s ease;
 }
 
-/* Responsive Design */
-@media (max-width: 1024px) {
-  .grid-3 {
-    grid-template-columns: 1fr 1fr;
-  }
+/* Mobile Bottom Nav */
+.mobile-bottom-nav {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 70px;
+  background: var(--glass-bg);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  border-top: 1px solid var(--glass-border);
+  display: none;
+  /* Hidden by default, shown in media query */
+  justify-content: space-around;
+  align-items: center;
+  z-index: 1000;
+  padding-bottom: env(safe-area-inset-bottom);
 }
 
-@media (max-width: 768px) {
-  .sidebar {
-    transform: translateX(-100%);
-    width: 280px;
-  }
+.bottom-nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  color: var(--text-secondary);
+  font-size: 0.7rem;
+  font-weight: 600;
+  transition: all 0.2s;
+  padding: 8px;
+  min-width: 60px;
+}
 
-  .sidebar.open {
-    transform: translateX(0);
-  }
+.bottom-nav-item.active {
+  color: var(--primary-color);
+}
 
-  .main-content {
-    margin-left: 0;
-    padding: 20px;
-  }
+.bottom-nav-item svg {
+  transition: transform 0.2s;
+}
 
-  .mobile-header {
-    display: flex;
-  }
-
-  .grid-2,
-  .grid-3 {
-    grid-template-columns: 1fr;
-  }
-
-  .page-title {
-    font-size: 1.8rem;
-  }
-
-  .card {
-    padding: 16px;
-  }
-
-  .sidebar-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.5);
-    z-index: 950;
-    backdrop-filter: blur(4px);
-  }
+.bottom-nav-item.active svg {
+  transform: translateY(-2px);
 }
 
 /* Animations */
@@ -361,4 +378,71 @@ button {
 
 .animate-fade-in {
   animation: fadeIn 0.4s ease-out forwards;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .grid-3 {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    display: none;
+    /* Hide sidebar completely on mobile in favor of bottom nav */
+  }
+
+  .main-content {
+    margin-left: 0;
+    padding: 20px;
+    padding-bottom: 90px;
+    /* Space for bottom nav */
+  }
+
+  .mobile-header {
+    display: flex;
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    position: sticky;
+    top: 0;
+  }
+
+  .mobile-bottom-nav {
+    display: flex;
+  }
+
+  .grid-2,
+  .grid-3 {
+    grid-template-columns: 1fr;
+  }
+
+  .page-title {
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+  }
+
+  .card {
+    padding: 20px;
+    border-radius: var(--radius-md);
+  }
+
+  .btn {
+    width: 100%;
+    /* Full width buttons on mobile */
+    padding: 14px;
+  }
+
+  .stat-item {
+    padding: 15px;
+  }
+}
+
+/* iPhone specific fixes */
+@supports (-webkit-touch-callout: none) {
+  .mobile-bottom-nav {
+    height: 85px;
+    padding-bottom: 25px;
+  }
 }

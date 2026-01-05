@@ -132,13 +132,27 @@ const FoodTracker = () => {
                     <h3 style={{ marginBottom: '20px' }}>Add Food</h3>
 
                     {/* Meal Type Selector */}
-                    <div style={{ display: 'flex', gap: '10px', marginBottom: '20px' }}>
+                    <div style={{
+                        display: 'flex',
+                        gap: '8px',
+                        marginBottom: '20px',
+                        overflowX: 'auto',
+                        paddingBottom: '5px',
+                        msOverflowStyle: 'none',
+                        scrollbarWidth: 'none'
+                    }}>
                         {['breakfast', 'lunch', 'dinner', 'snack'].map(type => (
                             <button
                                 key={type}
                                 onClick={() => setMealType(type)}
                                 className={`btn ${mealType === type ? 'btn-primary' : 'btn-secondary'}`}
-                                style={{ flex: 1, padding: '8px', fontSize: '0.9rem', textTransform: 'capitalize' }}
+                                style={{
+                                    flex: '0 0 auto',
+                                    padding: '10px 20px',
+                                    fontSize: '0.9rem',
+                                    textTransform: 'capitalize',
+                                    borderRadius: '20px'
+                                }}
                             >
                                 {type}
                             </button>

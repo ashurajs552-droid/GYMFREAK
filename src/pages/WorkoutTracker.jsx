@@ -229,34 +229,40 @@ const WorkoutTracker = () => {
                             <div style={{ marginBottom: '20px' }}>
                                 <label className="input-label">Sets Configuration</label>
                                 {setsData.map((set, index) => (
-                                    <div key={index} style={{ display: 'flex', gap: '10px', marginBottom: '10px', alignItems: 'center' }}>
-                                        <div style={{ width: '30px', fontWeight: 'bold', color: 'var(--primary-color)' }}>{index + 1}</div>
+                                    <div key={index} style={{
+                                        display: 'grid',
+                                        gridTemplateColumns: '30px 1fr 1fr 40px',
+                                        gap: '8px',
+                                        marginBottom: '12px',
+                                        alignItems: 'center'
+                                    }}>
+                                        <div style={{ fontWeight: 'bold', color: 'var(--primary-color)', textAlign: 'center' }}>{index + 1}</div>
                                         <input
                                             type="number"
                                             className="input-field"
-                                            placeholder="Weight (kg)"
+                                            placeholder="kg"
                                             value={set.weight}
                                             onChange={(e) => handleSetChange(index, 'weight', e.target.value)}
                                             required
-                                            style={{ flex: 1 }}
+                                            style={{ padding: '10px' }}
                                         />
                                         <input
                                             type="number"
                                             className="input-field"
-                                            placeholder="Reps"
+                                            placeholder="reps"
                                             value={set.reps}
                                             onChange={(e) => handleSetChange(index, 'reps', e.target.value)}
                                             required
-                                            style={{ flex: 1 }}
+                                            style={{ padding: '10px' }}
                                         />
-                                        {setsData.length > 1 && (
-                                            <button type="button" onClick={() => removeSet(index)} style={{ background: 'none', color: 'var(--danger-color)' }}>
-                                                <Trash2 size={18} />
+                                        {setsData.length > 1 ? (
+                                            <button type="button" onClick={() => removeSet(index)} style={{ background: 'none', color: 'var(--danger-color)', display: 'flex', justifyContent: 'center' }}>
+                                                <Trash2 size={20} />
                                             </button>
-                                        )}
+                                        ) : <div />}
                                     </div>
                                 ))}
-                                <button type="button" onClick={addSet} className="btn btn-secondary" style={{ width: '100%', padding: '8px', fontSize: '0.9rem' }}>
+                                <button type="button" onClick={addSet} className="btn btn-secondary" style={{ width: '100%', padding: '12px', fontSize: '0.9rem', borderStyle: 'dashed' }}>
                                     + Add Set
                                 </button>
                             </div>

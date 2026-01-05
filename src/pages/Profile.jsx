@@ -106,26 +106,27 @@ const Profile = () => {
             <div className="grid-2" style={{ alignItems: 'start' }}>
                 {/* Left Column: Stats Display */}
                 <div className="card" style={{ padding: '0', overflow: 'hidden' }}>
-                    <div style={{
+                    <div className="profile-header" style={{
                         background: 'linear-gradient(135deg, var(--primary-color), var(--primary-hover))',
-                        padding: '40px 30px',
+                        padding: '30px 20px',
                         display: 'flex',
                         alignItems: 'center',
-                        gap: '25px'
+                        gap: '20px'
                     }}>
-                        <div style={{
-                            width: '100px', height: '100px',
-                            borderRadius: '24px',
+                        <div className="profile-avatar" style={{
+                            width: '80px', height: '80px',
+                            borderRadius: '20px',
                             background: 'rgba(0,0,0,0.2)',
                             display: 'flex', alignItems: 'center', justifyContent: 'center',
-                            fontSize: '2.5rem', fontWeight: '900', color: '#000',
-                            boxShadow: '0 10px 20px rgba(0,0,0,0.1)'
+                            fontSize: '2rem', fontWeight: '900', color: '#000',
+                            boxShadow: '0 10px 20px rgba(0,0,0,0.1)',
+                            flexShrink: 0
                         }}>
                             {profile.name?.charAt(0).toUpperCase()}
                         </div>
-                        <div>
-                            <h2 style={{ margin: 0, color: '#000', fontSize: '2rem', fontWeight: '800' }}>{profile.name}</h2>
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'rgba(0,0,0,0.6)', marginTop: '5px' }}>
+                        <div style={{ minWidth: 0 }}>
+                            <h2 style={{ margin: 0, color: '#000', fontSize: '1.5rem', fontWeight: '800', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{profile.name}</h2>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'rgba(0,0,0,0.6)', marginTop: '5px', fontSize: '0.85rem', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                                 <Mail size={14} /> {profile.email}
                             </div>
                         </div>
@@ -166,20 +167,25 @@ const Profile = () => {
                                 </h3>
                                 <Info size={16} color="var(--text-secondary)" title="Calculated based on your BMR and activity level" />
                             </div>
-                            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '20px', justifyContent: 'space-between', textAlign: 'center' }}>
-                                <div style={{ flex: '1 1 100px' }}>
+                            <div style={{
+                                display: 'grid',
+                                gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))',
+                                gap: '15px',
+                                textAlign: 'center'
+                            }}>
+                                <div style={{ padding: '15px', background: 'var(--bg-color)', borderRadius: '12px' }}>
                                     <div style={{ fontSize: '1.4rem', fontWeight: '800', color: 'var(--text-primary)' }}>{metrics?.targets.calories}</div>
                                     <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', textTransform: 'uppercase', marginTop: '4px' }}>Calories</div>
                                 </div>
-                                <div style={{ flex: '1 1 100px' }}>
+                                <div style={{ padding: '15px', background: 'var(--bg-color)', borderRadius: '12px' }}>
                                     <div style={{ fontSize: '1.4rem', fontWeight: '800', color: 'var(--secondary-color)' }}>{metrics?.targets.protein}g</div>
                                     <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', textTransform: 'uppercase', marginTop: '4px' }}>Protein</div>
                                 </div>
-                                <div style={{ flex: '1 1 100px' }}>
+                                <div style={{ padding: '15px', background: 'var(--bg-color)', borderRadius: '12px' }}>
                                     <div style={{ fontSize: '1.4rem', fontWeight: '800', color: 'var(--danger-color)' }}>{metrics?.targets.carbs}g</div>
                                     <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', textTransform: 'uppercase', marginTop: '4px' }}>Carbs</div>
                                 </div>
-                                <div style={{ flex: '1 1 100px' }}>
+                                <div style={{ padding: '15px', background: 'var(--bg-color)', borderRadius: '12px' }}>
                                     <div style={{ fontSize: '1.4rem', fontWeight: '800', color: '#ffe600' }}>{metrics?.targets.fat}g</div>
                                     <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', textTransform: 'uppercase', marginTop: '4px' }}>Fat</div>
                                 </div>
@@ -296,43 +302,69 @@ const AIFitnessPlan = ({ profile, metrics }) => {
     };
 
     return (
-        <div className="card" style={{ border: '1px solid var(--primary-color)', background: 'rgba(204, 255, 0, 0.02)' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-                <h3 style={{ margin: 0, display: 'flex', alignItems: 'center', gap: '10px' }}>
-                    ✨ AI Fitness Plan
+        <div className="card animate-fade-in" style={{
+            border: '1px solid rgba(204, 255, 0, 0.2)',
+            background: 'linear-gradient(135deg, rgba(204, 255, 0, 0.03), rgba(0, 240, 255, 0.03))',
+            position: 'relative',
+            overflow: 'hidden'
+        }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '25px' }}>
+                <h3 style={{ margin: 0, display: 'flex', alignItems: 'center', gap: '12px' }}>
+                    <div style={{ padding: '8px', background: 'var(--primary-color)', borderRadius: '10px' }}>
+                        <Activity size={20} color="#000" />
+                    </div>
+                    AI Fitness Plan
                 </h3>
                 {!plan && !loading && (
-                    <button onClick={generatePlan} className="btn btn-primary" style={{ padding: '8px 15px', fontSize: '0.85rem' }}>
-                        Generate Plan
+                    <button onClick={generatePlan} className="btn btn-primary" style={{ padding: '10px 20px', fontSize: '0.85rem' }}>
+                        Generate
                     </button>
                 )}
             </div>
 
-            {loading && <div style={{ textAlign: 'center', padding: '20px', color: 'var(--text-secondary)' }}>Crafting your personalized plan...</div>}
+            {loading && (
+                <div style={{ textAlign: 'center', padding: '40px 20px' }}>
+                    <div className="animate-pulse" style={{ color: 'var(--primary-color)', fontWeight: 'bold' }}>
+                        Analyzing your metrics...
+                    </div>
+                </div>
+            )}
 
             {plan && (
                 <div className="animate-fade-in">
-                    <div style={{ marginBottom: '15px' }}>
-                        <h4 style={{ color: 'var(--primary-color)', marginBottom: '5px', fontSize: '0.9rem' }}>WORKOUT STRATEGY</h4>
-                        <p style={{ fontSize: '0.9rem', lineHeight: '1.5', margin: 0 }}>{plan.workout_plan}</p>
+                    <div style={{ marginBottom: '20px' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
+                            <Dumbbell size={16} color="var(--primary-color)" />
+                            <h4 style={{ color: 'var(--primary-color)', margin: 0, fontSize: '0.9rem', textTransform: 'uppercase', letterSpacing: '1px' }}>Workout Strategy</h4>
+                        </div>
+                        <p style={{ fontSize: '1rem', lineHeight: '1.6', margin: 0, color: 'var(--text-primary)' }}>{plan.workout_plan}</p>
                     </div>
-                    <div style={{ marginBottom: '15px' }}>
-                        <h4 style={{ color: 'var(--secondary-color)', marginBottom: '5px', fontSize: '0.9rem' }}>NUTRITION STRATEGY</h4>
-                        <p style={{ fontSize: '0.9rem', lineHeight: '1.5', margin: 0 }}>{plan.nutrition_plan}</p>
+                    <div style={{ marginBottom: '20px' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
+                            <Utensils size={16} color="var(--secondary-color)" />
+                            <h4 style={{ color: 'var(--secondary-color)', margin: 0, fontSize: '0.9rem', textTransform: 'uppercase', letterSpacing: '1px' }}>Nutrition Strategy</h4>
+                        </div>
+                        <p style={{ fontSize: '1rem', lineHeight: '1.6', margin: 0, color: 'var(--text-primary)' }}>{plan.nutrition_plan}</p>
                     </div>
-                    <div style={{ padding: '12px', background: 'var(--surface-hover)', borderRadius: '8px', borderLeft: '4px solid var(--primary-color)' }}>
-                        <strong>💡 Pro Tip:</strong> {plan.pro_tip}
+                    <div style={{ padding: '15px', background: 'rgba(204, 255, 0, 0.05)', borderRadius: '12px', borderLeft: '4px solid var(--primary-color)' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
+                            <Info size={16} color="var(--primary-color)" />
+                            <strong style={{ fontSize: '0.9rem' }}>Pro Tip</strong>
+                        </div>
+                        <p style={{ margin: 0, fontSize: '0.95rem', fontStyle: 'italic' }}>{plan.pro_tip}</p>
                     </div>
-                    <button onClick={generatePlan} style={{ background: 'none', border: 'none', color: 'var(--text-secondary)', fontSize: '0.75rem', marginTop: '15px', cursor: 'pointer', textDecoration: 'underline' }}>
-                        Regenerate Plan
+                    <button onClick={generatePlan} style={{ background: 'none', border: 'none', color: 'var(--text-secondary)', fontSize: '0.8rem', marginTop: '20px', cursor: 'pointer', textDecoration: 'underline', width: '100%', textAlign: 'center' }}>
+                        Regenerate Custom Plan
                     </button>
                 </div>
             )}
 
             {!plan && !loading && (
-                <p style={{ color: 'var(--text-secondary)', fontSize: '0.85rem', margin: 0 }}>
-                    Get a personalized workout and nutrition strategy based on your profile and goals.
-                </p>
+                <div style={{ textAlign: 'center', padding: '20px 0' }}>
+                    <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem', lineHeight: '1.6', margin: 0 }}>
+                        Get a personalized workout and nutrition strategy tailored specifically to your body metrics and fitness goals.
+                    </p>
+                </div>
             )}
         </div>
     );

@@ -35,8 +35,8 @@ const Layout = () => {
                     <Dumbbell color="var(--primary-color)" size={24} />
                     <span style={{ fontSize: '1.2rem' }}>GYM FREAK</span>
                 </div>
-                <button onClick={toggleSidebar} style={{ background: 'none', color: 'var(--text-primary)' }}>
-                    {isSidebarOpen ? <X size={28} /> : <Menu size={28} />}
+                <button onClick={toggleTheme} style={{ background: 'none', color: 'var(--text-primary)' }}>
+                    {isLightMode ? <Moon size={24} /> : <Sun size={24} />}
                 </button>
             </header>
 
@@ -83,6 +83,30 @@ const Layout = () => {
                     </button>
                 </div>
             </aside>
+
+            {/* Mobile Bottom Nav */}
+            <nav className="mobile-bottom-nav">
+                <NavLink to="/" className={({ isActive }) => `bottom-nav-item ${isActive ? 'active' : ''}`}>
+                    <LayoutDashboard size={24} />
+                    <span>Home</span>
+                </NavLink>
+                <NavLink to="/food" className={({ isActive }) => `bottom-nav-item ${isActive ? 'active' : ''}`}>
+                    <Utensils size={24} />
+                    <span>Food</span>
+                </NavLink>
+                <NavLink to="/workout" className={({ isActive }) => `bottom-nav-item ${isActive ? 'active' : ''}`}>
+                    <Dumbbell size={24} />
+                    <span>Gym</span>
+                </NavLink>
+                <NavLink to="/history" className={({ isActive }) => `bottom-nav-item ${isActive ? 'active' : ''}`}>
+                    <Calendar size={24} />
+                    <span>Log</span>
+                </NavLink>
+                <NavLink to="/profile" className={({ isActive }) => `bottom-nav-item ${isActive ? 'active' : ''}`}>
+                    <User size={24} />
+                    <span>Me</span>
+                </NavLink>
+            </nav>
 
             <main className="main-content">
                 <div className="container">

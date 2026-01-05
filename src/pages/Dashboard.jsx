@@ -279,22 +279,25 @@ const Dashboard = () => {
                 </div>
 
                 {/* Coach's Insight */}
-                <div className="card" style={{ background: 'linear-gradient(135deg, rgba(204, 255, 0, 0.05), transparent)', border: '1px solid var(--glass-border)' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '15px' }}>
-                        <Activity size={20} color="var(--primary-color)" />
-                        <h3 style={{ margin: 0 }}>Coach's Insight</h3>
+                <div className="card animate-fade-in" style={{
+                    background: 'linear-gradient(135deg, rgba(204, 255, 0, 0.05), rgba(0, 240, 255, 0.05))',
+                    border: '1px solid rgba(204, 255, 0, 0.1)'
+                }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '15px' }}>
+                        <div style={{ padding: '10px', background: 'var(--primary-color)', borderRadius: '12px' }}>
+                            <User size={24} color="#000" />
+                        </div>
+                        <div>
+                            <h3 style={{ margin: 0 }}>Coach's Insight</h3>
+                            <p style={{ margin: 0, fontSize: '0.8rem', color: 'var(--text-secondary)' }}>AI-Powered Guidance</p>
+                        </div>
                     </div>
-                    <div style={{ marginBottom: '20px', padding: '15px', background: 'rgba(204, 255, 0, 0.1)', borderRadius: '12px', borderLeft: '4px solid var(--primary-color)' }}>
-                        <p style={{ fontSize: '1.2rem', fontStyle: 'italic', fontWeight: '600', color: 'var(--primary-color)', margin: 0 }}>
-                            "{quote}"
-                        </p>
-                    </div>
-                    <p style={{ fontSize: '1.1rem', lineHeight: '1.6', color: 'var(--text-primary)' }}>
-                        {aiInsight || (remaining > 500
+                    <p style={{ fontSize: '1.1rem', lineHeight: '1.6', color: 'var(--text-primary)', fontStyle: 'italic' }}>
+                        "{aiInsight || (remaining > 500
                             ? "You're well under your calorie goal. Make sure to fuel up properly to maintain muscle mass!"
                             : remaining < -200
                                 ? "You've exceeded your target. Consider a light cardio session to balance it out."
-                                : "You're right on track! Keep hitting those macros and stay consistent.")}
+                                : "You're right on track! Keep hitting those macros and stay consistent.")}"
                     </p>
                     <div style={{ marginTop: '20px', padding: '15px', background: 'var(--surface-hover)', borderRadius: '12px', fontSize: '0.9rem' }}>
                         <strong>Pro Tip:</strong> Consistency is key. Even on rest days, try to hit your protein targets to support recovery.
