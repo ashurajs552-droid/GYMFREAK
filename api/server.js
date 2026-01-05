@@ -21,6 +21,10 @@ app.use('/api/foods', foodRoutes);
 app.use('/api/workouts', workoutRoutes);
 app.use('/api/history', historyRoutes);
 
+app.get('/api/health', (req, res) => {
+    res.json({ status: 'ok', message: 'Gym Freak API is healthy' });
+});
+
 app.get('/api/quotes/random', (req, res) => {
     try {
         const quotes = require('./data/quotes.json');
@@ -31,8 +35,12 @@ app.get('/api/quotes/random', (req, res) => {
     }
 });
 
-app.get('/', (req, res) => {
+app.get('/api', (req, res) => {
     res.send('Gym Freak API (Supabase Edition) is running');
+});
+
+app.get('/', (req, res) => {
+    res.send('Gym Freak API is running');
 });
 
 if (process.env.NODE_ENV !== 'production') {
