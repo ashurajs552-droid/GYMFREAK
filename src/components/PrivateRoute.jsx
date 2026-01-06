@@ -43,7 +43,7 @@ const PrivateRoute = () => {
 
     // If profile is complete but we try to access completion page, go to dashboard
     if (isProfileComplete && location.pathname === '/complete-profile') {
-        return <Navigate to="/" />;
+        return <Navigate to="/dashboard" />;
     }
 
     return <Outlet />;

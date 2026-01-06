@@ -66,7 +66,7 @@ const Dashboard = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [greeting, setGreeting] = useState('');
-    const [showDetails, setShowDetails] = useState(null);
+    const [showCalculationModal, setShowCalculationModal] = useState(false);
     const [proTip] = useState(proTips[Math.floor(Math.random() * proTips.length)]);
 
     const fetchStats = async () => {
@@ -164,6 +164,62 @@ const Dashboard = () => {
 
     const coachInsight = getCoachInsight(remaining, proteinPercent, user.goal);
 
+    // Calculation Details Modal Component
+    const CalculationModal = () => (
+        <div className="modal-overlay" onClick={() => setShowCalculationModal(false)}>
+            <div className="modal-content animate-scale-in" onClick={e => e.stopPropagation()}>
+                <div className="modal-header">
+                    <h3 style={{ margin: 0, display: 'flex', alignItems: 'center', gap: '10px' }}>
+                        <Activity size={20} color="var(--primary-color)" />
+                        Calculation Logic
+                    </h3>
+                    <button className="modal-close" onClick={() => setShowCalculationModal(false)}>✕</button>
+                </div>
+                <div className="modal-body">
+                    <section style={{ marginBottom: '24px' }}>
+                        <h4 style={{ color: 'var(--primary-color)', marginBottom: '10px' }}>1. Calorie Target</h4>
+                        <p style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', lineHeight: '1.5' }}>
+                            Your daily goal is based on the <strong>Mifflin-St Jeor Equation</strong>:
+                        </p>
+                        <ul style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', paddingLeft: '20px', marginTop: '8px' }}>
+                            <li><strong>BMR:</strong> Basal Metabolic Rate (calories burned at rest).</li>
+                            <li><strong>TDEE:</strong> BMR × Activity Factor ({user.activity_level === 'active' ? '1.725' : user.activity_level === 'moderate' ? '1.55' : '1.2'}).</li>
+                            <li><strong>Adjustment:</strong> {user.goal === 'loss' ? '-500 kcal (Weight Loss)' : user.goal === 'gain' ? '+300 kcal (Muscle Gain)' : 'Maintenance'}.</li>
+                        </ul>
+                    </section>
+
+                    <section style={{ marginBottom: '24px' }}>
+                        <h4 style={{ color: 'var(--secondary-color)', marginBottom: '10px' }}>2. Macro Breakdown</h4>
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                            <div style={{ padding: '12px', background: 'rgba(0, 240, 255, 0.05)', borderRadius: '8px', borderLeft: '3px solid #00f0ff' }}>
+                                <div style={{ fontWeight: 'bold', fontSize: '0.9rem' }}>Protein (2g per kg)</div>
+                                <div style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>Essential for muscle repair and growth.</div>
+                            </div>
+                            <div style={{ padding: '12px', background: 'rgba(255, 230, 0, 0.05)', borderRadius: '8px', borderLeft: '3px solid #ffe600' }}>
+                                <div style={{ fontWeight: 'bold', fontSize: '0.9rem' }}>Fat (0.8g per kg)</div>
+                                <div style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>Crucial for hormone health and energy.</div>
+                            </div>
+                            <div style={{ padding: '12px', background: 'rgba(255, 77, 77, 0.05)', borderRadius: '8px', borderLeft: '3px solid #ff4d4d' }}>
+                                <div style={{ fontWeight: 'bold', fontSize: '0.9rem' }}>Carbs (Remaining)</div>
+                                <div style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>Primary fuel source for your workouts.</div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section>
+                        <h4 style={{ color: 'var(--primary-color)', marginBottom: '10px' }}>3. Net Calories</h4>
+                        <p style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', lineHeight: '1.5' }}>
+                            <strong>Net = (Consumed - Burned)</strong>
+                        </p>
+                        <p style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>
+                            We subtract your exercise calories from your food intake to show your actual energy balance.
+                        </p>
+                    </section>
+                </div>
+            </div>
+        </div>
+    );
+
     const macroData = {
         labels: ['Protein', 'Carbs', 'Fat'],
         datasets: [{
@@ -225,6 +281,7 @@ const Dashboard = () => {
 
     return (
         <div className="animate-fade-in">
+            {showCalculationModal && <CalculationModal />}
             {/* Welcome Header */}
             <div style={{ marginBottom: '24px' }}>
                 <h1 style={{ fontSize: '1.5rem', marginBottom: '4px', lineHeight: '1.3' }}>
@@ -238,7 +295,7 @@ const Dashboard = () => {
             {/* Main Stats */}
             <div className="grid-3">
                 {/* Calories Card */}
-                <div className="card" onClick={() => setShowDetails(showDetails === 'calories' ? null : 'calories')}>
+                <div className="card" onClick={() => setShowCalculationModal(true)} style={{ cursor: 'pointer' }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
                         <span style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', fontWeight: '600' }}>NET CALORIES</span>
                         <Target color="var(--primary-color)" size={18} />
@@ -253,6 +310,7 @@ const Dashboard = () => {
                     <p style={{ marginTop: '8px', fontSize: '0.85rem', color: remaining > 0 ? 'var(--primary-color)' : '#ff4d4d', fontWeight: '600' }}>
                         {remaining > 0 ? `${remaining} kcal left` : `${Math.abs(remaining)} over`}
                     </p>
+                    <div style={{ fontSize: '0.7rem', color: 'var(--text-secondary)', marginTop: '5px', textAlign: 'right' }}>Click to see logic ⓘ</div>
                 </div>
 
                 {/* Burned Card */}
@@ -271,7 +329,7 @@ const Dashboard = () => {
                 </div>
 
                 {/* Macros Card */}
-                <div className="card">
+                <div className="card" onClick={() => setShowCalculationModal(true)} style={{ cursor: 'pointer' }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
                         <span style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', fontWeight: '600' }}>MACROS</span>
                         <div style={{ width: '28px', height: '28px' }}>
@@ -306,6 +364,7 @@ const Dashboard = () => {
                                 <div className="progress-fill" style={{ width: `${Math.min((consumed.fat / targets.fat) * 100, 100)}%`, background: '#ffe600' }}></div>
                             </div>
                         </div>
+                        <div style={{ fontSize: '0.7rem', color: 'var(--text-secondary)', marginTop: '2px', textAlign: 'right' }}>Click to see logic ⓘ</div>
                     </div>
                 </div>
             </div>
@@ -313,7 +372,7 @@ const Dashboard = () => {
             {/* Chart & Coach Section */}
             <div className="grid-2" style={{ marginTop: '20px' }}>
                 {/* Weekly Progress Chart */}
-                <div className="card">
+                <div className="card" onClick={() => setShowCalculationModal(true)} style={{ cursor: 'pointer' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px' }}>
                         <TrendingUp size={18} color="var(--primary-color)" />
                         <h3 style={{ margin: 0, fontSize: '1rem' }}>Weekly Progress</h3>
@@ -321,6 +380,7 @@ const Dashboard = () => {
                     <div style={{ height: '200px' }}>
                         <Line data={chartData} options={chartOptions} />
                     </div>
+                    <div style={{ fontSize: '0.7rem', color: 'var(--text-secondary)', marginTop: '10px', textAlign: 'right' }}>Click to see logic ⓘ</div>
                 </div>
 
                 {/* Coach's Insight - No AI */}

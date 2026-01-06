@@ -4,6 +4,7 @@ import Layout from './components/Layout';
 import PrivateRoute from './components/PrivateRoute';
 import Login from './pages/Login';
 import Register from './pages/Register';
+import Landing from './pages/Landing';
 import Dashboard from './pages/Dashboard';
 import FoodTracker from './pages/FoodTracker';
 import WorkoutTracker from './pages/WorkoutTracker';
@@ -16,6 +17,7 @@ function App() {
         <AuthProvider>
             <Router>
                 <Routes>
+                    <Route path="/" element={<Landing />} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/register" element={<Register />} />
 
@@ -26,7 +28,7 @@ function App() {
 
                         {/* Main App with Layout */}
                         <Route element={<Layout />}>
-                            <Route path="/" element={<Dashboard />} />
+                            <Route path="/dashboard" element={<Dashboard />} />
                             <Route path="/food" element={<FoodTracker />} />
                             <Route path="/workout" element={<WorkoutTracker />} />
                             <Route path="/history" element={<History />} />

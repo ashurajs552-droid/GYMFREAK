@@ -25,7 +25,7 @@ const Layout = () => {
         <div className="layout">
             {/* Mobile Header */}
             <header className="mobile-header">
-                <div className="logo" onClick={() => navigate('/')}>
+                <div className="logo" onClick={() => navigate('/dashboard')}>
                     <Dumbbell color="var(--primary-color)" size={22} />
                     <span>GYM FREAK</span>
                 </div>
@@ -36,13 +36,13 @@ const Layout = () => {
 
             {/* Desktop Sidebar */}
             <aside className="sidebar">
-                <div className="logo" onClick={() => navigate('/')}>
+                <div className="logo" onClick={() => navigate('/dashboard')}>
                     <Dumbbell color="var(--primary-color)" size={28} />
                     <span>GYM FREAK</span>
                 </div>
 
                 <nav className="nav-menu">
-                    <NavLink to="/" className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}>
+                    <NavLink to="/dashboard" className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}>
                         <LayoutDashboard size={20} />
                         <span>Dashboard</span>
                     </NavLink>
@@ -78,7 +78,7 @@ const Layout = () => {
 
             {/* Mobile Bottom Nav */}
             <nav className="mobile-bottom-nav">
-                <NavLink to="/" className={({ isActive }) => `bottom-nav-item ${isActive ? 'active' : ''}`}>
+                <NavLink to="/dashboard" className={({ isActive }) => `bottom-nav-item ${isActive ? 'active' : ''}`}>
                     <LayoutDashboard size={22} />
                     <span>Home</span>
                 </NavLink>
