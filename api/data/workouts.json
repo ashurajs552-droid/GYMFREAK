@@ -1,0 +1,734 @@
+[
+    {
+        "name": "Barbell Squat",
+        "met": 6.0,
+        "type": "strength",
+        "muscle_group": "Legs"
+    },
+    {
+        "name": "Front Squat",
+        "met": 6.0,
+        "type": "strength",
+        "muscle_group": "Legs"
+    },
+    {
+        "name": "Deadlift",
+        "met": 6.0,
+        "type": "strength",
+        "muscle_group": "Back"
+    },
+    {
+        "name": "Romanian Deadlift",
+        "met": 6.0,
+        "type": "strength",
+        "muscle_group": "Back"
+    },
+    {
+        "name": "Bench Press",
+        "met": 6.0,
+        "type": "strength",
+        "muscle_group": "Chest"
+    },
+    {
+        "name": "Incline Bench Press",
+        "met": 6.0,
+        "type": "strength",
+        "muscle_group": "Chest"
+    },
+    {
+        "name": "Decline Bench Press",
+        "met": 6.0,
+        "type": "strength",
+        "muscle_group": "Chest"
+    },
+    {
+        "name": "Overhead Shoulder Press",
+        "met": 6.0,
+        "type": "strength",
+        "muscle_group": "Shoulders"
+    },
+    {
+        "name": "Clean and Press",
+        "met": 8.0,
+        "type": "strength",
+        "muscle_group": "Full Body"
+    },
+    {
+        "name": "Snatch",
+        "met": 8.0,
+        "type": "strength",
+        "muscle_group": "Full Body"
+    },
+    {
+        "name": "Power Clean",
+        "met": 8.0,
+        "type": "strength",
+        "muscle_group": "Full Body"
+    },
+    {
+        "name": "Push-ups",
+        "met": 8.0,
+        "type": "strength",
+        "muscle_group": "Chest"
+    },
+    {
+        "name": "Dumbbell Bench Press",
+        "met": 6.0,
+        "type": "strength",
+        "muscle_group": "Chest"
+    },
+    {
+        "name": "Chest Fly",
+        "met": 5.0,
+        "type": "strength",
+        "muscle_group": "Chest"
+    },
+    {
+        "name": "Cable Fly",
+        "met": 5.0,
+        "type": "strength",
+        "muscle_group": "Chest"
+    },
+    {
+        "name": "Pec Deck",
+        "met": 5.0,
+        "type": "strength",
+        "muscle_group": "Chest"
+    },
+    {
+        "name": "Dips (Chest)",
+        "met": 8.0,
+        "type": "strength",
+        "muscle_group": "Chest"
+    },
+    {
+        "name": "Pull-ups",
+        "met": 8.0,
+        "type": "strength",
+        "muscle_group": "Back"
+    },
+    {
+        "name": "Chin-ups",
+        "met": 8.0,
+        "type": "strength",
+        "muscle_group": "Back"
+    },
+    {
+        "name": "Lat Pulldown",
+        "met": 5.0,
+        "type": "strength",
+        "muscle_group": "Back"
+    },
+    {
+        "name": "Seated Cable Row",
+        "met": 5.0,
+        "type": "strength",
+        "muscle_group": "Back"
+    },
+    {
+        "name": "Bent Over Row",
+        "met": 6.0,
+        "type": "strength",
+        "muscle_group": "Back"
+    },
+    {
+        "name": "T-Bar Row",
+        "met": 6.0,
+        "type": "strength",
+        "muscle_group": "Back"
+    },
+    {
+        "name": "Dead Hang",
+        "met": 4.0,
+        "type": "strength",
+        "muscle_group": "Back"
+    },
+    {
+        "name": "Dumbbell Shoulder Press",
+        "met": 6.0,
+        "type": "strength",
+        "muscle_group": "Shoulders"
+    },
+    {
+        "name": "Lateral Raises",
+        "met": 4.0,
+        "type": "strength",
+        "muscle_group": "Shoulders"
+    },
+    {
+        "name": "Front Raises",
+        "met": 4.0,
+        "type": "strength",
+        "muscle_group": "Shoulders"
+    },
+    {
+        "name": "Rear Delt Fly",
+        "met": 4.0,
+        "type": "strength",
+        "muscle_group": "Shoulders"
+    },
+    {
+        "name": "Arnold Press",
+        "met": 6.0,
+        "type": "strength",
+        "muscle_group": "Shoulders"
+    },
+    {
+        "name": "Upright Row",
+        "met": 5.0,
+        "type": "strength",
+        "muscle_group": "Shoulders"
+    },
+    {
+        "name": "Barbell Curl",
+        "met": 4.0,
+        "type": "strength",
+        "muscle_group": "Biceps"
+    },
+    {
+        "name": "Dumbbell Curl",
+        "met": 4.0,
+        "type": "strength",
+        "muscle_group": "Biceps"
+    },
+    {
+        "name": "Hammer Curl",
+        "met": 4.0,
+        "type": "strength",
+        "muscle_group": "Biceps"
+    },
+    {
+        "name": "Preacher Curl",
+        "met": 4.0,
+        "type": "strength",
+        "muscle_group": "Biceps"
+    },
+    {
+        "name": "Triceps Pushdown",
+        "met": 4.0,
+        "type": "strength",
+        "muscle_group": "Triceps"
+    },
+    {
+        "name": "Skull Crushers",
+        "met": 4.0,
+        "type": "strength",
+        "muscle_group": "Triceps"
+    },
+    {
+        "name": "Overhead Triceps Extension",
+        "met": 4.0,
+        "type": "strength",
+        "muscle_group": "Triceps"
+    },
+    {
+        "name": "Close-Grip Bench Press",
+        "met": 6.0,
+        "type": "strength",
+        "muscle_group": "Triceps"
+    },
+    {
+        "name": "Dips (Triceps)",
+        "met": 8.0,
+        "type": "strength",
+        "muscle_group": "Triceps"
+    },
+    {
+        "name": "Leg Press",
+        "met": 6.0,
+        "type": "strength",
+        "muscle_group": "Legs"
+    },
+    {
+        "name": "Leg Extension",
+        "met": 5.0,
+        "type": "strength",
+        "muscle_group": "Legs"
+    },
+    {
+        "name": "Leg Curl",
+        "met": 5.0,
+        "type": "strength",
+        "muscle_group": "Legs"
+    },
+    {
+        "name": "Lunges",
+        "met": 6.0,
+        "type": "strength",
+        "muscle_group": "Legs"
+    },
+    {
+        "name": "Bulgarian Split Squat",
+        "met": 6.5,
+        "type": "strength",
+        "muscle_group": "Legs"
+    },
+    {
+        "name": "Step-ups",
+        "met": 6.0,
+        "type": "strength",
+        "muscle_group": "Legs"
+    },
+    {
+        "name": "Calf Raises",
+        "met": 4.0,
+        "type": "strength",
+        "muscle_group": "Legs"
+    },
+    {
+        "name": "Hack Squat",
+        "met": 6.0,
+        "type": "strength",
+        "muscle_group": "Legs"
+    },
+    {
+        "name": "Sissy Squat",
+        "met": 6.0,
+        "type": "strength",
+        "muscle_group": "Legs"
+    },
+    {
+        "name": "Treadmill Walking",
+        "met": 3.5,
+        "type": "cardio",
+        "muscle_group": "Cardio"
+    },
+    {
+        "name": "Treadmill Brisk Walk",
+        "met": 4.5,
+        "type": "cardio",
+        "muscle_group": "Cardio"
+    },
+    {
+        "name": "Treadmill Jogging",
+        "met": 7.0,
+        "type": "cardio",
+        "muscle_group": "Cardio"
+    },
+    {
+        "name": "Running (6 mph)",
+        "met": 9.8,
+        "type": "cardio",
+        "muscle_group": "Cardio"
+    },
+    {
+        "name": "Stair Climber",
+        "met": 9.0,
+        "type": "cardio",
+        "muscle_group": "Cardio"
+    },
+    {
+        "name": "Elliptical Trainer",
+        "met": 5.0,
+        "type": "cardio",
+        "muscle_group": "Cardio"
+    },
+    {
+        "name": "Stationary Bike (Light)",
+        "met": 4.0,
+        "type": "cardio",
+        "muscle_group": "Cardio"
+    },
+    {
+        "name": "Stationary Bike (Moderate)",
+        "met": 6.8,
+        "type": "cardio",
+        "muscle_group": "Cardio"
+    },
+    {
+        "name": "Stationary Bike (Vigorous)",
+        "met": 8.5,
+        "type": "cardio",
+        "muscle_group": "Cardio"
+    },
+    {
+        "name": "Rowing Machine (Moderate)",
+        "met": 7.0,
+        "type": "cardio",
+        "muscle_group": "Cardio"
+    },
+    {
+        "name": "Rowing Machine (Vigorous)",
+        "met": 8.5,
+        "type": "cardio",
+        "muscle_group": "Cardio"
+    },
+    {
+        "name": "Sit-ups",
+        "met": 6.0,
+        "type": "strength",
+        "muscle_group": "Abs"
+    },
+    {
+        "name": "Crunches",
+        "met": 5.0,
+        "type": "strength",
+        "muscle_group": "Abs"
+    },
+    {
+        "name": "Plank",
+        "met": 4.0,
+        "type": "strength",
+        "muscle_group": "Abs"
+    },
+    {
+        "name": "Hanging Leg Raises",
+        "met": 6.0,
+        "type": "strength",
+        "muscle_group": "Abs"
+    },
+    {
+        "name": "Russian Twists",
+        "met": 5.5,
+        "type": "strength",
+        "muscle_group": "Abs"
+    },
+    {
+        "name": "Bicycle Crunch",
+        "met": 6.0,
+        "type": "strength",
+        "muscle_group": "Abs"
+    },
+    {
+        "name": "Ab Rollout",
+        "met": 6.0,
+        "type": "strength",
+        "muscle_group": "Abs"
+    },
+    {
+        "name": "Mountain Climbers",
+        "met": 8.0,
+        "type": "strength",
+        "muscle_group": "Abs"
+    },
+    {
+        "name": "Burpees",
+        "met": 10.0,
+        "type": "strength",
+        "muscle_group": "Full Body"
+    },
+    {
+        "name": "Battle Ropes",
+        "met": 10.5,
+        "type": "cardio",
+        "muscle_group": "Full Body"
+    },
+    {
+        "name": "Kettlebell Swings",
+        "met": 8.0,
+        "type": "strength",
+        "muscle_group": "Full Body"
+    },
+    {
+        "name": "Box Jumps",
+        "met": 9.0,
+        "type": "strength",
+        "muscle_group": "Legs"
+    },
+    {
+        "name": "Wall Balls",
+        "met": 8.5,
+        "type": "strength",
+        "muscle_group": "Full Body"
+    },
+    {
+        "name": "Sled Push/Pull",
+        "met": 9.5,
+        "type": "strength",
+        "muscle_group": "Full Body"
+    },
+    {
+        "name": "Tire Flips",
+        "met": 10.0,
+        "type": "strength",
+        "muscle_group": "Full Body"
+    },
+    {
+        "name": "Farmer's Walk",
+        "met": 6.5,
+        "type": "strength",
+        "muscle_group": "Full Body"
+    },
+    {
+        "name": "Walking (Normal)",
+        "met": 3.5,
+        "type": "cardio",
+        "muscle_group": "Cardio"
+    },
+    {
+        "name": "Walking (Brisk)",
+        "met": 4.5,
+        "type": "cardio",
+        "muscle_group": "Cardio"
+    },
+    {
+        "name": "Jogging",
+        "met": 7.0,
+        "type": "cardio",
+        "muscle_group": "Cardio"
+    },
+    {
+        "name": "Running (Fast)",
+        "met": 11.0,
+        "type": "cardio",
+        "muscle_group": "Cardio"
+    },
+    {
+        "name": "Sprinting",
+        "met": 15.0,
+        "type": "cardio",
+        "muscle_group": "Cardio"
+    },
+    {
+        "name": "Cycling (Leisure)",
+        "met": 4.0,
+        "type": "cardio",
+        "muscle_group": "Cardio"
+    },
+    {
+        "name": "Cycling (Moderate)",
+        "met": 6.8,
+        "type": "cardio",
+        "muscle_group": "Cardio"
+    },
+    {
+        "name": "Cycling (Fast)",
+        "met": 10.0,
+        "type": "cardio",
+        "muscle_group": "Cardio"
+    },
+    {
+        "name": "Hiking",
+        "met": 6.0,
+        "type": "cardio",
+        "muscle_group": "Cardio"
+    },
+    {
+        "name": "Stair Climbing",
+        "met": 8.8,
+        "type": "cardio",
+        "muscle_group": "Cardio"
+    },
+    {
+        "name": "Football (Soccer)",
+        "met": 7.0,
+        "type": "cardio",
+        "muscle_group": "Cardio"
+    },
+    {
+        "name": "Cricket (Batting)",
+        "met": 4.8,
+        "type": "cardio",
+        "muscle_group": "Cardio"
+    },
+    {
+        "name": "Cricket (Fielding)",
+        "met": 6.0,
+        "type": "cardio",
+        "muscle_group": "Cardio"
+    },
+    {
+        "name": "Basketball",
+        "met": 8.0,
+        "type": "cardio",
+        "muscle_group": "Cardio"
+    },
+    {
+        "name": "Volleyball",
+        "met": 4.0,
+        "type": "cardio",
+        "muscle_group": "Cardio"
+    },
+    {
+        "name": "Badminton (Recreational)",
+        "met": 5.5,
+        "type": "cardio",
+        "muscle_group": "Cardio"
+    },
+    {
+        "name": "Badminton (Competitive)",
+        "met": 7.0,
+        "type": "cardio",
+        "muscle_group": "Cardio"
+    },
+    {
+        "name": "Tennis (Singles)",
+        "met": 8.0,
+        "type": "cardio",
+        "muscle_group": "Cardio"
+    },
+    {
+        "name": "Tennis (Doubles)",
+        "met": 6.0,
+        "type": "cardio",
+        "muscle_group": "Cardio"
+    },
+    {
+        "name": "Table Tennis",
+        "met": 4.0,
+        "type": "cardio",
+        "muscle_group": "Cardio"
+    },
+    {
+        "name": "Kabaddi",
+        "met": 10.0,
+        "type": "cardio",
+        "muscle_group": "Cardio"
+    },
+    {
+        "name": "Wrestling",
+        "met": 6.0,
+        "type": "strength",
+        "muscle_group": "Full Body"
+    },
+    {
+        "name": "Boxing",
+        "met": 12.0,
+        "type": "cardio",
+        "muscle_group": "Full Body"
+    },
+    {
+        "name": "Martial Arts",
+        "met": 10.0,
+        "type": "strength",
+        "muscle_group": "Full Body"
+    },
+    {
+        "name": "Hatha Yoga",
+        "met": 2.5,
+        "type": "cardio",
+        "muscle_group": "Full Body"
+    },
+    {
+        "name": "Power Yoga",
+        "met": 4.0,
+        "type": "cardio",
+        "muscle_group": "Full Body"
+    },
+    {
+        "name": "Vinyasa Yoga",
+        "met": 4.0,
+        "type": "cardio",
+        "muscle_group": "Full Body"
+    },
+    {
+        "name": "Ashtanga Yoga",
+        "met": 5.0,
+        "type": "cardio",
+        "muscle_group": "Full Body"
+    },
+    {
+        "name": "Stretching",
+        "met": 2.3,
+        "type": "cardio",
+        "muscle_group": "Full Body"
+    },
+    {
+        "name": "Pilates",
+        "met": 3.0,
+        "type": "strength",
+        "muscle_group": "Abs"
+    },
+    {
+        "name": "Surya Namaskar",
+        "met": 3.8,
+        "type": "cardio",
+        "muscle_group": "Full Body"
+    },
+    {
+        "name": "Jumping Jacks",
+        "met": 8.0,
+        "type": "cardio",
+        "muscle_group": "Full Body"
+    },
+    {
+        "name": "High Knees",
+        "met": 8.5,
+        "type": "cardio",
+        "muscle_group": "Cardio"
+    },
+    {
+        "name": "Wall Sit",
+        "met": 4.0,
+        "type": "strength",
+        "muscle_group": "Legs"
+    },
+    {
+        "name": "Squat Jumps",
+        "met": 8.5,
+        "type": "strength",
+        "muscle_group": "Legs"
+    },
+    {
+        "name": "Bear Crawl",
+        "met": 6.5,
+        "type": "strength",
+        "muscle_group": "Full Body"
+    },
+    {
+        "name": "Skipping Rope",
+        "met": 11.0,
+        "type": "cardio",
+        "muscle_group": "Cardio"
+    },
+    {
+        "name": "House Cleaning",
+        "met": 3.5,
+        "type": "cardio",
+        "muscle_group": "Other"
+    },
+    {
+        "name": "Cooking",
+        "met": 2.5,
+        "type": "cardio",
+        "muscle_group": "Other"
+    },
+    {
+        "name": "Washing Dishes",
+        "met": 2.3,
+        "type": "cardio",
+        "muscle_group": "Other"
+    },
+    {
+        "name": "Carrying Groceries",
+        "met": 4.5,
+        "type": "cardio",
+        "muscle_group": "Other"
+    },
+    {
+        "name": "Gardening",
+        "met": 4.0,
+        "type": "cardio",
+        "muscle_group": "Other"
+    },
+    {
+        "name": "Playing with Kids",
+        "met": 4.0,
+        "type": "cardio",
+        "muscle_group": "Other"
+    },
+    {
+        "name": "Foam Rolling",
+        "met": 2.0,
+        "type": "cardio",
+        "muscle_group": "Other"
+    },
+    {
+        "name": "Walking (Slow)",
+        "met": 2.8,
+        "type": "cardio",
+        "muscle_group": "Cardio"
+    },
+    {
+        "name": "Meditation",
+        "met": 1.3,
+        "type": "cardio",
+        "muscle_group": "Other"
+    },
+    {
+        "name": "Breathing Exercises",
+        "met": 1.5,
+        "type": "cardio",
+        "muscle_group": "Other"
+    }
+]

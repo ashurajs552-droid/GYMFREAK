@@ -1,0 +1,2000 @@
+[
+    {
+        "name": "Roti",
+        "calories": 104,
+        "protein": 3,
+        "carbs": 20,
+        "fat": 1,
+        "serving_size": 1,
+        "unit": "piece"
+    },
+    {
+        "name": "Phulka",
+        "calories": 70,
+        "protein": 2,
+        "carbs": 15,
+        "fat": 0.5,
+        "serving_size": 1,
+        "unit": "piece"
+    },
+    {
+        "name": "Makki di Roti",
+        "calories": 128,
+        "protein": 3,
+        "carbs": 28,
+        "fat": 1,
+        "serving_size": 1,
+        "unit": "piece"
+    },
+    {
+        "name": "Bajra Roti",
+        "calories": 119,
+        "protein": 3,
+        "carbs": 24,
+        "fat": 1.5,
+        "serving_size": 1,
+        "unit": "piece"
+    },
+    {
+        "name": "Missi Roti",
+        "calories": 150,
+        "protein": 6,
+        "carbs": 22,
+        "fat": 4,
+        "serving_size": 1,
+        "unit": "piece"
+    },
+    {
+        "name": "Roomali Roti",
+        "calories": 90,
+        "protein": 3,
+        "carbs": 18,
+        "fat": 0.5,
+        "serving_size": 1,
+        "unit": "piece"
+    },
+    {
+        "name": "Laccha Paratha",
+        "calories": 320,
+        "protein": 6,
+        "carbs": 38,
+        "fat": 16,
+        "serving_size": 1,
+        "unit": "piece"
+    },
+    {
+        "name": "Gobhi Paratha",
+        "calories": 290,
+        "protein": 7,
+        "carbs": 35,
+        "fat": 14,
+        "serving_size": 1,
+        "unit": "piece"
+    },
+    {
+        "name": "Paneer Paratha",
+        "calories": 350,
+        "protein": 12,
+        "carbs": 32,
+        "fat": 18,
+        "serving_size": 1,
+        "unit": "piece"
+    },
+    {
+        "name": "Kulcha",
+        "calories": 280,
+        "protein": 7,
+        "carbs": 42,
+        "fat": 9,
+        "serving_size": 1,
+        "unit": "piece"
+    },
+    {
+        "name": "Bhatura",
+        "calories": 330,
+        "protein": 7,
+        "carbs": 45,
+        "fat": 14,
+        "serving_size": 1,
+        "unit": "piece"
+    },
+    {
+        "name": "Tandoori Roti",
+        "calories": 120,
+        "protein": 4,
+        "carbs": 24,
+        "fat": 1,
+        "serving_size": 1,
+        "unit": "piece"
+    },
+    {
+        "name": "Sheermal",
+        "calories": 280,
+        "protein": 6,
+        "carbs": 40,
+        "fat": 11,
+        "serving_size": 1,
+        "unit": "piece"
+    },
+    {
+        "name": "Sarson ka Saag",
+        "calories": 180,
+        "protein": 6,
+        "carbs": 12,
+        "fat": 12,
+        "serving_size": 200,
+        "unit": "g"
+    },
+    {
+        "name": "Chole / Chana Masala",
+        "calories": 210,
+        "protein": 11,
+        "carbs": 30,
+        "fat": 6,
+        "serving_size": 200,
+        "unit": "g"
+    },
+    {
+        "name": "Rajma",
+        "calories": 230,
+        "protein": 14,
+        "carbs": 35,
+        "fat": 4,
+        "serving_size": 200,
+        "unit": "g"
+    },
+    {
+        "name": "Dal Makhani",
+        "calories": 280,
+        "protein": 12,
+        "carbs": 28,
+        "fat": 14,
+        "serving_size": 200,
+        "unit": "g"
+    },
+    {
+        "name": "Dal Tadka",
+        "calories": 180,
+        "protein": 10,
+        "carbs": 24,
+        "fat": 6,
+        "serving_size": 200,
+        "unit": "g"
+    },
+    {
+        "name": "Kadhi Pakora",
+        "calories": 220,
+        "protein": 8,
+        "carbs": 18,
+        "fat": 14,
+        "serving_size": 200,
+        "unit": "g"
+    },
+    {
+        "name": "Paneer Butter Masala",
+        "calories": 380,
+        "protein": 18,
+        "carbs": 14,
+        "fat": 28,
+        "serving_size": 200,
+        "unit": "g"
+    },
+    {
+        "name": "Shahi Paneer",
+        "calories": 360,
+        "protein": 16,
+        "carbs": 12,
+        "fat": 26,
+        "serving_size": 200,
+        "unit": "g"
+    },
+    {
+        "name": "Kadai Paneer",
+        "calories": 340,
+        "protein": 18,
+        "carbs": 10,
+        "fat": 26,
+        "serving_size": 200,
+        "unit": "g"
+    },
+    {
+        "name": "Palak Paneer",
+        "calories": 280,
+        "protein": 16,
+        "carbs": 8,
+        "fat": 20,
+        "serving_size": 200,
+        "unit": "g"
+    },
+    {
+        "name": "Mutter Paneer",
+        "calories": 300,
+        "protein": 15,
+        "carbs": 16,
+        "fat": 20,
+        "serving_size": 200,
+        "unit": "g"
+    },
+    {
+        "name": "Aloo Gobi",
+        "calories": 160,
+        "protein": 4,
+        "carbs": 22,
+        "fat": 7,
+        "serving_size": 200,
+        "unit": "g"
+    },
+    {
+        "name": "Baingan Bharta",
+        "calories": 140,
+        "protein": 3,
+        "carbs": 12,
+        "fat": 9,
+        "serving_size": 200,
+        "unit": "g"
+    },
+    {
+        "name": "Mixed Vegetable Curry",
+        "calories": 150,
+        "protein": 4,
+        "carbs": 18,
+        "fat": 7,
+        "serving_size": 200,
+        "unit": "g"
+    },
+    {
+        "name": "Punjabi Kadhi",
+        "calories": 180,
+        "protein": 6,
+        "carbs": 14,
+        "fat": 12,
+        "serving_size": 200,
+        "unit": "g"
+    },
+    {
+        "name": "Paneer Tikka Masala",
+        "calories": 350,
+        "protein": 20,
+        "carbs": 12,
+        "fat": 24,
+        "serving_size": 200,
+        "unit": "g"
+    },
+    {
+        "name": "Jeera Rice",
+        "calories": 180,
+        "protein": 4,
+        "carbs": 36,
+        "fat": 3,
+        "serving_size": 150,
+        "unit": "g"
+    },
+    {
+        "name": "Matar Pulao",
+        "calories": 200,
+        "protein": 5,
+        "carbs": 38,
+        "fat": 4,
+        "serving_size": 150,
+        "unit": "g"
+    },
+    {
+        "name": "Vegetable Pulao",
+        "calories": 210,
+        "protein": 5,
+        "carbs": 40,
+        "fat": 4,
+        "serving_size": 150,
+        "unit": "g"
+    },
+    {
+        "name": "Kashmiri Pulao",
+        "calories": 280,
+        "protein": 6,
+        "carbs": 45,
+        "fat": 9,
+        "serving_size": 150,
+        "unit": "g"
+    },
+    {
+        "name": "Lucknowi Biryani",
+        "calories": 320,
+        "protein": 12,
+        "carbs": 42,
+        "fat": 12,
+        "serving_size": 200,
+        "unit": "g"
+    },
+    {
+        "name": "Zafrani Pulao",
+        "calories": 260,
+        "protein": 5,
+        "carbs": 42,
+        "fat": 8,
+        "serving_size": 150,
+        "unit": "g"
+    },
+    {
+        "name": "Samosa",
+        "calories": 262,
+        "protein": 5,
+        "carbs": 28,
+        "fat": 15,
+        "serving_size": 1,
+        "unit": "piece"
+    },
+    {
+        "name": "Aloo Tikki",
+        "calories": 150,
+        "protein": 3,
+        "carbs": 20,
+        "fat": 7,
+        "serving_size": 1,
+        "unit": "piece"
+    },
+    {
+        "name": "Pani Puri / Golgappa",
+        "calories": 36,
+        "protein": 1,
+        "carbs": 6,
+        "fat": 1,
+        "serving_size": 1,
+        "unit": "piece"
+    },
+    {
+        "name": "Dahi Puri",
+        "calories": 45,
+        "protein": 1.5,
+        "carbs": 7,
+        "fat": 1.5,
+        "serving_size": 1,
+        "unit": "piece"
+    },
+    {
+        "name": "Sev Puri",
+        "calories": 55,
+        "protein": 1.5,
+        "carbs": 8,
+        "fat": 2,
+        "serving_size": 1,
+        "unit": "piece"
+    },
+    {
+        "name": "Bhel Puri",
+        "calories": 180,
+        "protein": 4,
+        "carbs": 30,
+        "fat": 6,
+        "serving_size": 100,
+        "unit": "g"
+    },
+    {
+        "name": "Pav Bhaji",
+        "calories": 380,
+        "protein": 10,
+        "carbs": 52,
+        "fat": 16,
+        "serving_size": 1,
+        "unit": "plate"
+    },
+    {
+        "name": "Pyaaz Kachori",
+        "calories": 280,
+        "protein": 5,
+        "carbs": 32,
+        "fat": 15,
+        "serving_size": 1,
+        "unit": "piece"
+    },
+    {
+        "name": "Dal Kachori",
+        "calories": 290,
+        "protein": 7,
+        "carbs": 30,
+        "fat": 16,
+        "serving_size": 1,
+        "unit": "piece"
+    },
+    {
+        "name": "Bedmi Puri",
+        "calories": 200,
+        "protein": 5,
+        "carbs": 24,
+        "fat": 10,
+        "serving_size": 1,
+        "unit": "piece"
+    },
+    {
+        "name": "Chole Bhature",
+        "calories": 540,
+        "protein": 18,
+        "carbs": 75,
+        "fat": 20,
+        "serving_size": 1,
+        "unit": "plate"
+    },
+    {
+        "name": "Jalebi",
+        "calories": 150,
+        "protein": 1,
+        "carbs": 30,
+        "fat": 4,
+        "serving_size": 50,
+        "unit": "g"
+    },
+    {
+        "name": "Paneer Pakora",
+        "calories": 85,
+        "protein": 4,
+        "carbs": 6,
+        "fat": 5,
+        "serving_size": 1,
+        "unit": "piece"
+    },
+    {
+        "name": "Mirchi Bajji",
+        "calories": 80,
+        "protein": 2,
+        "carbs": 10,
+        "fat": 4,
+        "serving_size": 1,
+        "unit": "piece"
+    },
+    {
+        "name": "Litti",
+        "calories": 180,
+        "protein": 6,
+        "carbs": 32,
+        "fat": 3,
+        "serving_size": 1,
+        "unit": "piece"
+    },
+    {
+        "name": "Litti Chokha",
+        "calories": 280,
+        "protein": 8,
+        "carbs": 42,
+        "fat": 9,
+        "serving_size": 1,
+        "unit": "plate"
+    },
+    {
+        "name": "Chokha",
+        "calories": 100,
+        "protein": 2,
+        "carbs": 10,
+        "fat": 6,
+        "serving_size": 100,
+        "unit": "g"
+    },
+    {
+        "name": "Sattu Paratha",
+        "calories": 280,
+        "protein": 10,
+        "carbs": 38,
+        "fat": 10,
+        "serving_size": 1,
+        "unit": "piece"
+    },
+    {
+        "name": "Thekua",
+        "calories": 120,
+        "protein": 2,
+        "carbs": 18,
+        "fat": 5,
+        "serving_size": 1,
+        "unit": "piece"
+    },
+    {
+        "name": "Khaja",
+        "calories": 180,
+        "protein": 2,
+        "carbs": 28,
+        "fat": 7,
+        "serving_size": 1,
+        "unit": "piece"
+    },
+    {
+        "name": "Balushahi",
+        "calories": 200,
+        "protein": 2,
+        "carbs": 32,
+        "fat": 8,
+        "serving_size": 1,
+        "unit": "piece"
+    },
+    {
+        "name": "Malpua",
+        "calories": 250,
+        "protein": 4,
+        "carbs": 38,
+        "fat": 10,
+        "serving_size": 1,
+        "unit": "piece"
+    },
+    {
+        "name": "Tilkut",
+        "calories": 140,
+        "protein": 4,
+        "carbs": 16,
+        "fat": 7,
+        "serving_size": 30,
+        "unit": "g"
+    },
+    {
+        "name": "Kadhi Bari",
+        "calories": 200,
+        "protein": 7,
+        "carbs": 16,
+        "fat": 12,
+        "serving_size": 200,
+        "unit": "g"
+    },
+    {
+        "name": "Dal Pitha",
+        "calories": 160,
+        "protein": 6,
+        "carbs": 26,
+        "fat": 4,
+        "serving_size": 1,
+        "unit": "piece"
+    },
+    {
+        "name": "Ghugni",
+        "calories": 180,
+        "protein": 8,
+        "carbs": 24,
+        "fat": 6,
+        "serving_size": 150,
+        "unit": "g"
+    },
+    {
+        "name": "Galouti Kebab",
+        "calories": 120,
+        "protein": 10,
+        "carbs": 4,
+        "fat": 8,
+        "serving_size": 1,
+        "unit": "piece"
+    },
+    {
+        "name": "Kakori Kebab",
+        "calories": 130,
+        "protein": 12,
+        "carbs": 3,
+        "fat": 8,
+        "serving_size": 1,
+        "unit": "piece"
+    },
+    {
+        "name": "Nihari",
+        "calories": 350,
+        "protein": 25,
+        "carbs": 8,
+        "fat": 25,
+        "serving_size": 250,
+        "unit": "g"
+    },
+    {
+        "name": "Korma",
+        "calories": 300,
+        "protein": 18,
+        "carbs": 12,
+        "fat": 20,
+        "serving_size": 200,
+        "unit": "g"
+    },
+    {
+        "name": "Tehri",
+        "calories": 220,
+        "protein": 5,
+        "carbs": 40,
+        "fat": 5,
+        "serving_size": 200,
+        "unit": "g"
+    },
+    {
+        "name": "Aloo Dum",
+        "calories": 200,
+        "protein": 4,
+        "carbs": 28,
+        "fat": 9,
+        "serving_size": 200,
+        "unit": "g"
+    },
+    {
+        "name": "Ram Ladoo",
+        "calories": 45,
+        "protein": 2,
+        "carbs": 6,
+        "fat": 2,
+        "serving_size": 1,
+        "unit": "piece"
+    },
+    {
+        "name": "Amritsari Kulcha",
+        "calories": 320,
+        "protein": 8,
+        "carbs": 45,
+        "fat": 12,
+        "serving_size": 1,
+        "unit": "piece"
+    },
+    {
+        "name": "Amritsari Fish",
+        "calories": 280,
+        "protein": 22,
+        "carbs": 16,
+        "fat": 14,
+        "serving_size": 150,
+        "unit": "g"
+    },
+    {
+        "name": "Punjabi Lassi",
+        "calories": 180,
+        "protein": 6,
+        "carbs": 28,
+        "fat": 5,
+        "serving_size": 250,
+        "unit": "ml"
+    },
+    {
+        "name": "Chole Kulche",
+        "calories": 480,
+        "protein": 16,
+        "carbs": 68,
+        "fat": 16,
+        "serving_size": 1,
+        "unit": "plate"
+    },
+    {
+        "name": "Tandoori Chicken",
+        "calories": 260,
+        "protein": 32,
+        "carbs": 4,
+        "fat": 14,
+        "serving_size": 200,
+        "unit": "g"
+    },
+    {
+        "name": "Butter Chicken",
+        "calories": 340,
+        "protein": 28,
+        "carbs": 10,
+        "fat": 22,
+        "serving_size": 200,
+        "unit": "g"
+    },
+    {
+        "name": "Dal Baati Churma",
+        "calories": 520,
+        "protein": 14,
+        "carbs": 65,
+        "fat": 24,
+        "serving_size": 1,
+        "unit": "plate"
+    },
+    {
+        "name": "Gatte ki Sabzi",
+        "calories": 220,
+        "protein": 8,
+        "carbs": 22,
+        "fat": 12,
+        "serving_size": 200,
+        "unit": "g"
+    },
+    {
+        "name": "Ker Sangri",
+        "calories": 140,
+        "protein": 4,
+        "carbs": 18,
+        "fat": 6,
+        "serving_size": 150,
+        "unit": "g"
+    },
+    {
+        "name": "Bajra Khichdi",
+        "calories": 200,
+        "protein": 6,
+        "carbs": 34,
+        "fat": 5,
+        "serving_size": 200,
+        "unit": "g"
+    },
+    {
+        "name": "Besan Ka Cheela",
+        "calories": 180,
+        "protein": 8,
+        "carbs": 20,
+        "fat": 8,
+        "serving_size": 1,
+        "unit": "piece"
+    },
+    {
+        "name": "Mirchi Bada",
+        "calories": 120,
+        "protein": 3,
+        "carbs": 14,
+        "fat": 6,
+        "serving_size": 1,
+        "unit": "piece"
+    },
+    {
+        "name": "Ghevar",
+        "calories": 350,
+        "protein": 4,
+        "carbs": 50,
+        "fat": 16,
+        "serving_size": 1,
+        "unit": "piece"
+    },
+    {
+        "name": "Mawa Kachori",
+        "calories": 320,
+        "protein": 6,
+        "carbs": 40,
+        "fat": 16,
+        "serving_size": 1,
+        "unit": "piece"
+    },
+    {
+        "name": "Rogan Josh",
+        "calories": 320,
+        "protein": 28,
+        "carbs": 6,
+        "fat": 22,
+        "serving_size": 200,
+        "unit": "g"
+    },
+    {
+        "name": "Yakhni",
+        "calories": 180,
+        "protein": 20,
+        "carbs": 4,
+        "fat": 10,
+        "serving_size": 200,
+        "unit": "g"
+    },
+    {
+        "name": "Kashmiri Dum Aloo",
+        "calories": 240,
+        "protein": 5,
+        "carbs": 30,
+        "fat": 12,
+        "serving_size": 200,
+        "unit": "g"
+    },
+    {
+        "name": "Gushtaba",
+        "calories": 380,
+        "protein": 24,
+        "carbs": 8,
+        "fat": 28,
+        "serving_size": 200,
+        "unit": "g"
+    },
+    {
+        "name": "Modur Pulao",
+        "calories": 300,
+        "protein": 6,
+        "carbs": 52,
+        "fat": 8,
+        "serving_size": 200,
+        "unit": "g"
+    },
+    {
+        "name": "Nadru Yakhni",
+        "calories": 160,
+        "protein": 4,
+        "carbs": 20,
+        "fat": 8,
+        "serving_size": 200,
+        "unit": "g"
+    },
+    {
+        "name": "Boondi Raita",
+        "calories": 120,
+        "protein": 4,
+        "carbs": 14,
+        "fat": 5,
+        "serving_size": 150,
+        "unit": "g"
+    },
+    {
+        "name": "Cucumber Raita",
+        "calories": 80,
+        "protein": 3,
+        "carbs": 8,
+        "fat": 4,
+        "serving_size": 150,
+        "unit": "g"
+    },
+    {
+        "name": "Onion Raita",
+        "calories": 90,
+        "protein": 3,
+        "carbs": 10,
+        "fat": 4,
+        "serving_size": 150,
+        "unit": "g"
+    },
+    {
+        "name": "Green Chutney",
+        "calories": 20,
+        "protein": 1,
+        "carbs": 3,
+        "fat": 0.5,
+        "serving_size": 30,
+        "unit": "g"
+    },
+    {
+        "name": "Tamarind Chutney",
+        "calories": 50,
+        "protein": 0.5,
+        "carbs": 12,
+        "fat": 0,
+        "serving_size": 30,
+        "unit": "g"
+    },
+    {
+        "name": "Mango Pickle",
+        "calories": 40,
+        "protein": 0.5,
+        "carbs": 6,
+        "fat": 2,
+        "serving_size": 20,
+        "unit": "g"
+    },
+    {
+        "name": "Lemon Pickle",
+        "calories": 25,
+        "protein": 0.5,
+        "carbs": 4,
+        "fat": 1,
+        "serving_size": 20,
+        "unit": "g"
+    },
+    {
+        "name": "Papad (Fried)",
+        "calories": 80,
+        "protein": 3,
+        "carbs": 10,
+        "fat": 4,
+        "serving_size": 1,
+        "unit": "piece"
+    },
+    {
+        "name": "Papad (Roasted)",
+        "calories": 40,
+        "protein": 3,
+        "carbs": 8,
+        "fat": 0.5,
+        "serving_size": 1,
+        "unit": "piece"
+    },
+    {
+        "name": "Gulab Jamun",
+        "calories": 150,
+        "protein": 2,
+        "carbs": 24,
+        "fat": 6,
+        "serving_size": 1,
+        "unit": "piece"
+    },
+    {
+        "name": "Gajar Halwa",
+        "calories": 250,
+        "protein": 4,
+        "carbs": 38,
+        "fat": 10,
+        "serving_size": 100,
+        "unit": "g"
+    },
+    {
+        "name": "Ras Malai",
+        "calories": 180,
+        "protein": 5,
+        "carbs": 26,
+        "fat": 7,
+        "serving_size": 1,
+        "unit": "piece"
+    },
+    {
+        "name": "Kheer",
+        "calories": 200,
+        "protein": 5,
+        "carbs": 32,
+        "fat": 6,
+        "serving_size": 150,
+        "unit": "g"
+    },
+    {
+        "name": "Kaju Barfi",
+        "calories": 100,
+        "protein": 2,
+        "carbs": 12,
+        "fat": 5,
+        "serving_size": 1,
+        "unit": "piece"
+    },
+    {
+        "name": "Pista Barfi",
+        "calories": 95,
+        "protein": 2,
+        "carbs": 11,
+        "fat": 5,
+        "serving_size": 1,
+        "unit": "piece"
+    },
+    {
+        "name": "Peda",
+        "calories": 80,
+        "protein": 2,
+        "carbs": 10,
+        "fat": 4,
+        "serving_size": 1,
+        "unit": "piece"
+    },
+    {
+        "name": "Rabri",
+        "calories": 180,
+        "protein": 5,
+        "carbs": 24,
+        "fat": 8,
+        "serving_size": 100,
+        "unit": "g"
+    },
+    {
+        "name": "Shahi Tukda",
+        "calories": 280,
+        "protein": 6,
+        "carbs": 38,
+        "fat": 12,
+        "serving_size": 1,
+        "unit": "piece"
+    },
+    {
+        "name": "Kalakand",
+        "calories": 90,
+        "protein": 3,
+        "carbs": 12,
+        "fat": 4,
+        "serving_size": 1,
+        "unit": "piece"
+    },
+    {
+        "name": "Idli",
+        "calories": 39,
+        "protein": 2,
+        "carbs": 8,
+        "fat": 0.1,
+        "serving_size": 1,
+        "unit": "piece"
+    },
+    {
+        "name": "Plain Dosa",
+        "calories": 133,
+        "protein": 4,
+        "carbs": 22,
+        "fat": 4,
+        "serving_size": 1,
+        "unit": "piece"
+    },
+    {
+        "name": "Masala Dosa",
+        "calories": 206,
+        "protein": 5,
+        "carbs": 30,
+        "fat": 8,
+        "serving_size": 1,
+        "unit": "piece"
+    },
+    {
+        "name": "Rava Dosa",
+        "calories": 180,
+        "protein": 4,
+        "carbs": 28,
+        "fat": 6,
+        "serving_size": 1,
+        "unit": "piece"
+    },
+    {
+        "name": "Paper Dosa",
+        "calories": 150,
+        "protein": 4,
+        "carbs": 24,
+        "fat": 4,
+        "serving_size": 1,
+        "unit": "piece"
+    },
+    {
+        "name": "Appam",
+        "calories": 120,
+        "protein": 2,
+        "carbs": 24,
+        "fat": 2,
+        "serving_size": 1,
+        "unit": "piece"
+    },
+    {
+        "name": "Puttu",
+        "calories": 180,
+        "protein": 3,
+        "carbs": 38,
+        "fat": 2,
+        "serving_size": 1,
+        "unit": "tube"
+    },
+    {
+        "name": "Idiappam",
+        "calories": 110,
+        "protein": 2,
+        "carbs": 24,
+        "fat": 0.5,
+        "serving_size": 1,
+        "unit": "piece"
+    },
+    {
+        "name": "Ragi Mudde",
+        "calories": 140,
+        "protein": 3,
+        "carbs": 30,
+        "fat": 1,
+        "serving_size": 1,
+        "unit": "ball"
+    },
+    {
+        "name": "Neer Dosa",
+        "calories": 100,
+        "protein": 2,
+        "carbs": 22,
+        "fat": 0.5,
+        "serving_size": 1,
+        "unit": "piece"
+    },
+    {
+        "name": "Akki Roti",
+        "calories": 150,
+        "protein": 3,
+        "carbs": 30,
+        "fat": 3,
+        "serving_size": 1,
+        "unit": "piece"
+    },
+    {
+        "name": "Pathiri",
+        "calories": 90,
+        "protein": 2,
+        "carbs": 18,
+        "fat": 1,
+        "serving_size": 1,
+        "unit": "piece"
+    },
+    {
+        "name": "Aloo Bonda",
+        "calories": 170,
+        "protein": 3,
+        "carbs": 22,
+        "fat": 8,
+        "serving_size": 1,
+        "unit": "piece"
+    },
+    {
+        "name": "Sambar",
+        "calories": 120,
+        "protein": 6,
+        "carbs": 18,
+        "fat": 3,
+        "serving_size": 200,
+        "unit": "g"
+    },
+    {
+        "name": "Rasam",
+        "calories": 50,
+        "protein": 2,
+        "carbs": 8,
+        "fat": 1,
+        "serving_size": 200,
+        "unit": "ml"
+    },
+    {
+        "name": "Vegetable Kootu",
+        "calories": 140,
+        "protein": 6,
+        "carbs": 16,
+        "fat": 6,
+        "serving_size": 200,
+        "unit": "g"
+    },
+    {
+        "name": "Avial",
+        "calories": 160,
+        "protein": 4,
+        "carbs": 14,
+        "fat": 10,
+        "serving_size": 200,
+        "unit": "g"
+    },
+    {
+        "name": "Olan",
+        "calories": 120,
+        "protein": 3,
+        "carbs": 14,
+        "fat": 6,
+        "serving_size": 200,
+        "unit": "g"
+    },
+    {
+        "name": "Poriyal",
+        "calories": 80,
+        "protein": 2,
+        "carbs": 10,
+        "fat": 4,
+        "serving_size": 100,
+        "unit": "g"
+    },
+    {
+        "name": "Thoran",
+        "calories": 90,
+        "protein": 3,
+        "carbs": 8,
+        "fat": 6,
+        "serving_size": 100,
+        "unit": "g"
+    },
+    {
+        "name": "Kerala Fish Curry",
+        "calories": 200,
+        "protein": 22,
+        "carbs": 6,
+        "fat": 10,
+        "serving_size": 200,
+        "unit": "g"
+    },
+    {
+        "name": "Chettinad Chicken",
+        "calories": 280,
+        "protein": 26,
+        "carbs": 8,
+        "fat": 16,
+        "serving_size": 200,
+        "unit": "g"
+    },
+    {
+        "name": "Andhra Chicken Curry",
+        "calories": 300,
+        "protein": 28,
+        "carbs": 6,
+        "fat": 18,
+        "serving_size": 200,
+        "unit": "g"
+    },
+    {
+        "name": "Gongura Mutton",
+        "calories": 340,
+        "protein": 28,
+        "carbs": 6,
+        "fat": 24,
+        "serving_size": 200,
+        "unit": "g"
+    },
+    {
+        "name": "Gongura Pachadi",
+        "calories": 60,
+        "protein": 2,
+        "carbs": 6,
+        "fat": 4,
+        "serving_size": 50,
+        "unit": "g"
+    },
+    {
+        "name": "Kerala Prawn Curry",
+        "calories": 220,
+        "protein": 20,
+        "carbs": 8,
+        "fat": 12,
+        "serving_size": 200,
+        "unit": "g"
+    },
+    {
+        "name": "Kadala Curry",
+        "calories": 200,
+        "protein": 10,
+        "carbs": 28,
+        "fat": 6,
+        "serving_size": 200,
+        "unit": "g"
+    },
+    {
+        "name": "Bisi Bele Bath",
+        "calories": 280,
+        "protein": 8,
+        "carbs": 48,
+        "fat": 8,
+        "serving_size": 250,
+        "unit": "g"
+    },
+    {
+        "name": "Lemon Rice",
+        "calories": 200,
+        "protein": 4,
+        "carbs": 38,
+        "fat": 4,
+        "serving_size": 200,
+        "unit": "g"
+    },
+    {
+        "name": "Tamarind Rice / Pulihora",
+        "calories": 220,
+        "protein": 4,
+        "carbs": 42,
+        "fat": 5,
+        "serving_size": 200,
+        "unit": "g"
+    },
+    {
+        "name": "Curd Rice / Thayir Sadam",
+        "calories": 180,
+        "protein": 5,
+        "carbs": 32,
+        "fat": 4,
+        "serving_size": 200,
+        "unit": "g"
+    },
+    {
+        "name": "Tomato Rice",
+        "calories": 200,
+        "protein": 4,
+        "carbs": 40,
+        "fat": 4,
+        "serving_size": 200,
+        "unit": "g"
+    },
+    {
+        "name": "Coconut Rice",
+        "calories": 240,
+        "protein": 4,
+        "carbs": 38,
+        "fat": 8,
+        "serving_size": 200,
+        "unit": "g"
+    },
+    {
+        "name": "Hyderabadi Biryani",
+        "calories": 350,
+        "protein": 18,
+        "carbs": 42,
+        "fat": 14,
+        "serving_size": 250,
+        "unit": "g"
+    },
+    {
+        "name": "Ambur Biryani",
+        "calories": 320,
+        "protein": 16,
+        "carbs": 40,
+        "fat": 12,
+        "serving_size": 250,
+        "unit": "g"
+    },
+    {
+        "name": "Medu Vada",
+        "calories": 130,
+        "protein": 4,
+        "carbs": 14,
+        "fat": 7,
+        "serving_size": 1,
+        "unit": "piece"
+    },
+    {
+        "name": "Mysore Bonda",
+        "calories": 120,
+        "protein": 3,
+        "carbs": 16,
+        "fat": 5,
+        "serving_size": 1,
+        "unit": "piece"
+    },
+    {
+        "name": "Mysore Pak",
+        "calories": 150,
+        "protein": 3,
+        "carbs": 18,
+        "fat": 8,
+        "serving_size": 1,
+        "unit": "piece"
+    },
+    {
+        "name": "Mangalore Buns",
+        "calories": 140,
+        "protein": 3,
+        "carbs": 22,
+        "fat": 5,
+        "serving_size": 1,
+        "unit": "piece"
+    },
+    {
+        "name": "Chicken 65",
+        "calories": 280,
+        "protein": 24,
+        "carbs": 12,
+        "fat": 16,
+        "serving_size": 150,
+        "unit": "g"
+    },
+    {
+        "name": "Paniyaram",
+        "calories": 50,
+        "protein": 1.5,
+        "carbs": 8,
+        "fat": 2,
+        "serving_size": 1,
+        "unit": "piece"
+    },
+    {
+        "name": "Dahi Vada",
+        "calories": 180,
+        "protein": 6,
+        "carbs": 22,
+        "fat": 8,
+        "serving_size": 2,
+        "unit": "pieces"
+    },
+    {
+        "name": "Banana Bajji",
+        "calories": 120,
+        "protein": 2,
+        "carbs": 20,
+        "fat": 4,
+        "serving_size": 1,
+        "unit": "piece"
+    },
+    {
+        "name": "Mysore Masala Dosa",
+        "calories": 260,
+        "protein": 6,
+        "carbs": 36,
+        "fat": 10,
+        "serving_size": 1,
+        "unit": "piece"
+    },
+    {
+        "name": "Mangalore Chicken Sukka",
+        "calories": 260,
+        "protein": 26,
+        "carbs": 6,
+        "fat": 14,
+        "serving_size": 150,
+        "unit": "g"
+    },
+    {
+        "name": "Coorg Pandi Curry",
+        "calories": 320,
+        "protein": 24,
+        "carbs": 6,
+        "fat": 24,
+        "serving_size": 200,
+        "unit": "g"
+    },
+    {
+        "name": "Maddur Vada",
+        "calories": 160,
+        "protein": 4,
+        "carbs": 20,
+        "fat": 8,
+        "serving_size": 1,
+        "unit": "piece"
+    },
+    {
+        "name": "Ven Pongal",
+        "calories": 200,
+        "protein": 6,
+        "carbs": 32,
+        "fat": 6,
+        "serving_size": 200,
+        "unit": "g"
+    },
+    {
+        "name": "Sweet Pongal",
+        "calories": 280,
+        "protein": 4,
+        "carbs": 50,
+        "fat": 8,
+        "serving_size": 200,
+        "unit": "g"
+    },
+    {
+        "name": "Vazhakkai Fry",
+        "calories": 120,
+        "protein": 2,
+        "carbs": 20,
+        "fat": 4,
+        "serving_size": 100,
+        "unit": "g"
+    },
+    {
+        "name": "Appam with Stew",
+        "calories": 280,
+        "protein": 8,
+        "carbs": 38,
+        "fat": 12,
+        "serving_size": 1,
+        "unit": "plate"
+    },
+    {
+        "name": "Fish Molee",
+        "calories": 240,
+        "protein": 22,
+        "carbs": 6,
+        "fat": 14,
+        "serving_size": 200,
+        "unit": "g"
+    },
+    {
+        "name": "Kerala Beef Fry",
+        "calories": 280,
+        "protein": 26,
+        "carbs": 6,
+        "fat": 18,
+        "serving_size": 150,
+        "unit": "g"
+    },
+    {
+        "name": "Meen Pollichathu",
+        "calories": 260,
+        "protein": 24,
+        "carbs": 8,
+        "fat": 14,
+        "serving_size": 200,
+        "unit": "g"
+    },
+    {
+        "name": "Pazham Pori",
+        "calories": 180,
+        "protein": 2,
+        "carbs": 30,
+        "fat": 7,
+        "serving_size": 1,
+        "unit": "piece"
+    },
+    {
+        "name": "Pesarattu",
+        "calories": 160,
+        "protein": 8,
+        "carbs": 24,
+        "fat": 4,
+        "serving_size": 1,
+        "unit": "piece"
+    },
+    {
+        "name": "Kodi Kura",
+        "calories": 280,
+        "protein": 26,
+        "carbs": 6,
+        "fat": 16,
+        "serving_size": 200,
+        "unit": "g"
+    },
+    {
+        "name": "Gutti Vankaya",
+        "calories": 180,
+        "protein": 4,
+        "carbs": 16,
+        "fat": 12,
+        "serving_size": 200,
+        "unit": "g"
+    },
+    {
+        "name": "Avakaya Pickle",
+        "calories": 60,
+        "protein": 1,
+        "carbs": 6,
+        "fat": 4,
+        "serving_size": 20,
+        "unit": "g"
+    },
+    {
+        "name": "Coconut Chutney",
+        "calories": 80,
+        "protein": 2,
+        "carbs": 6,
+        "fat": 6,
+        "serving_size": 50,
+        "unit": "g"
+    },
+    {
+        "name": "Tomato Chutney",
+        "calories": 50,
+        "protein": 1,
+        "carbs": 8,
+        "fat": 2,
+        "serving_size": 50,
+        "unit": "g"
+    },
+    {
+        "name": "Onion Chutney",
+        "calories": 60,
+        "protein": 1,
+        "carbs": 10,
+        "fat": 2,
+        "serving_size": 50,
+        "unit": "g"
+    },
+    {
+        "name": "Peanut Chutney",
+        "calories": 100,
+        "protein": 4,
+        "carbs": 6,
+        "fat": 7,
+        "serving_size": 50,
+        "unit": "g"
+    },
+    {
+        "name": "Semiya Payasam",
+        "calories": 250,
+        "protein": 5,
+        "carbs": 42,
+        "fat": 8,
+        "serving_size": 150,
+        "unit": "g"
+    },
+    {
+        "name": "Ada Pradhaman",
+        "calories": 300,
+        "protein": 4,
+        "carbs": 50,
+        "fat": 10,
+        "serving_size": 150,
+        "unit": "g"
+    },
+    {
+        "name": "Kozhukatta",
+        "calories": 120,
+        "protein": 2,
+        "carbs": 22,
+        "fat": 3,
+        "serving_size": 1,
+        "unit": "piece"
+    },
+    {
+        "name": "Bengali Fish Curry",
+        "calories": 220,
+        "protein": 24,
+        "carbs": 6,
+        "fat": 12,
+        "serving_size": 200,
+        "unit": "g"
+    },
+    {
+        "name": "Ilish Bhapa",
+        "calories": 280,
+        "protein": 22,
+        "carbs": 4,
+        "fat": 20,
+        "serving_size": 150,
+        "unit": "g"
+    },
+    {
+        "name": "Kosha Mangsho",
+        "calories": 340,
+        "protein": 28,
+        "carbs": 6,
+        "fat": 24,
+        "serving_size": 200,
+        "unit": "g"
+    },
+    {
+        "name": "Shorshe Ilish",
+        "calories": 300,
+        "protein": 22,
+        "carbs": 4,
+        "fat": 22,
+        "serving_size": 150,
+        "unit": "g"
+    },
+    {
+        "name": "Chingri Malai Curry",
+        "calories": 280,
+        "protein": 18,
+        "carbs": 8,
+        "fat": 20,
+        "serving_size": 200,
+        "unit": "g"
+    },
+    {
+        "name": "Aloo Posto",
+        "calories": 180,
+        "protein": 4,
+        "carbs": 22,
+        "fat": 10,
+        "serving_size": 150,
+        "unit": "g"
+    },
+    {
+        "name": "Luchi",
+        "calories": 120,
+        "protein": 2,
+        "carbs": 16,
+        "fat": 6,
+        "serving_size": 1,
+        "unit": "piece"
+    },
+    {
+        "name": "Rasgulla",
+        "calories": 120,
+        "protein": 3,
+        "carbs": 22,
+        "fat": 2,
+        "serving_size": 1,
+        "unit": "piece"
+    },
+    {
+        "name": "Sandesh",
+        "calories": 100,
+        "protein": 3,
+        "carbs": 16,
+        "fat": 3,
+        "serving_size": 1,
+        "unit": "piece"
+    },
+    {
+        "name": "Mishti Doi",
+        "calories": 180,
+        "protein": 5,
+        "carbs": 30,
+        "fat": 5,
+        "serving_size": 100,
+        "unit": "g"
+    },
+    {
+        "name": "Dhuska",
+        "calories": 140,
+        "protein": 4,
+        "carbs": 20,
+        "fat": 5,
+        "serving_size": 1,
+        "unit": "piece"
+    },
+    {
+        "name": "Misal Pav",
+        "calories": 400,
+        "protein": 14,
+        "carbs": 52,
+        "fat": 16,
+        "serving_size": 1,
+        "unit": "plate"
+    },
+    {
+        "name": "Vada Pav",
+        "calories": 290,
+        "protein": 6,
+        "carbs": 38,
+        "fat": 13,
+        "serving_size": 1,
+        "unit": "piece"
+    },
+    {
+        "name": "Kanda Poha",
+        "calories": 180,
+        "protein": 4,
+        "carbs": 32,
+        "fat": 5,
+        "serving_size": 150,
+        "unit": "g"
+    },
+    {
+        "name": "Puran Poli",
+        "calories": 280,
+        "protein": 6,
+        "carbs": 48,
+        "fat": 8,
+        "serving_size": 1,
+        "unit": "piece"
+    },
+    {
+        "name": "Bharli Vangi",
+        "calories": 160,
+        "protein": 3,
+        "carbs": 14,
+        "fat": 10,
+        "serving_size": 150,
+        "unit": "g"
+    },
+    {
+        "name": "Sol Kadhi",
+        "calories": 60,
+        "protein": 1,
+        "carbs": 6,
+        "fat": 4,
+        "serving_size": 150,
+        "unit": "ml"
+    },
+    {
+        "name": "Dhokla",
+        "calories": 160,
+        "protein": 6,
+        "carbs": 24,
+        "fat": 5,
+        "serving_size": 100,
+        "unit": "g"
+    },
+    {
+        "name": "Khandvi",
+        "calories": 140,
+        "protein": 6,
+        "carbs": 18,
+        "fat": 5,
+        "serving_size": 100,
+        "unit": "g"
+    },
+    {
+        "name": "Undhiyu",
+        "calories": 220,
+        "protein": 6,
+        "carbs": 26,
+        "fat": 10,
+        "serving_size": 200,
+        "unit": "g"
+    },
+    {
+        "name": "Thepla",
+        "calories": 130,
+        "protein": 4,
+        "carbs": 18,
+        "fat": 5,
+        "serving_size": 1,
+        "unit": "piece"
+    },
+    {
+        "name": "Fafda",
+        "calories": 180,
+        "protein": 5,
+        "carbs": 22,
+        "fat": 9,
+        "serving_size": 50,
+        "unit": "g"
+    },
+    {
+        "name": "Pork Vindaloo",
+        "calories": 320,
+        "protein": 26,
+        "carbs": 8,
+        "fat": 22,
+        "serving_size": 200,
+        "unit": "g"
+    },
+    {
+        "name": "Chicken Xacuti",
+        "calories": 300,
+        "protein": 26,
+        "carbs": 10,
+        "fat": 18,
+        "serving_size": 200,
+        "unit": "g"
+    },
+    {
+        "name": "Sorpotel",
+        "calories": 340,
+        "protein": 24,
+        "carbs": 6,
+        "fat": 26,
+        "serving_size": 200,
+        "unit": "g"
+    },
+    {
+        "name": "Fish Recheado",
+        "calories": 260,
+        "protein": 24,
+        "carbs": 8,
+        "fat": 14,
+        "serving_size": 150,
+        "unit": "g"
+    },
+    {
+        "name": "Bebinca",
+        "calories": 280,
+        "protein": 4,
+        "carbs": 38,
+        "fat": 14,
+        "serving_size": 1,
+        "unit": "slice"
+    },
+    {
+        "name": "Pappadam",
+        "calories": 40,
+        "protein": 2,
+        "carbs": 6,
+        "fat": 1.5,
+        "serving_size": 1,
+        "unit": "piece"
+    },
+    {
+        "name": "Kachumber Salad",
+        "calories": 40,
+        "protein": 1,
+        "carbs": 8,
+        "fat": 0.5,
+        "serving_size": 100,
+        "unit": "g"
+    },
+    {
+        "name": "Paneer (Raw)",
+        "calories": 265,
+        "protein": 18,
+        "carbs": 4,
+        "fat": 20,
+        "serving_size": 100,
+        "unit": "g"
+    },
+    {
+        "name": "Tofu",
+        "calories": 76,
+        "protein": 8,
+        "carbs": 2,
+        "fat": 4.5,
+        "serving_size": 100,
+        "unit": "g"
+    },
+    {
+        "name": "Boiled Egg",
+        "calories": 78,
+        "protein": 6,
+        "carbs": 0.5,
+        "fat": 5,
+        "serving_size": 1,
+        "unit": "piece"
+    },
+    {
+        "name": "Egg Omelette",
+        "calories": 154,
+        "protein": 10,
+        "carbs": 2,
+        "fat": 12,
+        "serving_size": 2,
+        "unit": "eggs"
+    },
+    {
+        "name": "Toor Dal",
+        "calories": 340,
+        "protein": 22,
+        "carbs": 63,
+        "fat": 1.5,
+        "serving_size": 100,
+        "unit": "g"
+    },
+    {
+        "name": "Masoor Dal",
+        "calories": 352,
+        "protein": 24,
+        "carbs": 60,
+        "fat": 1.2,
+        "serving_size": 100,
+        "unit": "g"
+    },
+    {
+        "name": "Moong Dal",
+        "calories": 347,
+        "protein": 24,
+        "carbs": 60,
+        "fat": 1.2,
+        "serving_size": 100,
+        "unit": "g"
+    },
+    {
+        "name": "Urad Dal",
+        "calories": 347,
+        "protein": 25,
+        "carbs": 59,
+        "fat": 1.5,
+        "serving_size": 100,
+        "unit": "g"
+    },
+    {
+        "name": "Basmati Rice (Cooked)",
+        "calories": 130,
+        "protein": 2.5,
+        "carbs": 28,
+        "fat": 0.3,
+        "serving_size": 100,
+        "unit": "g"
+    },
+    {
+        "name": "Sona Masuri Rice (Cooked)",
+        "calories": 130,
+        "protein": 2.5,
+        "carbs": 28,
+        "fat": 0.3,
+        "serving_size": 100,
+        "unit": "g"
+    },
+    {
+        "name": "Kerala Matta Rice (Cooked)",
+        "calories": 140,
+        "protein": 3,
+        "carbs": 30,
+        "fat": 0.5,
+        "serving_size": 100,
+        "unit": "g"
+    },
+    {
+        "name": "Ghee",
+        "calories": 112,
+        "protein": 0,
+        "carbs": 0,
+        "fat": 12.5,
+        "serving_size": 1,
+        "unit": "tbsp"
+    },
+    {
+        "name": "Coconut Oil",
+        "calories": 120,
+        "protein": 0,
+        "carbs": 0,
+        "fat": 14,
+        "serving_size": 1,
+        "unit": "tbsp"
+    },
+    {
+        "name": "Mustard Oil",
+        "calories": 120,
+        "protein": 0,
+        "carbs": 0,
+        "fat": 14,
+        "serving_size": 1,
+        "unit": "tbsp"
+    },
+    {
+        "name": "Motichoor Ladoo",
+        "calories": 180,
+        "protein": 3,
+        "carbs": 28,
+        "fat": 7,
+        "serving_size": 1,
+        "unit": "piece"
+    },
+    {
+        "name": "Besan Ladoo",
+        "calories": 160,
+        "protein": 4,
+        "carbs": 22,
+        "fat": 7,
+        "serving_size": 1,
+        "unit": "piece"
+    },
+    {
+        "name": "Suji Halwa",
+        "calories": 200,
+        "protein": 3,
+        "carbs": 30,
+        "fat": 8,
+        "serving_size": 100,
+        "unit": "g"
+    },
+    {
+        "name": "Moong Dal Halwa",
+        "calories": 280,
+        "protein": 6,
+        "carbs": 36,
+        "fat": 14,
+        "serving_size": 100,
+        "unit": "g"
+    },
+    {
+        "name": "Phirni",
+        "calories": 200,
+        "protein": 4,
+        "carbs": 32,
+        "fat": 6,
+        "serving_size": 150,
+        "unit": "g"
+    },
+    {
+        "name": "Kesari",
+        "calories": 220,
+        "protein": 2,
+        "carbs": 36,
+        "fat": 8,
+        "serving_size": 100,
+        "unit": "g"
+    }
+]
