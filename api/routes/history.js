@@ -33,13 +33,24 @@ router.get('/history', authenticateToken, async (req, res) => {
 
     if (workoutError) return res.status(500).json({ error: workoutError.message });
 
+    // Get Water Logs
+    const { data: waterLogs, error: waterError } = await supabase
+        .from('water_entries')
+        .select('*')
+        .eq('user_id', req.user.id)
+        .gte('date', start_date)
+        .lte('date', end_date)
+        .order('date', { ascending: false });
+
+    if (waterError) return res.status(500).json({ error: waterError.message });
+
     // Group by Date
     const history = {};
 
     // Process Foods
     foodLogs.forEach(entry => {
         const date = entry.date;
-        if (!history[date]) history[date] = { date, foods: [], workouts: [], totals: { calories: 0, protein: 0, carbs: 0, fat: 0, burned: 0 } };
+        if (!history[date]) history[date] = { date, foods: [], workouts: [], water: [], totals: { calories: 0, protein: 0, carbs: 0, fat: 0, burned: 0, water: 0 } };
 
         const ratio = entry.quantity / entry.foods.serving_size;
         const calories = entry.foods.calories * ratio;
@@ -58,10 +69,19 @@ router.get('/history', authenticateToken, async (req, res) => {
     // Process Workouts
     workoutLogs.forEach(entry => {
         const date = entry.date;
-        if (!history[date]) history[date] = { date, foods: [], workouts: [], totals: { calories: 0, protein: 0, carbs: 0, fat: 0, burned: 0 } };
+        if (!history[date]) history[date] = { date, foods: [], workouts: [], water: [], totals: { calories: 0, protein: 0, carbs: 0, fat: 0, burned: 0, water: 0 } };
 
         history[date].workouts.push(entry);
         history[date].totals.burned += entry.calories_burned;
+    });
+
+    // Process Water
+    waterLogs.forEach(entry => {
+        const date = entry.date;
+        if (!history[date]) history[date] = { date, foods: [], workouts: [], water: [], totals: { calories: 0, protein: 0, carbs: 0, fat: 0, burned: 0, water: 0 } };
+
+        history[date].water.push(entry);
+        history[date].totals.water += entry.amount;
     });
 
     // Convert to array and sort

@@ -1,12 +1,14 @@
 import { useState, useEffect } from 'react';
 import api from '../api';
-import { Search, Plus, Trash2, Utensils, Coffee, Sun, Moon, Sunset } from 'lucide-react';
+import { Search, Plus, Trash2, Utensils, Coffee, Sun, Moon, Sunset, Droplets } from 'lucide-react';
 
 const FoodTracker = () => {
     const [query, setQuery] = useState('');
     const [results, setResults] = useState([]);
     const [log, setLog] = useState([]);
     const [totals, setTotals] = useState({ calories: 0, protein: 0, carbs: 0, fat: 0 });
+    const [waterLog, setWaterLog] = useState([]);
+    const [waterTotal, setWaterTotal] = useState(0);
 
     // Meal Type State
     const [mealType, setMealType] = useState('breakfast');
@@ -18,6 +20,10 @@ const FoodTracker = () => {
             const { data } = await api.get(`/foods/log/${date}`);
             setLog(data.entries);
             setTotals(data.totals);
+
+            const { data: waterData } = await api.get(`/water/log/${date}`);
+            setWaterLog(waterData.entries);
+            setWaterTotal(waterData.total);
         } catch (err) {
             console.error(err);
         }
@@ -76,6 +82,31 @@ const FoodTracker = () => {
         if (!confirm('Delete entry?')) return;
         try {
             await api.delete(`/foods/log/${id}`);
+            fetchLog();
+        } catch (err) {
+            console.error(err);
+        }
+    };
+
+    const handleAddWater = async () => {
+        const amount = prompt('Enter water amount in ml:', '250');
+        if (!amount) return;
+
+        try {
+            await api.post('/water/log', {
+                date,
+                amount: parseFloat(amount)
+            });
+            fetchLog();
+        } catch (err) {
+            alert(err.response?.data?.error || 'Failed to add water');
+        }
+    };
+
+    const handleDeleteWater = async (id) => {
+        if (!confirm('Delete water entry?')) return;
+        try {
+            await api.delete(`/water/log/${id}`);
             fetchLog();
         } catch (err) {
             console.error(err);
@@ -228,6 +259,37 @@ const FoodTracker = () => {
                     <MealSection title="Lunch" type="lunch" icon={<Sun size={18} color="#ff9f43" />} />
                     <MealSection title="Snacks" type="snack" icon={<Utensils size={18} color="#00d2d3" />} />
                     <MealSection title="Dinner" type="dinner" icon={<Moon size={18} color="#5f27cd" />} />
+
+                    {/* Water Section */}
+                    <div style={{ marginTop: '30px', paddingTop: '20px', borderTop: '2px solid var(--glass-border)' }}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '15px' }}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                                <Droplets size={20} color="#00a8ff" />
+                                <h3 style={{ margin: 0 }}>Water Intake</h3>
+                            </div>
+                            <div style={{ textAlign: 'right' }}>
+                                <div style={{ fontSize: '1.1rem', fontWeight: 'bold', color: '#00a8ff' }}>{waterTotal} ml</div>
+                                <div style={{ fontSize: '0.7rem', color: 'var(--text-secondary)' }}>Daily Total</div>
+                            </div>
+                        </div>
+
+                        <button onClick={handleAddWater} className="btn btn-secondary" style={{ width: '100%', marginBottom: '15px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px', background: 'rgba(0, 168, 255, 0.1)', color: '#00a8ff', border: '1px solid rgba(0, 168, 255, 0.2)' }}>
+                            <Plus size={16} /> Add Water
+                        </button>
+
+                        {waterLog.length > 0 && (
+                            <ul style={{ listStyle: 'none', padding: 0 }}>
+                                {waterLog.map(entry => (
+                                    <li key={entry.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '8px 0', paddingLeft: '30px' }}>
+                                        <div style={{ fontSize: '0.9rem' }}>{entry.amount} ml</div>
+                                        <button onClick={() => handleDeleteWater(entry.id)} style={{ background: 'none', border: 'none', color: 'var(--text-secondary)', cursor: 'pointer' }}>
+                                            <Trash2 size={14} />
+                                        </button>
+                                    </li>
+                                ))}
+                            </ul>
+                        )}
+                    </div>
                 </div>
             </div>
         </div>

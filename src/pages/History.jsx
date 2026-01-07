@@ -3,7 +3,30 @@ import api from '../api';
 import { Calendar, ChevronDown, ChevronUp, Download } from 'lucide-react';
 import { format, subDays, startOfMonth, endOfMonth } from 'date-fns';
 import jsPDF from 'jspdf';
-import 'jspdf-autotable';
+import autoTable from 'jspdf-autotable';
+import { Line } from 'react-chartjs-2';
+import {
+    Chart as ChartJS,
+    CategoryScale,
+    LinearScale,
+    PointElement,
+    LineElement,
+    Title,
+    Tooltip,
+    Legend,
+    Filler
+} from 'chart.js';
+
+ChartJS.register(
+    CategoryScale,
+    LinearScale,
+    PointElement,
+    LineElement,
+    Title,
+    Tooltip,
+    Legend,
+    Filler
+);
 
 const History = () => {
     const [history, setHistory] = useState([]);
@@ -43,25 +66,105 @@ const History = () => {
     };
 
     const downloadPDF = () => {
-        const doc = new jsPDF();
-        doc.text('Gym Freak - History Report', 14, 15);
+        try {
+            const doc = new jsPDF();
+            doc.setFontSize(18);
+            doc.text('Gym Freak - History Report', 14, 20);
+            doc.setFontSize(10);
+            doc.text(`Generated on: ${new Date().toLocaleString()}`, 14, 28);
 
-        const tableData = history.map(day => [
-            day.date,
-            Math.round(day.totals.calories),
-            Math.round(day.totals.protein) + 'g',
-            Math.round(day.totals.carbs) + 'g',
-            Math.round(day.totals.fat) + 'g',
-            Math.round(day.totals.burned) + ' kcal'
-        ]);
+            const tableData = history.map(day => [
+                format(new Date(day.date), 'MMM d, yyyy'),
+                Math.round(day.totals.calories || 0),
+                Math.round(day.totals.burned || 0),
+                Math.round(day.totals.water || 0) + ' ml',
+                Math.round(day.totals.protein || 0) + 'g',
+                Math.round(day.totals.carbs || 0) + 'g',
+                Math.round(day.totals.fat || 0) + 'g'
+            ]);
 
-        doc.autoTable({
-            head: [['Date', 'Calories In', 'Protein', 'Carbs', 'Fat', 'Calories Burned']],
-            body: tableData,
-            startY: 20
-        });
+            autoTable(doc, {
+                head: [['Date', 'Cal In', 'Cal Out', 'Water', 'Prot', 'Carb', 'Fat']],
+                body: tableData,
+                startY: 35,
+                styles: { fontSize: 8 },
+                headStyles: { fillColor: [204, 255, 0], textColor: [0, 0, 0] }
+            });
 
-        doc.save('gym_freak_history.pdf');
+            doc.save(`gym_freak_history_${range}.pdf`);
+        } catch (err) {
+            console.error('PDF Generation Error:', err);
+            alert('Failed to generate PDF. Please try again.');
+        }
+    };
+
+    const chartData = {
+        labels: [...history].reverse().map(h => format(new Date(h.date), 'MMM d')),
+        datasets: [
+            {
+                label: 'Calories In',
+                data: [...history].reverse().map(h => h.totals.calories),
+                borderColor: '#ccff00',
+                backgroundColor: 'rgba(204, 255, 0, 0.1)',
+                fill: true,
+                tension: 0.4,
+                yAxisID: 'y',
+            },
+            {
+                label: 'Calories Burned',
+                data: [...history].reverse().map(h => h.totals.burned),
+                borderColor: '#ff4d4d',
+                backgroundColor: 'rgba(255, 77, 77, 0.1)',
+                fill: true,
+                tension: 0.4,
+                yAxisID: 'y',
+            },
+            {
+                label: 'Water (ml)',
+                data: [...history].reverse().map(h => h.totals.water),
+                borderColor: '#00a8ff',
+                backgroundColor: 'rgba(0, 168, 255, 0.1)',
+                fill: true,
+                tension: 0.4,
+                yAxisID: 'y1',
+            }
+        ]
+    };
+
+    const chartOptions = {
+        responsive: true,
+        maintainAspectRatio: false,
+        interaction: {
+            mode: 'index',
+            intersect: false,
+        },
+        scales: {
+            y: {
+                type: 'linear',
+                display: true,
+                position: 'left',
+                title: { display: true, text: 'Calories', color: 'var(--text-secondary)' },
+                grid: { color: 'rgba(255,255,255,0.05)' },
+                ticks: { color: 'var(--text-secondary)' }
+            },
+            y1: {
+                type: 'linear',
+                display: true,
+                position: 'right',
+                title: { display: true, text: 'Water (ml)', color: '#00a8ff' },
+                grid: { drawOnChartArea: false },
+                ticks: { color: '#00a8ff' }
+            },
+            x: {
+                grid: { display: false },
+                ticks: { color: 'var(--text-secondary)' }
+            }
+        },
+        plugins: {
+            legend: {
+                labels: { color: 'var(--text-secondary)' }
+            }
+        }
     };
 
     return (
@@ -83,6 +186,15 @@ const History = () => {
                     </button>
                 </div>
             </div>
+
+            {!loading && history.length > 0 && (
+                <div className="card" style={{ marginBottom: '20px', height: '350px' }}>
+                    <h3 style={{ marginBottom: '15px' }}>Progress Overview</h3>
+                    <div style={{ height: '280px' }}>
+                        <Line data={chartData} options={chartOptions} />
+                    </div>
+                </div>
+            )}
 
             {loading ? (
                 <div>Loading history...</div>
@@ -111,13 +223,14 @@ const History = () => {
                                     <div style={{ display: 'flex', gap: '20px', color: 'var(--text-secondary)', fontSize: '0.9rem' }}>
                                         <span>In: <span style={{ color: '#fff' }}>{Math.round(day.totals.calories)}</span></span>
                                         <span>Burn: <span style={{ color: '#ff4d4d' }}>{Math.round(day.totals.burned)}</span></span>
+                                        <span>Water: <span style={{ color: '#00a8ff' }}>{Math.round(day.totals.water)}ml</span></span>
                                         {expandedDate === day.date ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
                                     </div>
                                 </div>
 
                                 {expandedDate === day.date && (
                                     <div style={{ padding: '15px', background: 'rgba(0,0,0,0.2)' }}>
-                                        <div className="grid-2">
+                                        <div className="grid-3">
                                             <div>
                                                 <h4 style={{ marginBottom: '10px', color: 'var(--primary-color)' }}>Food Log</h4>
                                                 {day.foods.length === 0 ? <small>No food logged</small> : (
@@ -139,6 +252,19 @@ const History = () => {
                                                             <li key={w.id} style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '5px', fontSize: '0.9rem' }}>
                                                                 <span>{w.exercise_name}</span>
                                                                 <span>{w.calories_burned} kcal</span>
+                                                            </li>
+                                                        ))}
+                                                    </ul>
+                                                )}
+                                            </div>
+                                            <div>
+                                                <h4 style={{ marginBottom: '10px', color: '#00a8ff' }}>Water</h4>
+                                                {day.water.length === 0 ? <small>No water logged</small> : (
+                                                    <ul style={{ listStyle: 'none', padding: 0 }}>
+                                                        {day.water.map(w => (
+                                                            <li key={w.id} style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '5px', fontSize: '0.9rem' }}>
+                                                                <span>Entry {format(new Date(w.created_at), 'HH:mm')}</span>
+                                                                <span>{w.amount} ml</span>
                                                             </li>
                                                         ))}
                                                     </ul>

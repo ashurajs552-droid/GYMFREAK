@@ -66,7 +66,9 @@ const Dashboard = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [greeting, setGreeting] = useState('');
+    const [logEntries, setLogEntries] = useState([]);
     const [showCalculationModal, setShowCalculationModal] = useState(false);
+    const [selectedMacro, setSelectedMacro] = useState(null); // 'protein', 'carbs', 'fat', or null
     const [proTip] = useState(proTips[Math.floor(Math.random() * proTips.length)]);
 
     const fetchStats = async () => {
@@ -100,6 +102,7 @@ const Dashboard = () => {
 
             setStats(currentStats);
             setHistory(Array.isArray(historyData) ? historyData.reverse() : []);
+            setLogEntries(foodData.entries || []);
         } catch (err) {
             console.error('Dashboard error:', err);
             setError('Failed to load dashboard. Please refresh.');
@@ -165,60 +168,117 @@ const Dashboard = () => {
     const coachInsight = getCoachInsight(remaining, proteinPercent, user.goal);
 
     // Calculation Details Modal Component
-    const CalculationModal = () => (
-        <div className="modal-overlay" onClick={() => setShowCalculationModal(false)}>
-            <div className="modal-content animate-scale-in" onClick={e => e.stopPropagation()}>
-                <div className="modal-header">
-                    <h3 style={{ margin: 0, display: 'flex', alignItems: 'center', gap: '10px' }}>
-                        <Activity size={20} color="var(--primary-color)" />
-                        Calculation Logic
-                    </h3>
-                    <button className="modal-close" onClick={() => setShowCalculationModal(false)}>✕</button>
-                </div>
-                <div className="modal-body">
-                    <section style={{ marginBottom: '24px' }}>
-                        <h4 style={{ color: 'var(--primary-color)', marginBottom: '10px' }}>1. Calorie Target</h4>
-                        <p style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', lineHeight: '1.5' }}>
-                            Your daily goal is based on the <strong>Mifflin-St Jeor Equation</strong>:
-                        </p>
-                        <ul style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', paddingLeft: '20px', marginTop: '8px' }}>
-                            <li><strong>BMR:</strong> Basal Metabolic Rate (calories burned at rest).</li>
-                            <li><strong>TDEE:</strong> BMR × Activity Factor ({user.activity_level === 'active' ? '1.725' : user.activity_level === 'moderate' ? '1.55' : '1.2'}).</li>
-                            <li><strong>Adjustment:</strong> {user.goal === 'loss' ? '-500 kcal (Weight Loss)' : user.goal === 'gain' ? '+300 kcal (Muscle Gain)' : 'Maintenance'}.</li>
-                        </ul>
-                    </section>
+    const CalculationModal = () => {
+        const macroBreakdown = (type) => {
+            return logEntries.map(entry => {
+                const ratio = entry.quantity / entry.serving_size;
+                const value = entry[type] * ratio;
+                return { name: entry.name, value: Math.round(value) };
+            }).filter(item => item.value > 0);
+        };
 
-                    <section style={{ marginBottom: '24px' }}>
-                        <h4 style={{ color: 'var(--secondary-color)', marginBottom: '10px' }}>2. Macro Breakdown</h4>
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                            <div style={{ padding: '12px', background: 'rgba(0, 240, 255, 0.05)', borderRadius: '8px', borderLeft: '3px solid #00f0ff' }}>
-                                <div style={{ fontWeight: 'bold', fontSize: '0.9rem' }}>Protein (2g per kg)</div>
-                                <div style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>Essential for muscle repair and growth.</div>
+        return (
+            <div className="modal-overlay" onClick={() => { setShowCalculationModal(false); setSelectedMacro(null); }}>
+                <div className="modal-content animate-scale-in" style={{ maxWidth: '500px' }} onClick={e => e.stopPropagation()}>
+                    <div className="modal-header">
+                        <h3 style={{ margin: 0, display: 'flex', alignItems: 'center', gap: '10px' }}>
+                            <Activity size={20} color="var(--primary-color)" />
+                            {selectedMacro ? `${selectedMacro.charAt(0).toUpperCase() + selectedMacro.slice(1)} Breakdown` : 'Calculation Logic'}
+                        </h3>
+                        <button className="modal-close" onClick={() => { setShowCalculationModal(false); setSelectedMacro(null); }}>✕</button>
+                    </div>
+                    <div className="modal-body">
+                        {selectedMacro ? (
+                            <div>
+                                <p style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', marginBottom: '20px' }}>
+                                    Here's how your <strong>{selectedMacro}</strong> intake is distributed across today's meals:
+                                </p>
+                                <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                                    {macroBreakdown(selectedMacro).length === 0 ? (
+                                        <p style={{ textAlign: 'center', color: 'var(--text-secondary)' }}>No data available for today.</p>
+                                    ) : (
+                                        macroBreakdown(selectedMacro).map((item, idx) => (
+                                            <div key={idx} style={{ display: 'flex', justifyContent: 'space-between', padding: '12px', background: 'var(--surface-hover)', borderRadius: '8px' }}>
+                                                <span style={{ fontWeight: '500' }}>{item.name}</span>
+                                                <span style={{ color: 'var(--primary-color)', fontWeight: 'bold' }}>{item.value}g</span>
+                                            </div>
+                                        ))
+                                    )}
+                                </div>
+                                <button
+                                    className="btn btn-secondary"
+                                    style={{ width: '100%', marginTop: '20px' }}
+                                    onClick={() => setSelectedMacro(null)}
+                                >
+                                    Back to Logic
+                                </button>
                             </div>
-                            <div style={{ padding: '12px', background: 'rgba(255, 230, 0, 0.05)', borderRadius: '8px', borderLeft: '3px solid #ffe600' }}>
-                                <div style={{ fontWeight: 'bold', fontSize: '0.9rem' }}>Fat (0.8g per kg)</div>
-                                <div style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>Crucial for hormone health and energy.</div>
-                            </div>
-                            <div style={{ padding: '12px', background: 'rgba(255, 77, 77, 0.05)', borderRadius: '8px', borderLeft: '3px solid #ff4d4d' }}>
-                                <div style={{ fontWeight: 'bold', fontSize: '0.9rem' }}>Carbs (Remaining)</div>
-                                <div style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>Primary fuel source for your workouts.</div>
-                            </div>
-                        </div>
-                    </section>
+                        ) : (
+                            <>
+                                <section style={{ marginBottom: '24px' }}>
+                                    <h4 style={{ color: 'var(--primary-color)', marginBottom: '10px' }}>1. Calorie Target</h4>
+                                    <p style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', lineHeight: '1.5' }}>
+                                        Your daily goal is based on the <strong>Mifflin-St Jeor Equation</strong>:
+                                    </p>
+                                    <ul style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', paddingLeft: '20px', marginTop: '8px' }}>
+                                        <li><strong>BMR:</strong> Basal Metabolic Rate (calories burned at rest).</li>
+                                        <li><strong>TDEE:</strong> BMR × Activity Factor ({user.activity_level === 'active' ? '1.725' : user.activity_level === 'moderate' ? '1.55' : '1.2'}).</li>
+                                        <li><strong>Adjustment:</strong> {user.goal === 'loss' ? '-500 kcal (Weight Loss)' : user.goal === 'gain' ? '+300 kcal (Muscle Gain)' : 'Maintenance'}.</li>
+                                    </ul>
+                                </section>
 
-                    <section>
-                        <h4 style={{ color: 'var(--primary-color)', marginBottom: '10px' }}>3. Net Calories</h4>
-                        <p style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', lineHeight: '1.5' }}>
-                            <strong>Net = (Consumed - Burned)</strong>
-                        </p>
-                        <p style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>
-                            We subtract your exercise calories from your food intake to show your actual energy balance.
-                        </p>
-                    </section>
+                                <section style={{ marginBottom: '24px' }}>
+                                    <h4 style={{ color: 'var(--secondary-color)', marginBottom: '10px' }}>2. Macro Breakdown</h4>
+                                    <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                                        <div
+                                            onClick={() => setSelectedMacro('protein')}
+                                            style={{ padding: '12px', background: 'rgba(0, 240, 255, 0.05)', borderRadius: '8px', borderLeft: '3px solid #00f0ff', cursor: 'pointer' }}
+                                        >
+                                            <div style={{ fontWeight: 'bold', fontSize: '0.9rem', display: 'flex', justifyContent: 'space-between' }}>
+                                                Protein (2g per kg)
+                                                <ArrowRight size={14} />
+                                            </div>
+                                            <div style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>Click to see today's sources.</div>
+                                        </div>
+                                        <div
+                                            onClick={() => setSelectedMacro('carbs')}
+                                            style={{ padding: '12px', background: 'rgba(255, 77, 77, 0.05)', borderRadius: '8px', borderLeft: '3px solid #ff4d4d', cursor: 'pointer' }}
+                                        >
+                                            <div style={{ fontWeight: 'bold', fontSize: '0.9rem', display: 'flex', justifyContent: 'space-between' }}>
+                                                Carbs (Remaining)
+                                                <ArrowRight size={14} />
+                                            </div>
+                                            <div style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>Click to see today's sources.</div>
+                                        </div>
+                                        <div
+                                            onClick={() => setSelectedMacro('fat')}
+                                            style={{ padding: '12px', background: 'rgba(255, 230, 0, 0.05)', borderRadius: '8px', borderLeft: '3px solid #ffe600', cursor: 'pointer' }}
+                                        >
+                                            <div style={{ fontWeight: 'bold', fontSize: '0.9rem', display: 'flex', justifyContent: 'space-between' }}>
+                                                Fat (0.8g per kg)
+                                                <ArrowRight size={14} />
+                                            </div>
+                                            <div style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>Click to see today's sources.</div>
+                                        </div>
+                                    </div>
+                                </section>
+
+                                <section>
+                                    <h4 style={{ color: 'var(--primary-color)', marginBottom: '10px' }}>3. Net Calories</h4>
+                                    <p style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', lineHeight: '1.5' }}>
+                                        <strong>Net = (Consumed - Burned)</strong>
+                                    </p>
+                                    <p style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>
+                                        We subtract your exercise calories from your food intake to show your actual energy balance.
+                                    </p>
+                                </section>
+                            </>
+                        )}
+                    </div>
                 </div>
             </div>
-        </div>
-    );
+        );
+    };
 
     const macroData = {
         labels: ['Protein', 'Carbs', 'Fat'],
@@ -337,7 +397,10 @@ const Dashboard = () => {
                         </div>
                     </div>
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                        <div>
+                        <div
+                            onClick={(e) => { e.stopPropagation(); setSelectedMacro('protein'); setShowCalculationModal(true); }}
+                            style={{ cursor: 'pointer' }}
+                        >
                             <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.8rem', marginBottom: '3px' }}>
                                 <span style={{ color: '#00f0ff', fontWeight: '600' }}>Protein</span>
                                 <span>{Math.round(consumed.protein)}g / {targets.protein}g</span>
@@ -346,7 +409,10 @@ const Dashboard = () => {
                                 <div className="progress-fill" style={{ width: `${Math.min((consumed.protein / targets.protein) * 100, 100)}%`, background: '#00f0ff' }}></div>
                             </div>
                         </div>
-                        <div>
+                        <div
+                            onClick={(e) => { e.stopPropagation(); setSelectedMacro('carbs'); setShowCalculationModal(true); }}
+                            style={{ cursor: 'pointer' }}
+                        >
                             <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.8rem', marginBottom: '3px' }}>
                                 <span style={{ color: '#ff4d4d', fontWeight: '600' }}>Carbs</span>
                                 <span>{Math.round(consumed.carbs)}g / {targets.carbs}g</span>
@@ -355,7 +421,10 @@ const Dashboard = () => {
                                 <div className="progress-fill" style={{ width: `${Math.min((consumed.carbs / targets.carbs) * 100, 100)}%`, background: '#ff4d4d' }}></div>
                             </div>
                         </div>
-                        <div>
+                        <div
+                            onClick={(e) => { e.stopPropagation(); setSelectedMacro('fat'); setShowCalculationModal(true); }}
+                            style={{ cursor: 'pointer' }}
+                        >
                             <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.8rem', marginBottom: '3px' }}>
                                 <span style={{ color: '#ffe600', fontWeight: '600' }}>Fat</span>
                                 <span>{Math.round(consumed.fat)}g / {targets.fat}g</span>
@@ -364,7 +433,7 @@ const Dashboard = () => {
                                 <div className="progress-fill" style={{ width: `${Math.min((consumed.fat / targets.fat) * 100, 100)}%`, background: '#ffe600' }}></div>
                             </div>
                         </div>
-                        <div style={{ fontSize: '0.7rem', color: 'var(--text-secondary)', marginTop: '2px', textAlign: 'right' }}>Click to see logic ⓘ</div>
+                        <div style={{ fontSize: '0.7rem', color: 'var(--text-secondary)', marginTop: '2px', textAlign: 'right' }}>Click macros for breakdown ⓘ</div>
                     </div>
                 </div>
             </div>
