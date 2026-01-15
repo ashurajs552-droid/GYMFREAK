@@ -12,7 +12,7 @@ router.get('/history', authenticateToken, async (req, res) => {
     const { data: foodLogs, error: foodError } = await supabase
         .from('food_entries')
         .select(`
-            id, date, quantity, meal_type,
+            id, date, quantity, meal_type, created_at,
             foods (name, calories, protein, carbs, fat, unit, serving_size)
         `)
         .eq('user_id', req.user.id)

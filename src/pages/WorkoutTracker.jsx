@@ -11,6 +11,10 @@ const WorkoutTracker = () => {
     const [query, setQuery] = useState('');
     const [results, setResults] = useState([]);
     const [selectedExercise, setSelectedExercise] = useState(null);
+    const [showManualModal, setShowManualModal] = useState(false);
+    const [manualWorkout, setManualWorkout] = useState({
+        name: '', type: 'strength', muscle_group: 'Other', calories_burned: ''
+    });
 
     const [formData, setFormData] = useState({
         duration: '', sets: 1, reps: '', weight: ''
@@ -112,6 +116,29 @@ const WorkoutTracker = () => {
         }
     };
 
+    const handleManualSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            const payload = {
+                date,
+                exercise_name: manualWorkout.name,
+                type: manualWorkout.type,
+                muscle_group: manualWorkout.muscle_group,
+                calories_burned: manualWorkout.calories_burned ? parseFloat(manualWorkout.calories_burned) : null,
+                duration: manualWorkout.type === 'cardio' ? 30 : null,
+                sets: manualWorkout.type === 'strength' ? 3 : null,
+                reps: manualWorkout.type === 'strength' ? 10 : null,
+                weight: manualWorkout.type === 'strength' ? 0 : null
+            };
+            await api.post('/workouts/log', payload);
+            setShowManualModal(false);
+            setManualWorkout({ name: '', type: 'strength', muscle_group: 'Other', calories_burned: '' });
+            fetchWorkouts();
+        } catch (err) {
+            alert(err.response?.data?.error || 'Failed to add manual entry');
+        }
+    };
+
     // Group workouts by muscle group
     const groupedWorkouts = workouts.reduce((acc, w) => {
         const group = w.muscle_group || 'Other';
@@ -203,7 +230,74 @@ const WorkoutTracker = () => {
                                 </button>
                             </div>
                         )}
+                        <button
+                            type="button"
+                            onClick={() => setShowManualModal(true)}
+                            className="btn btn-secondary"
+                            style={{ width: '100%', marginTop: '20px', borderStyle: 'dashed' }}
+                        >
+                            + Manual Workout Entry
+                        </button>
                     </div>
+
+                    {showManualModal && (
+                        <div className="modal-overlay" onClick={() => setShowManualModal(false)}>
+                            <div className="modal-content animate-scale-in" style={{ maxWidth: '400px' }} onClick={e => e.stopPropagation()}>
+                                <div className="modal-header">
+                                    <h3>Manual Workout Entry</h3>
+                                    <button className="modal-close" onClick={() => setShowManualModal(false)}>✕</button>
+                                </div>
+                                <form onSubmit={handleManualSubmit} className="modal-body">
+                                    <div className="input-group">
+                                        <label className="input-label">Exercise Name</label>
+                                        <input
+                                            className="input-field"
+                                            value={manualWorkout.name}
+                                            onChange={e => setManualWorkout({ ...manualWorkout, name: e.target.value })}
+                                            required
+                                            placeholder="e.g. Custom Circuit"
+                                        />
+                                    </div>
+                                    <div className="grid-2">
+                                        <div className="input-group">
+                                            <label className="input-label">Type</label>
+                                            <select
+                                                className="input-field"
+                                                value={manualWorkout.type}
+                                                onChange={e => setManualWorkout({ ...manualWorkout, type: e.target.value })}
+                                            >
+                                                <option value="strength">Strength</option>
+                                                <option value="cardio">Cardio</option>
+                                            </select>
+                                        </div>
+                                        <div className="input-group">
+                                            <label className="input-label">Muscle Group</label>
+                                            <select
+                                                className="input-field"
+                                                value={manualWorkout.muscle_group}
+                                                onChange={e => setManualWorkout({ ...manualWorkout, muscle_group: e.target.value })}
+                                            >
+                                                {muscleGroups.map(g => <option key={g} value={g}>{g}</option>)}
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div className="input-group">
+                                        <label className="input-label">Calories Burned (Optional)</label>
+                                        <input
+                                            type="number"
+                                            className="input-field"
+                                            value={manualWorkout.calories_burned}
+                                            onChange={e => setManualWorkout({ ...manualWorkout, calories_burned: e.target.value })}
+                                            placeholder="Leave empty for auto-calc"
+                                        />
+                                    </div>
+                                    <button type="submit" className="btn btn-primary" style={{ width: '100%', marginTop: '10px' }}>
+                                        Add Workout
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    )}
 
                     <div style={{ display: 'flex', gap: '10px', marginBottom: '20px' }}>
                         <button

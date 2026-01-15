@@ -68,30 +68,76 @@ const History = () => {
     const downloadPDF = () => {
         try {
             const doc = new jsPDF();
-            doc.setFontSize(18);
-            doc.text('Gym Freak - History Report', 14, 20);
+            const primaryColor = [204, 255, 0];
+            const secondaryColor = [0, 168, 255];
+            const dangerColor = [255, 77, 77];
+
+            doc.setFontSize(22);
+            doc.setTextColor(0, 0, 0);
+            doc.text('GYM FREAK - DETAILED REPORT', 14, 20);
+
             doc.setFontSize(10);
+            doc.setTextColor(100, 100, 100);
             doc.text(`Generated on: ${new Date().toLocaleString()}`, 14, 28);
+            doc.text(`Range: ${range === '7days' ? 'Last 7 Days' : 'This Month'}`, 14, 33);
 
-            const tableData = history.map(day => [
-                format(new Date(day.date), 'MMM d, yyyy'),
-                Math.round(day.totals.calories || 0),
-                Math.round(day.totals.burned || 0),
-                Math.round(day.totals.water || 0) + ' ml',
-                Math.round(day.totals.protein || 0) + 'g',
-                Math.round(day.totals.carbs || 0) + 'g',
-                Math.round(day.totals.fat || 0) + 'g'
-            ]);
+            let currentY = 40;
 
-            autoTable(doc, {
-                head: [['Date', 'Cal In', 'Cal Out', 'Water', 'Prot', 'Carb', 'Fat']],
-                body: tableData,
-                startY: 35,
-                styles: { fontSize: 8 },
-                headStyles: { fillColor: [204, 255, 0], textColor: [0, 0, 0] }
+            history.forEach((day, index) => {
+                // Check for new page
+                if (currentY > 250) {
+                    doc.addPage();
+                    currentY = 20;
+                }
+
+                doc.setFontSize(14);
+                doc.setTextColor(0, 0, 0);
+                doc.text(format(new Date(day.date), 'EEEE, MMMM d, yyyy'), 14, currentY);
+                currentY += 5;
+
+                // Daily Summary Table
+                autoTable(doc, {
+                    head: [['Calories In', 'Calories Burned', 'Net', 'Water', 'Protein', 'Carbs', 'Fat']],
+                    body: [[
+                        Math.round(day.totals.calories) + ' kcal',
+                        Math.round(day.totals.burned) + ' kcal',
+                        Math.round(day.totals.calories - day.totals.burned) + ' kcal',
+                        Math.round(day.totals.water) + ' ml',
+                        Math.round(day.totals.protein) + 'g',
+                        Math.round(day.totals.carbs) + 'g',
+                        Math.round(day.totals.fat) + 'g'
+                    ]],
+                    startY: currentY,
+                    styles: { fontSize: 8 },
+                    headStyles: { fillColor: primaryColor, textColor: [0, 0, 0] },
+                    margin: { left: 14 }
+                });
+
+                currentY = doc.lastAutoTable.finalY + 5;
+
+                // Details Row (Food, Workout, Water)
+                const foodItems = day.foods.map(f => `${f.foods.name} (${f.quantity}${f.foods.unit}) - ${Math.round(f.calculated_calories)} kcal`).join('\n') || 'No food logged';
+                const workoutItems = day.workouts.map(w => `${w.exercise_name} - ${w.calories_burned} kcal`).join('\n') || 'No workouts logged';
+                const waterItems = day.water.map(w => `${format(new Date(w.created_at), 'HH:mm')}: ${w.amount} ml`).join('\n') || 'No water logged';
+
+                autoTable(doc, {
+                    head: [['Food Details', 'Workout Details', 'Water Details']],
+                    body: [[foodItems, workoutItems, waterItems]],
+                    startY: currentY,
+                    styles: { fontSize: 7, cellPadding: 2 },
+                    headStyles: { fillColor: [240, 240, 240], textColor: [0, 0, 0] },
+                    columnStyles: {
+                        0: { cellWidth: 60 },
+                        1: { cellWidth: 60 },
+                        2: { cellWidth: 60 }
+                    },
+                    margin: { left: 14 }
+                });
+
+                currentY = doc.lastAutoTable.finalY + 15;
             });
 
-            doc.save(`gym_freak_history_${range}.pdf`);
+            doc.save(`gym_freak_detailed_report_${range}.pdf`);
         } catch (err) {
             console.error('PDF Generation Error:', err);
             alert('Failed to generate PDF. Please try again.');
@@ -144,8 +190,10 @@ const History = () => {
                 display: true,
                 position: 'left',
                 title: { display: true, text: 'Calories', color: 'var(--text-secondary)' },
-                grid: { color: 'rgba(255,255,255,0.05)' },
-                ticks: { color: 'var(--text-secondary)' }
+                grid: { color: 'rgba(255,255,255,0.1)', drawOnChartArea: true },
+                ticks: { color: 'var(--text-secondary)' },
+                suggestedMin: 0,
+                suggestedMax: 4000
             },
             y1: {
                 type: 'linear',
@@ -153,10 +201,12 @@ const History = () => {
                 position: 'right',
                 title: { display: true, text: 'Water (ml)', color: '#00a8ff' },
                 grid: { drawOnChartArea: false },
-                ticks: { color: '#00a8ff' }
+                ticks: { color: '#00a8ff' },
+                suggestedMin: 0,
+                suggestedMax: 4000 // Match max to align grid lines if possible
             },
             x: {
-                grid: { display: false },
+                grid: { color: 'rgba(255,255,255,0.1)', display: true },
                 ticks: { color: 'var(--text-secondary)' }
             }
         },
@@ -237,7 +287,12 @@ const History = () => {
                                                     <ul style={{ listStyle: 'none', padding: 0 }}>
                                                         {day.foods.map(f => (
                                                             <li key={f.id} style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '5px', fontSize: '0.9rem' }}>
-                                                                <span>{f.foods.name} ({f.quantity}{f.foods.unit})</span>
+                                                                <div style={{ display: 'flex', flexDirection: 'column' }}>
+                                                                    <span>{f.foods.name} ({f.quantity}{f.foods.unit})</span>
+                                                                    <small style={{ color: 'var(--text-secondary)', fontSize: '0.7rem' }}>
+                                                                        {format(new Date(f.created_at), 'HH:mm')} • {f.meal_type}
+                                                                    </small>
+                                                                </div>
                                                                 <span>{Math.round(f.calculated_calories)} kcal</span>
                                                             </li>
                                                         ))}
@@ -250,7 +305,12 @@ const History = () => {
                                                     <ul style={{ listStyle: 'none', padding: 0 }}>
                                                         {day.workouts.map(w => (
                                                             <li key={w.id} style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '5px', fontSize: '0.9rem' }}>
-                                                                <span>{w.exercise_name}</span>
+                                                                <div style={{ display: 'flex', flexDirection: 'column' }}>
+                                                                    <span>{w.exercise_name}</span>
+                                                                    <small style={{ color: 'var(--text-secondary)', fontSize: '0.7rem' }}>
+                                                                        {format(new Date(w.created_at), 'HH:mm')}
+                                                                    </small>
+                                                                </div>
                                                                 <span>{w.calories_burned} kcal</span>
                                                             </li>
                                                         ))}

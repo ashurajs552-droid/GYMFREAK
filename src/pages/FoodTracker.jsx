@@ -9,6 +9,10 @@ const FoodTracker = () => {
     const [totals, setTotals] = useState({ calories: 0, protein: 0, carbs: 0, fat: 0 });
     const [waterLog, setWaterLog] = useState([]);
     const [waterTotal, setWaterTotal] = useState(0);
+    const [showManualModal, setShowManualModal] = useState(false);
+    const [manualFood, setManualFood] = useState({
+        name: '', calories: '', protein: '', carbs: '', fat: '', serving_size: 100, unit: 'g'
+    });
 
     // Meal Type State
     const [mealType, setMealType] = useState('breakfast');
@@ -110,6 +114,31 @@ const FoodTracker = () => {
             fetchLog();
         } catch (err) {
             console.error(err);
+        }
+    };
+
+    const handleManualSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            const payload = {
+                date,
+                quantity: parseFloat(manualFood.serving_size),
+                meal_type: mealType,
+                food_data: {
+                    ...manualFood,
+                    calories: parseFloat(manualFood.calories),
+                    protein: parseFloat(manualFood.protein),
+                    carbs: parseFloat(manualFood.carbs),
+                    fat: parseFloat(manualFood.fat),
+                    serving_size: parseFloat(manualFood.serving_size)
+                }
+            };
+            await api.post('/foods/log', payload);
+            setShowManualModal(false);
+            setManualFood({ name: '', calories: '', protein: '', carbs: '', fat: '', serving_size: 100, unit: 'g' });
+            fetchLog();
+        } catch (err) {
+            alert(err.response?.data?.error || 'Failed to add manual entry');
         }
     };
 
@@ -242,8 +271,110 @@ const FoodTracker = () => {
                                 </button>
                             </div>
                         ))}
+                        <button
+                            onClick={() => setShowManualModal(true)}
+                            className="btn btn-secondary"
+                            style={{ width: '100%', marginTop: '20px', borderStyle: 'dashed' }}
+                        >
+                            + Manual Food Entry
+                        </button>
                     </div>
                 </div>
+
+                {showManualModal && (
+                    <div className="modal-overlay" onClick={() => setShowManualModal(false)}>
+                        <div className="modal-content animate-scale-in" style={{ maxWidth: '400px' }} onClick={e => e.stopPropagation()}>
+                            <div className="modal-header">
+                                <h3>Manual Food Entry</h3>
+                                <button className="modal-close" onClick={() => setShowManualModal(false)}>✕</button>
+                            </div>
+                            <form onSubmit={handleManualSubmit} className="modal-body">
+                                <div className="input-group">
+                                    <label className="input-label">Food Name</label>
+                                    <input
+                                        className="input-field"
+                                        value={manualFood.name}
+                                        onChange={e => setManualFood({ ...manualFood, name: e.target.value })}
+                                        required
+                                        placeholder="e.g. Homemade Chicken Curry"
+                                    />
+                                </div>
+                                <div className="grid-2">
+                                    <div className="input-group">
+                                        <label className="input-label">Calories (kcal)</label>
+                                        <input
+                                            type="number"
+                                            className="input-field"
+                                            value={manualFood.calories}
+                                            onChange={e => setManualFood({ ...manualFood, calories: e.target.value })}
+                                            required
+                                        />
+                                    </div>
+                                    <div className="input-group">
+                                        <label className="input-label">Protein (g)</label>
+                                        <input
+                                            type="number"
+                                            className="input-field"
+                                            value={manualFood.protein}
+                                            onChange={e => setManualFood({ ...manualFood, protein: e.target.value })}
+                                            required
+                                        />
+                                    </div>
+                                </div>
+                                <div className="grid-2">
+                                    <div className="input-group">
+                                        <label className="input-label">Carbs (g)</label>
+                                        <input
+                                            type="number"
+                                            className="input-field"
+                                            value={manualFood.carbs}
+                                            onChange={e => setManualFood({ ...manualFood, carbs: e.target.value })}
+                                            required
+                                        />
+                                    </div>
+                                    <div className="input-group">
+                                        <label className="input-label">Fat (g)</label>
+                                        <input
+                                            type="number"
+                                            className="input-field"
+                                            value={manualFood.fat}
+                                            onChange={e => setManualFood({ ...manualFood, fat: e.target.value })}
+                                            required
+                                        />
+                                    </div>
+                                </div>
+                                <div className="grid-2">
+                                    <div className="input-group">
+                                        <label className="input-label">Serving Size</label>
+                                        <input
+                                            type="number"
+                                            className="input-field"
+                                            value={manualFood.serving_size}
+                                            onChange={e => setManualFood({ ...manualFood, serving_size: e.target.value })}
+                                            required
+                                        />
+                                    </div>
+                                    <div className="input-group">
+                                        <label className="input-label">Unit</label>
+                                        <select
+                                            className="input-field"
+                                            value={manualFood.unit}
+                                            onChange={e => setManualFood({ ...manualFood, unit: e.target.value })}
+                                        >
+                                            <option value="g">Grams (g)</option>
+                                            <option value="ml">Milliliters (ml)</option>
+                                            <option value="pcs">Pieces (pcs)</option>
+                                            <option value="cup">Cup</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <button type="submit" className="btn btn-primary" style={{ width: '100%', marginTop: '10px' }}>
+                                    Add Food
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                )}
 
                 {/* Log Column */}
                 <div className="card">

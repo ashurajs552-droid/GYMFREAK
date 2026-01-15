@@ -329,11 +329,11 @@ const Dashboard = () => {
         scales: {
             y: {
                 beginAtZero: true,
-                grid: { color: 'rgba(255,255,255,0.05)' },
+                grid: { color: 'rgba(255,255,255,0.1)', display: true },
                 ticks: { color: 'var(--text-secondary)', font: { size: 10 } }
             },
             x: {
-                grid: { display: false },
+                grid: { color: 'rgba(255,255,255,0.1)', display: true },
                 ticks: { color: 'var(--text-secondary)', font: { size: 10 } }
             }
         }
