@@ -193,7 +193,7 @@ const History = () => {
                 grid: { color: 'rgba(255,255,255,0.1)', drawOnChartArea: true },
                 ticks: { color: 'var(--text-secondary)' },
                 suggestedMin: 0,
-                suggestedMax: 4000
+                suggestedMax: 4500
             },
             y1: {
                 type: 'linear',
@@ -203,7 +203,7 @@ const History = () => {
                 grid: { drawOnChartArea: false },
                 ticks: { color: '#00a8ff' },
                 suggestedMin: 0,
-                suggestedMax: 4000 // Match max to align grid lines if possible
+                suggestedMax: 4500 // Match max to align grid lines
             },
             x: {
                 grid: { color: 'rgba(255,255,255,0.1)', display: true },
@@ -303,17 +303,33 @@ const History = () => {
                                                 <h4 style={{ marginBottom: '10px', color: '#ff4d4d' }}>Workouts</h4>
                                                 {day.workouts.length === 0 ? <small>No workouts</small> : (
                                                     <ul style={{ listStyle: 'none', padding: 0 }}>
-                                                        {day.workouts.map(w => (
-                                                            <li key={w.id} style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '5px', fontSize: '0.9rem' }}>
-                                                                <div style={{ display: 'flex', flexDirection: 'column' }}>
-                                                                    <span>{w.exercise_name}</span>
-                                                                    <small style={{ color: 'var(--text-secondary)', fontSize: '0.7rem' }}>
-                                                                        {format(new Date(w.created_at), 'HH:mm')}
-                                                                    </small>
-                                                                </div>
-                                                                <span>{w.calories_burned} kcal</span>
-                                                            </li>
-                                                        ))}
+                                                        {day.workouts.map(w => {
+                                                            let setsArr = [];
+                                                            try {
+                                                                setsArr = w.sets_data ? JSON.parse(w.sets_data) : [];
+                                                            } catch (e) { }
+
+                                                            return (
+                                                                <li key={w.id} style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px', fontSize: '0.9rem' }}>
+                                                                    <div style={{ display: 'flex', flexDirection: 'column' }}>
+                                                                        <span style={{ fontWeight: '500' }}>{w.exercise_name}</span>
+                                                                        <small style={{ color: 'var(--text-secondary)', fontSize: '0.7rem' }}>
+                                                                            {format(new Date(w.created_at), 'HH:mm')}
+                                                                        </small>
+                                                                        {w.type === 'strength' && (
+                                                                            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4px', marginTop: '2px' }}>
+                                                                                {setsArr.length > 0 ? setsArr.map((s, i) => (
+                                                                                    <span key={i} style={{ background: 'rgba(255,255,255,0.05)', padding: '1px 4px', borderRadius: '3px', fontSize: '0.65rem' }}>
+                                                                                        {s.weight}kg×{s.reps}
+                                                                                    </span>
+                                                                                )) : (w.reps && w.weight ? <span style={{ fontSize: '0.7rem' }}>{w.sets} sets × {w.reps} reps @ {w.weight}kg</span> : null)}
+                                                                            </div>
+                                                                        )}
+                                                                    </div>
+                                                                    <span style={{ fontWeight: 'bold' }}>{w.calories_burned} kcal</span>
+                                                                </li>
+                                                            );
+                                                        })}
                                                     </ul>
                                                 )}
                                             </div>

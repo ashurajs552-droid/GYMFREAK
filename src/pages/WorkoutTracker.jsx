@@ -125,14 +125,15 @@ const WorkoutTracker = () => {
                 type: manualWorkout.type,
                 muscle_group: manualWorkout.muscle_group,
                 calories_burned: manualWorkout.calories_burned ? parseFloat(manualWorkout.calories_burned) : null,
-                duration: manualWorkout.type === 'cardio' ? 30 : null,
-                sets: manualWorkout.type === 'strength' ? 3 : null,
-                reps: manualWorkout.type === 'strength' ? 10 : null,
-                weight: manualWorkout.type === 'strength' ? 0 : null
+                duration: manualWorkout.type === 'cardio' ? (manualWorkout.duration || 30) : null,
+                sets: manualWorkout.type === 'strength' ? parseInt(manualWorkout.sets || 3) : null,
+                reps: manualWorkout.type === 'strength' ? parseInt(manualWorkout.reps || 10) : null,
+                weight: manualWorkout.type === 'strength' ? parseFloat(manualWorkout.weight || 0) : null,
+                sets_data: manualWorkout.type === 'strength' ? [{ weight: manualWorkout.weight || 0, reps: manualWorkout.reps || 10 }] : null
             };
             await api.post('/workouts/log', payload);
             setShowManualModal(false);
-            setManualWorkout({ name: '', type: 'strength', muscle_group: 'Other', calories_burned: '' });
+            setManualWorkout({ name: '', type: 'strength', muscle_group: 'Other', calories_burned: '', duration: '', sets: '', reps: '', weight: '' });
             fetchWorkouts();
         } catch (err) {
             alert(err.response?.data?.error || 'Failed to add manual entry');
@@ -242,7 +243,7 @@ const WorkoutTracker = () => {
 
                     {showManualModal && (
                         <div className="modal-overlay" onClick={() => setShowManualModal(false)}>
-                            <div className="modal-content animate-scale-in" style={{ maxWidth: '400px' }} onClick={e => e.stopPropagation()}>
+                            <div className="modal-content animate-scale-in" style={{ maxWidth: '450px' }} onClick={e => e.stopPropagation()}>
                                 <div className="modal-header">
                                     <h3>Manual Workout Entry</h3>
                                     <button className="modal-close" onClick={() => setShowManualModal(false)}>✕</button>
@@ -281,6 +282,29 @@ const WorkoutTracker = () => {
                                             </select>
                                         </div>
                                     </div>
+
+                                    {manualWorkout.type === 'strength' ? (
+                                        <div className="grid-3">
+                                            <div className="input-group">
+                                                <label className="input-label">Sets</label>
+                                                <input type="number" className="input-field" value={manualWorkout.sets} onChange={e => setManualWorkout({ ...manualWorkout, sets: e.target.value })} placeholder="3" />
+                                            </div>
+                                            <div className="input-group">
+                                                <label className="input-label">Reps</label>
+                                                <input type="number" className="input-field" value={manualWorkout.reps} onChange={e => setManualWorkout({ ...manualWorkout, reps: e.target.value })} placeholder="10" />
+                                            </div>
+                                            <div className="input-group">
+                                                <label className="input-label">Weight (kg)</label>
+                                                <input type="number" className="input-field" value={manualWorkout.weight} onChange={e => setManualWorkout({ ...manualWorkout, weight: e.target.value })} placeholder="0" />
+                                            </div>
+                                        </div>
+                                    ) : (
+                                        <div className="input-group">
+                                            <label className="input-label">Duration (mins)</label>
+                                            <input type="number" className="input-field" value={manualWorkout.duration} onChange={e => setManualWorkout({ ...manualWorkout, duration: e.target.value })} placeholder="30" />
+                                        </div>
+                                    )}
+
                                     <div className="input-group">
                                         <label className="input-label">Calories Burned (Optional)</label>
                                         <input

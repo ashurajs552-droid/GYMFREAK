@@ -109,6 +109,20 @@ router.post('/log', authenticateToken, async (req, res) => {
     calories_burned = met * userWeight * (finalDuration / 60);
     calories_burned = Math.round(calories_burned);
 
+    // Upsert exercise into exercises table so it appears in search
+    try {
+        await supabase
+            .from('exercises')
+            .upsert([{
+                name: exercise_name,
+                type,
+                muscle_group,
+                met
+            }], { onConflict: 'name' });
+    } catch (err) {
+        console.warn('Failed to upsert exercise:', err);
+    }
+
     const { data, error } = await supabase
         .from('workouts')
         .insert([{

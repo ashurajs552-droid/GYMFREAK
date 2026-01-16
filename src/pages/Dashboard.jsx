@@ -70,6 +70,43 @@ const Dashboard = () => {
     const [showCalculationModal, setShowCalculationModal] = useState(false);
     const [selectedMacro, setSelectedMacro] = useState(null); // 'protein', 'carbs', 'fat', or null
     const [proTip] = useState(proTips[Math.floor(Math.random() * proTips.length)]);
+    const [showUpdateModal, setShowUpdateModal] = useState(false);
+    const [updateData, setUpdateData] = useState({ weight: '', height: '' });
+
+    const checkUpdatePrompt = (user) => {
+        const today = new Date();
+        const day = today.getDate();
+        const month = today.getMonth();
+        const year = today.getFullYear();
+        const dateKey = `${year}-${month}-${day}`;
+
+        // Check if it's the 15th or 30th
+        if (day === 15 || day === 30) {
+            const lastPrompt = localStorage.getItem('last_details_update_prompt');
+            if (lastPrompt !== dateKey) {
+                setUpdateData({ weight: user.weight || '', height: user.height || '' });
+                setShowUpdateModal(true);
+            }
+        }
+    };
+
+    const handleUpdateDetails = async (keepSame = false) => {
+        try {
+            if (!keepSame) {
+                await api.put('/user/profile', {
+                    weight: parseFloat(updateData.weight),
+                    height: parseFloat(updateData.height)
+                });
+            }
+            const today = new Date();
+            const dateKey = `${today.getFullYear()}-${today.getMonth()}-${today.getDate()}`;
+            localStorage.setItem('last_details_update_prompt', dateKey);
+            setShowUpdateModal(false);
+            fetchStats();
+        } catch (err) {
+            alert('Failed to update details');
+        }
+    };
 
     const fetchStats = async () => {
         try {
@@ -103,6 +140,7 @@ const Dashboard = () => {
             setStats(currentStats);
             setHistory(Array.isArray(historyData) ? historyData.reverse() : []);
             setLogEntries(foodData.entries || []);
+            checkUpdatePrompt(profileData.user);
         } catch (err) {
             console.error('Dashboard error:', err);
             setError('Failed to load dashboard. Please refresh.');
@@ -342,6 +380,48 @@ const Dashboard = () => {
     return (
         <div className="animate-fade-in">
             {showCalculationModal && <CalculationModal />}
+
+            {showUpdateModal && (
+                <div className="modal-overlay">
+                    <div className="modal-content animate-scale-in" style={{ maxWidth: '400px' }}>
+                        <div className="modal-header">
+                            <h3>Update Your Details</h3>
+                        </div>
+                        <div className="modal-body">
+                            <p style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', marginBottom: '20px' }}>
+                                It's been 15 days! Please update your weight and height to keep your targets accurate.
+                            </p>
+                            <div className="input-group">
+                                <label className="input-label">Weight (kg)</label>
+                                <input
+                                    type="number"
+                                    className="input-field"
+                                    value={updateData.weight}
+                                    onChange={e => setUpdateData({ ...updateData, weight: e.target.value })}
+                                />
+                            </div>
+                            <div className="input-group">
+                                <label className="input-label">Height (cm)</label>
+                                <input
+                                    type="number"
+                                    className="input-field"
+                                    value={updateData.height}
+                                    onChange={e => setUpdateData({ ...updateData, height: e.target.value })}
+                                />
+                            </div>
+                            <div style={{ display: 'flex', gap: '10px', marginTop: '20px' }}>
+                                <button onClick={() => handleUpdateDetails(false)} className="btn btn-primary" style={{ flex: 1 }}>
+                                    Update
+                                </button>
+                                <button onClick={() => handleUpdateDetails(true)} className="btn btn-secondary" style={{ flex: 1 }}>
+                                    Keep Same
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
+
             {/* Welcome Header */}
             <div style={{ marginBottom: '24px' }}>
                 <h1 style={{ fontSize: '1.5rem', marginBottom: '4px', lineHeight: '1.3' }}>
