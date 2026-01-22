@@ -42,6 +42,11 @@ const WorkoutTracker = () => {
     // Search Exercises
     useEffect(() => {
         const search = async () => {
+            // Don't search if the query matches the selected exercise (prevents reopening dropdown)
+            if (selectedExercise && query === selectedExercise.name) {
+                return;
+            }
+
             if (query.length < 2) {
                 setResults([]);
                 return;
@@ -55,7 +60,7 @@ const WorkoutTracker = () => {
         };
         const timeout = setTimeout(search, 300);
         return () => clearTimeout(timeout);
-    }, [query]);
+    }, [query, selectedExercise]);
 
     const handleSelect = (ex) => {
         setSelectedExercise(ex);

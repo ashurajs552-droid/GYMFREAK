@@ -201,7 +201,7 @@ const FoodTracker = () => {
                         msOverflowStyle: 'none',
                         scrollbarWidth: 'none'
                     }}>
-                        {['breakfast', 'lunch', 'dinner', 'snack'].map(type => (
+                        {['breakfast', 'lunch', 'snack', 'dinner'].map(type => (
                             <button
                                 key={type}
                                 onClick={() => setMealType(type)}
@@ -386,13 +386,8 @@ const FoodTracker = () => {
                         </div>
                     </div>
 
-                    <MealSection title="Breakfast" type="breakfast" icon={<Coffee size={18} color="#ffe600" />} />
-                    <MealSection title="Lunch" type="lunch" icon={<Sun size={18} color="#ff9f43" />} />
-                    <MealSection title="Snacks" type="snack" icon={<Utensils size={18} color="#00d2d3" />} />
-                    <MealSection title="Dinner" type="dinner" icon={<Moon size={18} color="#5f27cd" />} />
-
                     {/* Water Section */}
-                    <div style={{ marginTop: '30px', paddingTop: '20px', borderTop: '2px solid var(--glass-border)' }}>
+                    <div style={{ marginBottom: '30px', paddingBottom: '20px', borderBottom: '2px solid var(--glass-border)' }}>
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '15px' }}>
                             <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                                 <Droplets size={20} color="#00a8ff" />
@@ -421,6 +416,12 @@ const FoodTracker = () => {
                             </ul>
                         )}
                     </div>
+
+                    <MealSection title="Breakfast" type="breakfast" icon={<Coffee size={18} color="#ffe600" />} />
+                    <MealSection title="Lunch" type="lunch" icon={<Sun size={18} color="#ff9f43" />} />
+                    <MealSection title="Snacks" type="snack" icon={<Utensils size={18} color="#00d2d3" />} />
+                    <MealSection title="Dinner" type="dinner" icon={<Moon size={18} color="#5f27cd" />} />
+
                 </div>
             </div>
         </div>

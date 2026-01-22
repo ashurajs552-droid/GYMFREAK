@@ -14,7 +14,7 @@ import {
     Title,
     Filler
 } from 'chart.js';
-import { Flame, Target, ArrowRight, TrendingUp, Activity, Zap } from 'lucide-react';
+import { Flame, Target, ArrowRight, TrendingUp, Activity, Zap, Dumbbell, Droplets, Utensils } from 'lucide-react';
 
 ChartJS.register(
     ArcElement,
@@ -72,6 +72,7 @@ const Dashboard = () => {
     const [proTip] = useState(proTips[Math.floor(Math.random() * proTips.length)]);
     const [showUpdateModal, setShowUpdateModal] = useState(false);
     const [updateData, setUpdateData] = useState({ weight: '', height: '' });
+    const [activeGraph, setActiveGraph] = useState('calories');
 
     const checkUpdatePrompt = (user) => {
         const today = new Date();
@@ -162,14 +163,16 @@ const Dashboard = () => {
         return (
             <div style={{
                 display: 'flex',
+                flexDirection: 'column',
                 justifyContent: 'center',
                 alignItems: 'center',
                 minHeight: '60vh',
-                color: 'var(--primary-color)',
-                fontSize: '1rem',
-                fontWeight: 'bold'
+                color: 'var(--primary-color)'
             }}>
-                <div className="animate-pulse">Loading Dashboard...</div>
+                <Dumbbell size={64} className="loading-dumbbell" />
+                <div style={{ marginTop: '20px', fontSize: '1.2rem', fontWeight: 'bold', letterSpacing: '1px' }}>
+                    LOADING DASHBOARD...
+                </div>
             </div>
         );
     }
@@ -329,28 +332,76 @@ const Dashboard = () => {
     };
 
     // Chart Data
-    const chartData = {
-        labels: history.length > 0
+    // Dynamic Graph Data
+    const getGraphData = () => {
+        const labels = history.length > 0
             ? history.map(h => new Date(h.date).toLocaleDateString('en-US', { weekday: 'short' }))
-            : ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-        datasets: [
-            {
-                label: 'Consumed',
-                data: history.length > 0 ? history.map(h => h.totals?.calories || 0) : [0, 0, 0, 0, 0, 0, 0],
-                borderColor: 'var(--primary-color)',
-                backgroundColor: 'rgba(204, 255, 0, 0.1)',
-                fill: true,
-                tension: 0.4,
-            },
-            {
-                label: 'Burned',
-                data: history.length > 0 ? history.map(h => h.totals?.burned || 0) : [0, 0, 0, 0, 0, 0, 0],
-                borderColor: '#ff4d4d',
-                backgroundColor: 'rgba(255, 77, 77, 0.1)',
-                fill: true,
-                tension: 0.4,
-            }
-        ]
+            : ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+
+        if (activeGraph === 'calories') {
+            return {
+                labels,
+                datasets: [
+                    {
+                        label: 'Consumed',
+                        data: history.length > 0 ? history.map(h => h.totals?.calories || 0) : Array(7).fill(0),
+                        borderColor: '#ccff00',
+                        backgroundColor: 'rgba(204, 255, 0, 0.1)',
+                        fill: true,
+                        tension: 0.4,
+                    },
+                    {
+                        label: 'Burned',
+                        data: history.length > 0 ? history.map(h => h.totals?.burned || 0) : Array(7).fill(0),
+                        borderColor: '#ff4d4d',
+                        backgroundColor: 'rgba(255, 77, 77, 0.1)',
+                        fill: true,
+                        tension: 0.4,
+                    }
+                ]
+            };
+        } else if (activeGraph === 'macros') {
+            return {
+                labels,
+                datasets: [
+                    {
+                        label: 'Protein',
+                        data: history.length > 0 ? history.map(h => h.totals?.protein || 0) : Array(7).fill(0),
+                        borderColor: '#00f0ff',
+                        backgroundColor: 'transparent',
+                        tension: 0.4,
+                    },
+                    {
+                        label: 'Carbs',
+                        data: history.length > 0 ? history.map(h => h.totals?.carbs || 0) : Array(7).fill(0),
+                        borderColor: '#ff4d4d',
+                        backgroundColor: 'transparent',
+                        tension: 0.4,
+                    },
+                    {
+                        label: 'Fat',
+                        data: history.length > 0 ? history.map(h => h.totals?.fat || 0) : Array(7).fill(0),
+                        borderColor: '#ffe600',
+                        backgroundColor: 'transparent',
+                        tension: 0.4,
+                    }
+                ]
+            };
+        } else if (activeGraph === 'water') {
+            return {
+                labels,
+                datasets: [
+                    {
+                        label: 'Water (ml)',
+                        data: history.length > 0 ? history.map(h => h.totals?.water || 0) : Array(7).fill(0),
+                        borderColor: '#00a8ff',
+                        backgroundColor: 'rgba(0, 168, 255, 0.2)',
+                        fill: true,
+                        tension: 0.4,
+                    }
+                ]
+            };
+        }
     };
 
     const chartOptions = {
@@ -521,15 +572,39 @@ const Dashboard = () => {
             {/* Chart & Coach Section */}
             <div className="grid-2" style={{ marginTop: '20px' }}>
                 {/* Weekly Progress Chart */}
-                <div className="card" onClick={() => setShowCalculationModal(true)} style={{ cursor: 'pointer' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px' }}>
-                        <TrendingUp size={18} color="var(--primary-color)" />
-                        <h3 style={{ margin: 0, fontSize: '1rem' }}>Weekly Progress</h3>
+                {/* Futuristic Graph Card */}
+                <div className="card futuristic-card" style={{ padding: '20px' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px', flexWrap: 'wrap', gap: '10px' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                            <TrendingUp size={18} color="var(--primary-color)" />
+                            <h3 style={{ margin: 0, fontSize: '1rem', textTransform: 'uppercase', letterSpacing: '1px' }}>Performance Analytics</h3>
+                        </div>
+
+                        <div className="graph-toggle-container">
+                            <button
+                                className={`graph-toggle-btn ${activeGraph === 'calories' ? 'active' : ''}`}
+                                onClick={() => setActiveGraph('calories')}
+                            >
+                                <Flame size={14} style={{ marginRight: '4px', verticalAlign: 'text-bottom' }} /> Calories
+                            </button>
+                            <button
+                                className={`graph-toggle-btn ${activeGraph === 'macros' ? 'active' : ''}`}
+                                onClick={() => setActiveGraph('macros')}
+                            >
+                                <Utensils size={14} style={{ marginRight: '4px', verticalAlign: 'text-bottom' }} /> Macros
+                            </button>
+                            <button
+                                className={`graph-toggle-btn ${activeGraph === 'water' ? 'active' : ''}`}
+                                onClick={() => setActiveGraph('water')}
+                            >
+                                <Droplets size={14} style={{ marginRight: '4px', verticalAlign: 'text-bottom' }} /> Water
+                            </button>
+                        </div>
                     </div>
-                    <div style={{ height: '200px' }}>
-                        <Line data={chartData} options={chartOptions} />
+
+                    <div style={{ height: '250px', position: 'relative' }}>
+                        <Line data={getGraphData()} options={chartOptions} />
                     </div>
-                    <div style={{ fontSize: '0.7rem', color: 'var(--text-secondary)', marginTop: '10px', textAlign: 'right' }}>Click to see logic ⓘ</div>
                 </div>
 
                 {/* Coach's Insight - No AI */}
