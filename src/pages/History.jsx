@@ -37,18 +37,23 @@ const History = () => {
     const fetchHistory = async () => {
         setLoading(true);
         try {
-            let startDate, endDate;
-            const today = new Date();
+            let url = '/history/history';
 
-            if (range === '7days') {
-                startDate = subDays(today, 7).toISOString().split('T')[0];
-                endDate = today.toISOString().split('T')[0];
-            } else {
-                startDate = startOfMonth(today).toISOString().split('T')[0];
-                endDate = endOfMonth(today).toISOString().split('T')[0];
+            if (range !== 'lifetime') {
+                const today = new Date();
+                let startDate, endDate;
+
+                if (range === '7days') {
+                    startDate = subDays(today, 7).toISOString().split('T')[0];
+                    endDate = today.toISOString().split('T')[0];
+                } else if (range === 'month') {
+                    startDate = startOfMonth(today).toISOString().split('T')[0];
+                    endDate = endOfMonth(today).toISOString().split('T')[0];
+                }
+                url += `?start_date=${startDate}&end_date=${endDate}`;
             }
 
-            const { data } = await api.get(`/history/history?start_date=${startDate}&end_date=${endDate}`);
+            const { data } = await api.get(url);
             setHistory(data);
         } catch (err) {
             console.error(err);
@@ -76,10 +81,11 @@ const History = () => {
             doc.setTextColor(0, 0, 0);
             doc.text('GYM FREAK - DETAILED REPORT', 14, 20);
 
-            doc.setFontSize(10);
-            doc.setTextColor(100, 100, 100);
             doc.text(`Generated on: ${new Date().toLocaleString()}`, 14, 28);
-            doc.text(`Range: ${range === '7days' ? 'Last 7 Days' : 'This Month'}`, 14, 33);
+            let rangeLabel = 'Last 7 Days';
+            if (range === 'month') rangeLabel = 'This Month';
+            if (range === 'lifetime') rangeLabel = 'Lifetime Records';
+            doc.text(`Range: ${rangeLabel}`, 14, 33);
 
             let currentY = 40;
 
@@ -230,8 +236,9 @@ const History = () => {
                     >
                         <option value="7days">Last 7 Days</option>
                         <option value="month">This Month</option>
+                        <option value="lifetime">Lifetime</option>
                     </select>
-                    <button onClick={downloadPDF} className="btn btn-secondary" style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+                    <button onClick={downloadPDF} className="btn btn-secondary" title="Download PDF Report" style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
                         <Download size={16} /> PDF
                     </button>
                 </div>

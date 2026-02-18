@@ -9,38 +9,44 @@ router.get('/history', authenticateToken, async (req, res) => {
     const { start_date, end_date } = req.query;
 
     // Get Food Logs
-    const { data: foodLogs, error: foodError } = await supabase
+    let foodQuery = supabase
         .from('food_entries')
         .select(`
             id, date, quantity, meal_type, created_at,
             foods (name, calories, protein, carbs, fat, unit, serving_size)
         `)
-        .eq('user_id', req.user.id)
-        .gte('date', start_date)
-        .lte('date', end_date)
-        .order('date', { ascending: false });
+        .eq('user_id', req.user.id);
+
+    if (start_date) foodQuery = foodQuery.gte('date', start_date);
+    if (end_date) foodQuery = foodQuery.lte('date', end_date);
+
+    const { data: foodLogs, error: foodError } = await foodQuery.order('date', { ascending: false });
 
     if (foodError) return res.status(500).json({ error: foodError.message });
 
     // Get Workout Logs
-    const { data: workoutLogs, error: workoutError } = await supabase
+    let workoutQuery = supabase
         .from('workouts')
         .select('*')
-        .eq('user_id', req.user.id)
-        .gte('date', start_date)
-        .lte('date', end_date)
-        .order('date', { ascending: false });
+        .eq('user_id', req.user.id);
+
+    if (start_date) workoutQuery = workoutQuery.gte('date', start_date);
+    if (end_date) workoutQuery = workoutQuery.lte('date', end_date);
+
+    const { data: workoutLogs, error: workoutError } = await workoutQuery.order('date', { ascending: false });
 
     if (workoutError) return res.status(500).json({ error: workoutError.message });
 
     // Get Water Logs
-    const { data: waterLogs, error: waterError } = await supabase
+    let waterQuery = supabase
         .from('water_entries')
         .select('*')
-        .eq('user_id', req.user.id)
-        .gte('date', start_date)
-        .lte('date', end_date)
-        .order('date', { ascending: false });
+        .eq('user_id', req.user.id);
+
+    if (start_date) waterQuery = waterQuery.gte('date', start_date);
+    if (end_date) waterQuery = waterQuery.lte('date', end_date);
+
+    const { data: waterLogs, error: waterError } = await waterQuery.order('date', { ascending: false });
 
     if (waterError) return res.status(500).json({ error: waterError.message });
 
