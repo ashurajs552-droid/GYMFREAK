@@ -59,26 +59,6 @@ const Login = () => {
                     <button type="submit" className="btn btn-primary" style={{ width: '100%' }}>Login</button>
                 </form>
 
-                <div style={{ marginTop: '15px' }}>
-                    <button
-                        onClick={() => {
-                            setEmail('ashu@gmail.com');
-                            setPassword('123456');
-                        }}
-                        style={{
-                            background: 'transparent',
-                            border: '1px solid var(--primary-color)',
-                            color: 'var(--primary-color)',
-                            padding: '8px 15px',
-                            borderRadius: '5px',
-                            fontSize: '0.85rem',
-                            cursor: 'pointer'
-                        }}
-                    >
-                        Admin Login?
-                    </button>
-                </div>
-
                 <p style={{ marginTop: '20px', color: 'var(--text-secondary)' }}>
                     Don't have an account? <Link to="/register" style={{ color: 'var(--primary-color)' }}>Sign up</Link>
                 </p>

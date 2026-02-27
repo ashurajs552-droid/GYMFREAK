@@ -35,6 +35,7 @@ const History = () => {
     const [loading, setLoading] = useState(true);
     const [range, setRange] = useState('7days'); // 7days, month
     const [expandedDate, setExpandedDate] = useState(null);
+    const [searchTerm, setSearchTerm] = useState('');
 
     const fetchHistory = async () => {
         setLoading(true);
@@ -73,6 +74,9 @@ const History = () => {
     };
 
     const downloadPDF = () => {
+        // ... (existing download logic is fine, it uses the 'history' state which we filter locally for display but keep full for export if needed, 
+        // or we can filter it for export too if preferred. Usually search is for view. 
+        // Let's filter it for display first)
         try {
             const doc = new jsPDF();
             const primaryColor = [204, 255, 0];
@@ -91,7 +95,13 @@ const History = () => {
 
             let currentY = 40;
 
-            history.forEach((day, index) => {
+            const dataToExport = isAdmin ? history.filter(h =>
+                !searchTerm ||
+                (h.user?.name || '').toLowerCase().includes(searchTerm.toLowerCase()) ||
+                (h.user?.email || '').toLowerCase().includes(searchTerm.toLowerCase())
+            ) : history;
+
+            dataToExport.forEach((day, index) => {
                 // Check for new page
                 if (currentY > 250) {
                     doc.addPage();
@@ -100,7 +110,7 @@ const History = () => {
 
                 doc.setFontSize(14);
                 doc.setTextColor(0, 0, 0);
-                doc.text(format(new Date(day.date), 'EEEE, MMMM d, yyyy'), 14, currentY);
+                doc.text(`${format(new Date(day.date), 'EEEE, MMMM d, yyyy')}${isAdmin && day.user ? ` - ${day.user.name}` : ''}`, 14, currentY);
                 currentY += 5;
 
                 // Daily Summary Table
@@ -152,12 +162,18 @@ const History = () => {
         }
     };
 
+    const filteredHistory = isAdmin ? history.filter(day =>
+        !searchTerm ||
+        (day.user?.name || '').toLowerCase().includes(searchTerm.toLowerCase()) ||
+        (day.user?.email || '').toLowerCase().includes(searchTerm.toLowerCase())
+    ) : history;
+
     const chartData = {
-        labels: [...history].reverse().map(h => format(new Date(h.date), 'MMM d')),
+        labels: [...filteredHistory].reverse().map(h => format(new Date(h.date), 'MMM d')),
         datasets: [
             {
                 label: 'Calories In',
-                data: [...history].reverse().map(h => h.totals.calories),
+                data: [...filteredHistory].reverse().map(h => h.totals.calories),
                 borderColor: '#ccff00',
                 backgroundColor: 'rgba(204, 255, 0, 0.1)',
                 fill: true,
@@ -166,7 +182,7 @@ const History = () => {
             },
             {
                 label: 'Calories Burned',
-                data: [...history].reverse().map(h => h.totals.burned),
+                data: [...filteredHistory].reverse().map(h => h.totals.burned),
                 borderColor: '#ff4d4d',
                 backgroundColor: 'rgba(255, 77, 77, 0.1)',
                 fill: true,
@@ -175,7 +191,7 @@ const History = () => {
             },
             {
                 label: 'Water (ml)',
-                data: [...history].reverse().map(h => h.totals.water),
+                data: [...filteredHistory].reverse().map(h => h.totals.water),
                 borderColor: '#00a8ff',
                 backgroundColor: 'rgba(0, 168, 255, 0.1)',
                 fill: true,
@@ -186,6 +202,7 @@ const History = () => {
     };
 
     const chartOptions = {
+        // ... (existing chart options are fine)
         responsive: true,
         maintainAspectRatio: false,
         interaction: {
@@ -211,7 +228,7 @@ const History = () => {
                 grid: { drawOnChartArea: false },
                 ticks: { color: '#00a8ff' },
                 suggestedMin: 0,
-                suggestedMax: 4500 // Match max to align grid lines
+                suggestedMax: 4500
             },
             x: {
                 grid: { color: 'rgba(255,255,255,0.1)', display: true },
@@ -227,23 +244,43 @@ const History = () => {
 
     return (
         <div className="animate-fade-in">
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                    <h1 className="page-title">History Log</h1>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px', flexWrap: 'wrap', gap: '15px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '15px', flexWrap: 'wrap' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                        <h1 className="page-title">History Log</h1>
+                        {isAdmin && (
+                            <span style={{
+                                background: 'rgba(204, 255, 0, 0.1)',
+                                color: 'var(--primary-color)',
+                                padding: '4px 10px',
+                                borderRadius: '20px',
+                                fontSize: '0.75rem',
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: '5px',
+                                border: '1px solid var(--primary-color)'
+                            }}>
+                                <ShieldCheck size={14} /> Admin View
+                            </span>
+                        )}
+                    </div>
                     {isAdmin && (
-                        <span style={{
-                            background: 'rgba(204, 255, 0, 0.1)',
-                            color: 'var(--primary-color)',
-                            padding: '4px 10px',
-                            borderRadius: '20px',
-                            fontSize: '0.75rem',
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: '5px',
-                            border: '1px solid var(--primary-color)'
-                        }}>
-                            <ShieldCheck size={14} /> Admin View
-                        </span>
+                        <div style={{ position: 'relative' }}>
+                            <input
+                                type="text"
+                                placeholder="Search users (name/email)..."
+                                className="input-field"
+                                value={searchTerm}
+                                onChange={(e) => setSearchTerm(e.target.value)}
+                                style={{
+                                    width: '250px',
+                                    paddingLeft: '15px',
+                                    paddingRight: '15px',
+                                    height: '38px',
+                                    marginTop: '0'
+                                }}
+                            />
+                        </div>
                     )}
                 </div>
                 <div style={{ display: 'flex', gap: '10px' }}>
@@ -251,19 +288,19 @@ const History = () => {
                         className="input-field"
                         value={range}
                         onChange={(e) => setRange(e.target.value)}
-                        style={{ width: 'auto' }}
+                        style={{ width: 'auto', height: '38px', marginTop: '0' }}
                     >
                         <option value="7days">Last 7 Days</option>
                         <option value="month">This Month</option>
                         <option value="lifetime">Lifetime</option>
                     </select>
-                    <button onClick={downloadPDF} className="btn btn-secondary" title="Download PDF Report" style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+                    <button onClick={downloadPDF} className="btn btn-secondary" title="Download PDF Report" style={{ display: 'flex', alignItems: 'center', gap: '5px', height: '38px' }}>
                         <Download size={16} /> PDF
                     </button>
                 </div>
             </div>
 
-            {!loading && history.length > 0 && (
+            {!loading && filteredHistory.length > 0 && (
                 <div className="card" style={{ marginBottom: '20px', height: '350px' }}>
                     <h3 style={{ marginBottom: '15px' }}>Progress Overview</h3>
                     <div style={{ height: '280px' }}>
@@ -276,10 +313,12 @@ const History = () => {
                 <div>Loading history...</div>
             ) : (
                 <div className="card">
-                    {history.length === 0 ? (
-                        <div style={{ textAlign: 'center', padding: '20px', color: 'var(--text-secondary)' }}>No history found for this period.</div>
+                    {filteredHistory.length === 0 ? (
+                        <div style={{ textAlign: 'center', padding: '20px', color: 'var(--text-secondary)' }}>
+                            {searchTerm ? 'No matching users found.' : 'No history found for this period.'}
+                        </div>
                     ) : (
-                        history.map(day => {
+                        filteredHistory.map(day => {
                             const itemKey = isAdmin ? `${day.date}_${day.user?.email}` : day.date;
                             return (
                                 <div key={itemKey} style={{ borderBottom: '1px solid var(--glass-border)' }}>
