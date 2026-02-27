@@ -162,11 +162,12 @@ const History = () => {
         }
     };
 
-    const filteredHistory = isAdmin ? history.filter(day =>
-        !searchTerm ||
-        (day.user?.name || '').toLowerCase().includes(searchTerm.toLowerCase()) ||
-        (day.user?.email || '').toLowerCase().includes(searchTerm.toLowerCase())
-    ) : history;
+    const filteredHistory = isAdmin ? history.filter(day => {
+        const term = searchTerm.toLowerCase().trim();
+        return !term ||
+            (day.user?.name || '').toLowerCase().includes(term) ||
+            (day.user?.email || '').toLowerCase().includes(term);
+    }) : history;
 
     const chartData = {
         labels: [...filteredHistory].reverse().map(h => format(new Date(h.date), 'MMM d')),
