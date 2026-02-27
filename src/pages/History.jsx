@@ -244,10 +244,10 @@ const History = () => {
 
     return (
         <div className="animate-fade-in">
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px', flexWrap: 'wrap', gap: '15px' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '15px', flexWrap: 'wrap' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                        <h1 className="page-title">History Log</h1>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '15px', marginBottom: '25px' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '15px' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
+                        <h1 className="page-title" style={{ margin: 0 }}>History Log</h1>
                         {isAdmin && (
                             <span style={{
                                 background: 'rgba(204, 255, 0, 0.1)',
@@ -264,40 +264,94 @@ const History = () => {
                             </span>
                         )}
                     </div>
-                    {isAdmin && (
-                        <div style={{ position: 'relative' }}>
-                            <input
-                                type="text"
-                                placeholder="Search users (name/email)..."
-                                className="input-field"
-                                value={searchTerm}
-                                onChange={(e) => setSearchTerm(e.target.value)}
-                                style={{
-                                    width: '250px',
-                                    paddingLeft: '15px',
-                                    paddingRight: '15px',
-                                    height: '38px',
-                                    marginTop: '0'
-                                }}
-                            />
+                    <div style={{ display: 'flex', gap: '10px' }}>
+                        <select
+                            className="input-field"
+                            value={range}
+                            onChange={(e) => setRange(e.target.value)}
+                            style={{ width: 'auto', height: '38px', marginTop: '0' }}
+                        >
+                            <option value="7days">Last 7 Days</option>
+                            <option value="month">This Month</option>
+                            <option value="lifetime">Lifetime</option>
+                        </select>
+                        <button onClick={downloadPDF} className="btn btn-secondary" title="Download PDF Report" style={{ display: 'flex', alignItems: 'center', gap: '5px', height: '38px' }}>
+                            <Download size={16} /> PDF
+                        </button>
+                    </div>
+                </div>
+
+                {isAdmin && (
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', padding: '15px', background: 'var(--glass-bg)', borderRadius: '12px', border: '1px solid var(--glass-border)' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                            <div style={{ position: 'relative', flex: 1 }}>
+                                <input
+                                    type="text"
+                                    placeholder="Search users by name or email..."
+                                    className="input-field"
+                                    value={searchTerm}
+                                    onChange={(e) => setSearchTerm(e.target.value)}
+                                    style={{
+                                        width: '100%',
+                                        height: '40px',
+                                        marginTop: '0',
+                                        paddingLeft: '15px'
+                                    }}
+                                />
+                                {searchTerm && (
+                                    <button
+                                        onClick={() => setSearchTerm('')}
+                                        style={{
+                                            position: 'absolute',
+                                            right: '10px',
+                                            top: '50%',
+                                            transform: 'translateY(-50%)',
+                                            background: 'transparent',
+                                            border: 'none',
+                                            color: 'var(--text-secondary)',
+                                            cursor: 'pointer',
+                                            fontSize: '0.8rem'
+                                        }}
+                                    >
+                                        ✕
+                                    </button>
+                                )}
+                            </div>
                         </div>
-                    )}
-                </div>
-                <div style={{ display: 'flex', gap: '10px' }}>
-                    <select
-                        className="input-field"
-                        value={range}
-                        onChange={(e) => setRange(e.target.value)}
-                        style={{ width: 'auto', height: '38px', marginTop: '0' }}
-                    >
-                        <option value="7days">Last 7 Days</option>
-                        <option value="month">This Month</option>
-                        <option value="lifetime">Lifetime</option>
-                    </select>
-                    <button onClick={downloadPDF} className="btn btn-secondary" title="Download PDF Report" style={{ display: 'flex', alignItems: 'center', gap: '5px', height: '38px' }}>
-                        <Download size={16} /> PDF
-                    </button>
-                </div>
+
+                        {!loading && history.length > 0 && (
+                            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', alignItems: 'center' }}>
+                                <small style={{ color: 'var(--text-secondary)', marginRight: '5px' }}>Quick Select:</small>
+                                {Array.from(new Set(history.map(h => h.user?.email))).filter(Boolean).map(email => {
+                                    const user = history.find(h => h.user?.email === email)?.user;
+                                    const isActive = searchTerm.toLowerCase() === (user?.name || '').toLowerCase() || searchTerm.toLowerCase() === (email || '').toLowerCase();
+                                    return (
+                                        <button
+                                            key={email}
+                                            onClick={() => setSearchTerm(isActive ? '' : user?.name || email)}
+                                            style={{
+                                                background: isActive ? 'var(--primary-color)' : 'rgba(255,255,255,0.05)',
+                                                color: isActive ? '#000' : 'var(--text-secondary)',
+                                                border: isActive ? 'none' : '1px solid var(--glass-border)',
+                                                padding: '4px 12px',
+                                                borderRadius: '20px',
+                                                fontSize: '0.75rem',
+                                                cursor: 'pointer',
+                                                transition: 'all 0.2s',
+                                                fontWeight: isActive ? 'bold' : '500',
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                gap: '5px'
+                                            }}
+                                        >
+                                            {user?.name || email}
+                                        </button>
+                                    );
+                                })}
+                            </div>
+                        )}
+                    </div>
+                )}
             </div>
 
             {!loading && filteredHistory.length > 0 && (
@@ -314,8 +368,8 @@ const History = () => {
             ) : (
                 <div className="card">
                     {filteredHistory.length === 0 ? (
-                        <div style={{ textAlign: 'center', padding: '20px', color: 'var(--text-secondary)' }}>
-                            {searchTerm ? 'No matching users found.' : 'No history found for this period.'}
+                        <div style={{ textAlign: 'center', padding: '40px 20px', color: 'var(--text-secondary)' }}>
+                            {searchTerm ? `No users matching "${searchTerm}" found in this period.` : 'No history found for this period.'}
                         </div>
                     ) : (
                         filteredHistory.map(day => {
