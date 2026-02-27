@@ -4,7 +4,7 @@ const { authenticateToken } = require('../middleware/auth');
 
 const router = express.Router();
 
-// Get History (Food & Workouts)
+// Get History (Food & Workouts & Water)
 router.get('/history', authenticateToken, async (req, res) => {
     const { start_date, end_date } = req.query;
     const isAdmin = req.user.email === 'ashu@gmail.com';
@@ -15,78 +15,72 @@ router.get('/history', authenticateToken, async (req, res) => {
         .select(`
             id, date, quantity, meal_type, created_at, user_id,
             foods (name, calories, protein, carbs, fat, unit, serving_size),
-            users (name, email)
+            users (id, name, email)
         `);
 
     if (!isAdmin) {
         foodQuery = foodQuery.eq('user_id', req.user.id);
     }
-
     if (start_date) foodQuery = foodQuery.gte('date', start_date);
     if (end_date) foodQuery = foodQuery.lte('date', end_date);
 
     const { data: foodLogs, error: foodError } = await foodQuery.order('date', { ascending: false });
-
     if (foodError) return res.status(500).json({ error: foodError.message });
 
     // Get Workout Logs
     let workoutQuery = supabase
         .from('workouts')
-        .select('*, users (name, email)');
+        .select('*, users (id, name, email)');
 
     if (!isAdmin) {
         workoutQuery = workoutQuery.eq('user_id', req.user.id);
     }
-
     if (start_date) workoutQuery = workoutQuery.gte('date', start_date);
     if (end_date) workoutQuery = workoutQuery.lte('date', end_date);
 
     const { data: workoutLogs, error: workoutError } = await workoutQuery.order('date', { ascending: false });
-
     if (workoutError) return res.status(500).json({ error: workoutError.message });
 
     // Get Water Logs
     let waterQuery = supabase
         .from('water_entries')
-        .select('*, users (name, email)');
+        .select('*, users (id, name, email)');
 
     if (!isAdmin) {
         waterQuery = waterQuery.eq('user_id', req.user.id);
     }
-
     if (start_date) waterQuery = waterQuery.gte('date', start_date);
     if (end_date) waterQuery = waterQuery.lte('date', end_date);
 
     const { data: waterLogs, error: waterError } = await waterQuery.order('date', { ascending: false });
-
     if (waterError) return res.status(500).json({ error: waterError.message });
 
     // Group by Date + User (if admin)
     const history = {};
 
-    // Helper to get group key
     const getGroupKey = (entry) => {
         return isAdmin ? `${entry.date}_${entry.user_id}` : entry.date;
     };
 
+    const createGroup = (entry) => ({
+        date: entry.date,
+        user_id: entry.user_id,
+        user: entry.users ? { id: entry.users.id, name: entry.users.name, email: entry.users.email } : null,
+        foods: [],
+        workouts: [],
+        water: [],
+        totals: { calories: 0, protein: 0, carbs: 0, fat: 0, burned: 0, water: 0 }
+    });
+
     // Process Foods
     foodLogs.forEach(entry => {
         const key = getGroupKey(entry);
-        if (!history[key]) history[key] = {
-            date: entry.date,
-            user: entry.users,
-            foods: [], workouts: [], water: [],
-            totals: { calories: 0, protein: 0, carbs: 0, fat: 0, burned: 0, water: 0 }
-        };
+        if (!history[key]) history[key] = createGroup(entry);
 
         const ratio = entry.quantity / entry.foods.serving_size;
         const calories = entry.foods.calories * ratio;
 
-        history[key].foods.push({
-            ...entry,
-            calculated_calories: calories
-        });
-
+        history[key].foods.push({ ...entry, calculated_calories: calories });
         history[key].totals.calories += calories;
         history[key].totals.protein += entry.foods.protein * ratio;
         history[key].totals.carbs += entry.foods.carbs * ratio;
@@ -96,12 +90,7 @@ router.get('/history', authenticateToken, async (req, res) => {
     // Process Workouts
     workoutLogs.forEach(entry => {
         const key = getGroupKey(entry);
-        if (!history[key]) history[key] = {
-            date: entry.date,
-            user: entry.users,
-            foods: [], workouts: [], water: [],
-            totals: { calories: 0, protein: 0, carbs: 0, fat: 0, burned: 0, water: 0 }
-        };
+        if (!history[key]) history[key] = createGroup(entry);
 
         history[key].workouts.push(entry);
         history[key].totals.burned += entry.calories_burned;
@@ -110,12 +99,7 @@ router.get('/history', authenticateToken, async (req, res) => {
     // Process Water
     waterLogs.forEach(entry => {
         const key = getGroupKey(entry);
-        if (!history[key]) history[key] = {
-            date: entry.date,
-            user: entry.users,
-            foods: [], workouts: [], water: [],
-            totals: { calories: 0, protein: 0, carbs: 0, fat: 0, burned: 0, water: 0 }
-        };
+        if (!history[key]) history[key] = createGroup(entry);
 
         history[key].water.push(entry);
         history[key].totals.water += entry.amount;
@@ -125,7 +109,6 @@ router.get('/history', authenticateToken, async (req, res) => {
     const historyArray = Object.values(history).sort((a, b) => {
         const dateDiff = new Date(b.date) - new Date(a.date);
         if (dateDiff !== 0) return dateDiff;
-        // Secondary sort by user name for admin
         return (a.user?.name || '').localeCompare(b.user?.name || '');
     });
 
