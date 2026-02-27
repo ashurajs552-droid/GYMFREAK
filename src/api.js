@@ -6,6 +6,14 @@ const api = axios.create({
 });
 
 api.interceptors.request.use(async (config) => {
+    // Check for admin bypass session first
+    const adminSession = localStorage.getItem('gym-freak-admin-session');
+    if (adminSession) {
+        config.headers.Authorization = 'Bearer admin-bypass-token-789';
+        return config;
+    }
+
+    // Regular Supabase auth
     const { data: { session } } = await supabase.auth.getSession();
     if (session?.access_token) {
         config.headers.Authorization = `Bearer ${session.access_token}`;
