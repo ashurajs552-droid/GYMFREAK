@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import api from '../api';
-import { Calendar, ChevronDown, ChevronUp, Download } from 'lucide-react';
+import { useAuth } from '../context/AuthContext';
+import { Calendar, ChevronDown, ChevronUp, Download, ShieldCheck } from 'lucide-react';
 import { format, subDays, startOfMonth, endOfMonth } from 'date-fns';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
@@ -29,6 +30,7 @@ ChartJS.register(
 );
 
 const History = () => {
+    const { isAdmin } = useAuth();
     const [history, setHistory] = useState([]);
     const [loading, setLoading] = useState(true);
     const [range, setRange] = useState('7days'); // 7days, month
@@ -66,8 +68,8 @@ const History = () => {
         fetchHistory();
     }, [range]);
 
-    const toggleExpand = (date) => {
-        setExpandedDate(expandedDate === date ? null : date);
+    const toggleExpand = (id) => {
+        setExpandedDate(expandedDate === id ? null : id);
     };
 
     const downloadPDF = () => {
@@ -226,7 +228,24 @@ const History = () => {
     return (
         <div className="animate-fade-in">
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-                <h1 className="page-title">History Log</h1>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                    <h1 className="page-title">History Log</h1>
+                    {isAdmin && (
+                        <span style={{
+                            background: 'rgba(204, 255, 0, 0.1)',
+                            color: 'var(--primary-color)',
+                            padding: '4px 10px',
+                            borderRadius: '20px',
+                            fontSize: '0.75rem',
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '5px',
+                            border: '1px solid var(--primary-color)'
+                        }}>
+                            <ShieldCheck size={14} /> Admin View
+                        </span>
+                    )}
+                </div>
                 <div style={{ display: 'flex', gap: '10px' }}>
                     <select
                         className="input-field"
@@ -260,104 +279,116 @@ const History = () => {
                     {history.length === 0 ? (
                         <div style={{ textAlign: 'center', padding: '20px', color: 'var(--text-secondary)' }}>No history found for this period.</div>
                     ) : (
-                        history.map(day => (
-                            <div key={day.date} style={{ borderBottom: '1px solid var(--glass-border)' }}>
-                                <div
-                                    onClick={() => toggleExpand(day.date)}
-                                    style={{
-                                        padding: '15px',
-                                        display: 'flex',
-                                        justifyContent: 'space-between',
-                                        alignItems: 'center',
-                                        cursor: 'pointer',
-                                        background: expandedDate === day.date ? 'var(--surface-hover)' : 'transparent'
-                                    }}
-                                >
-                                    <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                                        <Calendar size={18} color="var(--primary-color)" />
-                                        <span style={{ fontWeight: 'bold' }}>{format(new Date(day.date), 'EEE, MMM d')}</span>
-                                    </div>
-                                    <div style={{ display: 'flex', gap: '20px', color: 'var(--text-secondary)', fontSize: '0.9rem' }}>
-                                        <span>In: <span style={{ color: '#fff' }}>{Math.round(day.totals.calories)}</span></span>
-                                        <span>Burn: <span style={{ color: '#ff4d4d' }}>{Math.round(day.totals.burned)}</span></span>
-                                        <span>Water: <span style={{ color: '#00a8ff' }}>{Math.round(day.totals.water)}ml</span></span>
-                                        {expandedDate === day.date ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
-                                    </div>
-                                </div>
-
-                                {expandedDate === day.date && (
-                                    <div style={{ padding: '15px', background: 'rgba(0,0,0,0.2)' }}>
-                                        <div className="grid-3">
-                                            <div>
-                                                <h4 style={{ marginBottom: '10px', color: 'var(--primary-color)' }}>Food Log</h4>
-                                                {day.foods.length === 0 ? <small>No food logged</small> : (
-                                                    <ul style={{ listStyle: 'none', padding: 0 }}>
-                                                        {day.foods.map(f => (
-                                                            <li key={f.id} style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '5px', fontSize: '0.9rem' }}>
-                                                                <div style={{ display: 'flex', flexDirection: 'column' }}>
-                                                                    <span>{f.foods.name} ({f.quantity}{f.foods.unit})</span>
-                                                                    <small style={{ color: 'var(--text-secondary)', fontSize: '0.7rem' }}>
-                                                                        {format(new Date(f.created_at), 'HH:mm')} • {f.meal_type}
-                                                                    </small>
-                                                                </div>
-                                                                <span>{Math.round(f.calculated_calories)} kcal</span>
-                                                            </li>
-                                                        ))}
-                                                    </ul>
-                                                )}
-                                            </div>
-                                            <div>
-                                                <h4 style={{ marginBottom: '10px', color: '#ff4d4d' }}>Workouts</h4>
-                                                {day.workouts.length === 0 ? <small>No workouts</small> : (
-                                                    <ul style={{ listStyle: 'none', padding: 0 }}>
-                                                        {day.workouts.map(w => {
-                                                            let setsArr = [];
-                                                            try {
-                                                                setsArr = w.sets_data ? JSON.parse(w.sets_data) : [];
-                                                            } catch (e) { }
-
-                                                            return (
-                                                                <li key={w.id} style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px', fontSize: '0.9rem' }}>
-                                                                    <div style={{ display: 'flex', flexDirection: 'column' }}>
-                                                                        <span style={{ fontWeight: '500' }}>{w.exercise_name}</span>
-                                                                        <small style={{ color: 'var(--text-secondary)', fontSize: '0.7rem' }}>
-                                                                            {format(new Date(w.created_at), 'HH:mm')}
-                                                                        </small>
-                                                                        {w.type === 'strength' && (
-                                                                            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4px', marginTop: '2px' }}>
-                                                                                {setsArr.length > 0 ? setsArr.map((s, i) => (
-                                                                                    <span key={i} style={{ background: 'rgba(255,255,255,0.05)', padding: '1px 4px', borderRadius: '3px', fontSize: '0.65rem' }}>
-                                                                                        {s.weight}kg×{s.reps}
-                                                                                    </span>
-                                                                                )) : (w.reps && w.weight ? <span style={{ fontSize: '0.7rem' }}>{w.sets} sets × {w.reps} reps @ {w.weight}kg</span> : null)}
-                                                                            </div>
-                                                                        )}
-                                                                    </div>
-                                                                    <span style={{ fontWeight: 'bold' }}>{w.calories_burned} kcal</span>
-                                                                </li>
-                                                            );
-                                                        })}
-                                                    </ul>
-                                                )}
-                                            </div>
-                                            <div>
-                                                <h4 style={{ marginBottom: '10px', color: '#00a8ff' }}>Water</h4>
-                                                {day.water.length === 0 ? <small>No water logged</small> : (
-                                                    <ul style={{ listStyle: 'none', padding: 0 }}>
-                                                        {day.water.map(w => (
-                                                            <li key={w.id} style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '5px', fontSize: '0.9rem' }}>
-                                                                <span>Entry {format(new Date(w.created_at), 'HH:mm')}</span>
-                                                                <span>{w.amount} ml</span>
-                                                            </li>
-                                                        ))}
-                                                    </ul>
+                        history.map(day => {
+                            const itemKey = isAdmin ? `${day.date}_${day.user?.email}` : day.date;
+                            return (
+                                <div key={itemKey} style={{ borderBottom: '1px solid var(--glass-border)' }}>
+                                    <div
+                                        onClick={() => toggleExpand(itemKey)}
+                                        style={{
+                                            padding: '15px',
+                                            display: 'flex',
+                                            justifyContent: 'space-between',
+                                            alignItems: 'center',
+                                            cursor: 'pointer',
+                                            background: expandedDate === itemKey ? 'var(--surface-hover)' : 'transparent'
+                                        }}
+                                    >
+                                        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                                            <Calendar size={18} color="var(--primary-color)" />
+                                            <div style={{ display: 'flex', flexDirection: 'column' }}>
+                                                <span style={{ fontWeight: 'bold' }}>{format(new Date(day.date), 'EEE, MMM d')}</span>
+                                                {isAdmin && day.user && (
+                                                    <small style={{ color: 'var(--primary-color)', fontSize: '0.7rem' }}>
+                                                        User: {day.user.name} ({day.user.email})
+                                                    </small>
                                                 )}
                                             </div>
                                         </div>
+                                        <div style={{ display: 'flex', gap: '20px', color: 'var(--text-secondary)', fontSize: '0.9rem' }}>
+                                            <div style={{ display: 'flex', gap: '15px' }} className="history-summary-stats">
+                                                <span>In: <span style={{ color: '#fff' }}>{Math.round(day.totals.calories)}</span></span>
+                                                <span>Burn: <span style={{ color: '#ff4d4d' }}>{Math.round(day.totals.burned)}</span></span>
+                                                <span>Water: <span style={{ color: '#00a8ff' }}>{Math.round(day.totals.water)}ml</span></span>
+                                            </div>
+                                            {expandedDate === itemKey ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+                                        </div>
                                     </div>
-                                )}
-                            </div>
-                        ))
+
+                                    {expandedDate === itemKey && (
+                                        <div style={{ padding: '15px', background: 'rgba(0,0,0,0.2)' }}>
+                                            <div className="grid-3">
+                                                <div>
+                                                    <h4 style={{ marginBottom: '10px', color: 'var(--primary-color)' }}>Food Log</h4>
+                                                    {day.foods.length === 0 ? <small>No food logged</small> : (
+                                                        <ul style={{ listStyle: 'none', padding: 0 }}>
+                                                            {day.foods.map(f => (
+                                                                <li key={f.id} style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '5px', fontSize: '0.9rem' }}>
+                                                                    <div style={{ display: 'flex', flexDirection: 'column' }}>
+                                                                        <span>{f.foods.name} ({f.quantity}{f.foods.unit})</span>
+                                                                        <small style={{ color: 'var(--text-secondary)', fontSize: '0.7rem' }}>
+                                                                            {format(new Date(f.created_at), 'HH:mm')} • {f.meal_type}
+                                                                        </small>
+                                                                    </div>
+                                                                    <span>{Math.round(f.calculated_calories)} kcal</span>
+                                                                </li>
+                                                            ))}
+                                                        </ul>
+                                                    )}
+                                                </div>
+                                                <div>
+                                                    <h4 style={{ marginBottom: '10px', color: '#ff4d4d' }}>Workouts</h4>
+                                                    {day.workouts.length === 0 ? <small>No workouts</small> : (
+                                                        <ul style={{ listStyle: 'none', padding: 0 }}>
+                                                            {day.workouts.map(w => {
+                                                                let setsArr = [];
+                                                                try {
+                                                                    setsArr = w.sets_data ? JSON.parse(w.sets_data) : [];
+                                                                } catch (e) { }
+
+                                                                return (
+                                                                    <li key={w.id} style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px', fontSize: '0.9rem' }}>
+                                                                        <div style={{ display: 'flex', flexDirection: 'column' }}>
+                                                                            <span style={{ fontWeight: '500' }}>{w.exercise_name}</span>
+                                                                            <small style={{ color: 'var(--text-secondary)', fontSize: '0.7rem' }}>
+                                                                                {format(new Date(w.created_at), 'HH:mm')}
+                                                                            </small>
+                                                                            {w.type === 'strength' && (
+                                                                                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4px', marginTop: '2px' }}>
+                                                                                    {setsArr.length > 0 ? setsArr.map((s, i) => (
+                                                                                        <span key={i} style={{ background: 'rgba(255,255,255,0.05)', padding: '1px 4px', borderRadius: '3px', fontSize: '0.65rem' }}>
+                                                                                            {s.weight}kg×{s.reps}
+                                                                                        </span>
+                                                                                    )) : (w.reps && w.weight ? <span style={{ fontSize: '0.7rem' }}>{w.sets} sets × {w.reps} reps @ {w.weight}kg</span> : null)}
+                                                                                </div>
+                                                                            )}
+                                                                        </div>
+                                                                        <span style={{ fontWeight: 'bold' }}>{w.calories_burned} kcal</span>
+                                                                    </li>
+                                                                );
+                                                            })}
+                                                        </ul>
+                                                    )}
+                                                </div>
+                                                <div>
+                                                    <h4 style={{ marginBottom: '10px', color: '#00a8ff' }}>Water</h4>
+                                                    {day.water.length === 0 ? <small>No water logged</small> : (
+                                                        <ul style={{ listStyle: 'none', padding: 0 }}>
+                                                            {day.water.map(w => (
+                                                                <li key={w.id} style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '5px', fontSize: '0.9rem' }}>
+                                                                    <span>Entry {format(new Date(w.created_at), 'HH:mm')}</span>
+                                                                    <span>{w.amount} ml</span>
+                                                                </li>
+                                                            ))}
+                                                        </ul>
+                                                    )}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    )}
+                                </div>
+                            );
+                        })
                     )}
                 </div>
             )}

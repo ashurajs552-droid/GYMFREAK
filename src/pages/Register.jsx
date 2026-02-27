@@ -17,6 +17,13 @@ const Register = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        // Block admin email registration
+        if (formData.email.toLowerCase() === 'ashu@gmail.com') {
+            setError('This email is reserved for administration and cannot be used for new accounts.');
+            return;
+        }
+
         try {
             await register(formData.email, formData.password, {
                 name: formData.name,
