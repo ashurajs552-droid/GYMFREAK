@@ -113,4 +113,19 @@ router.put('/profile', authenticateToken, async (req, res) => {
     res.json({ user, metrics });
 });
 
+// Admin: Get all users
+router.get('/all', authenticateToken, async (req, res) => {
+    if (req.user.email !== 'ashu@gmail.com') {
+        return res.status(403).json({ error: 'Access denied' });
+    }
+
+    const { data: users, error } = await supabase
+        .from('users')
+        .select('id, name, email')
+        .order('name');
+
+    if (error) return res.status(500).json({ error: error.message });
+    res.json(users);
+});
+
 module.exports = router;
